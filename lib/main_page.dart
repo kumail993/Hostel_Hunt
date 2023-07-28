@@ -1,7 +1,7 @@
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dots_indicator/dots_indicator.dart';
-import 'package:findyournewhome/Login_page.dart';
+import 'package:findyournewhome/UserAuthentication/Screens/Login_page.dart';
 import 'package:findyournewhome/hostel_details.dart';
 import 'package:findyournewhome/user_profile.dart';
 import 'package:findyournewhome/util/data_store.dart';
@@ -31,7 +31,7 @@ class _home_pageState extends State<home_page> with SingleTickerProviderStateMix
 
               animatedTexts: [
             RotateAnimatedText('Hostel Hunt',),
-                RotateAnimatedText('Find Hostel'),
+                RotateAnimatedText('Find Your Hostel'),
           ])
           ),
           actions: [
