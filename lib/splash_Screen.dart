@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:findyournewhome/Home.dart';
+import 'package:findyournewhome/UserAuthentication/Screens/Login_page.dart';
 import 'package:flutter/material.dart';
 class splash_screen extends StatefulWidget {
   const splash_screen({Key? key}) : super(key: key);
@@ -18,7 +19,7 @@ class _splash_screenState extends State<splash_screen> {
           if (mounted) {
             Navigator.pushReplacement(
               context,
-              MaterialPageRoute(builder: (context) => const MyHomePage()),
+              MaterialPageRoute(builder: (context) => const LoginPage()),
             );
           }
         }
@@ -130,7 +131,7 @@ class _splash_screenState extends State<splash_screen> {
                   ),
                   onPressed: () {
                     Navigator.pushReplacement(context,
-                      MaterialPageRoute(builder: (context) =>const MyHomePage(),
+                      MaterialPageRoute(builder: (context) =>const LoginPage(),
 
                       ),
                     );

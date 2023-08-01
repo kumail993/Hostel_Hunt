@@ -1,5 +1,9 @@
+import 'package:findyournewhome/Home.dart';
 import 'package:findyournewhome/UserAuthentication/Screens/Sign_up.dart';
+import 'package:findyournewhome/main_page.dart';
+import 'package:findyournewhome/rest/rest_api.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
 
@@ -22,7 +26,7 @@ class _LoginPageState extends State<LoginPage> {
     }
   }
   final _formKey = GlobalKey<FormState>();
-  final TextEditingController username_controller = TextEditingController();
+  final TextEditingController email_controller = TextEditingController();
   final TextEditingController password_controller = TextEditingController();
   @override
   Widget build(BuildContext context) {
@@ -74,7 +78,7 @@ class _LoginPageState extends State<LoginPage> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            const Text('Username',
+            const Text('Email',
             style: TextStyle(
               fontWeight: FontWeight.w700,
               fontSize: 20,
@@ -84,9 +88,9 @@ class _LoginPageState extends State<LoginPage> {
               height: 10,
             ),
             TextFormField(
-              controller: username_controller,
+              controller: email_controller,
               decoration:  InputDecoration(
-                hintText: 'Enter Your Username',
+                hintText: 'Enter Your email',
                 enabledBorder: OutlineInputBorder(
                   borderSide: BorderSide(
                     width: 1, color: Theme.of(context).colorScheme.surface,),
@@ -147,7 +151,9 @@ class _LoginPageState extends State<LoginPage> {
                   )
               ),
               onPressed: () {
-
+                email_controller.text.isNotEmpty && password_controller.text.isNotEmpty
+                    ? dologin(email_controller.text,password_controller.text)
+                    : Fluttertoast.showToast(msg: "All fields required");
               },
               child: const Text(
                 "Login",
@@ -183,5 +189,15 @@ class _LoginPageState extends State<LoginPage> {
     ),
         ),
     );
+  }
+
+  dologin(String email, String password) async {
+    var res = await userlogin(email.trim(), password.trim());
+    if (res['success']){
+      Route route= MaterialPageRoute(builder: (_)=> MyHomePage());
+      Navigator.pushReplacement(context, route);
+    }else{
+      Fluttertoast.showToast(msg: 'Email and password not valid');
+    }
   }
 }

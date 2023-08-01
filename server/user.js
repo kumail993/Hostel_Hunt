@@ -53,45 +53,8 @@ router.route('/register').post((req, res) => {
 });
 
 
-
-
-
-// router.route('/register').post((req, res) => {
-//     // Get params
-//     var student_name = req.body.student_name;
-//     var email = req.body.email;
-//     var student_number = req.body.student_number;
-//     var password = req.body.password;
-  
-//     // Create query for inserting into login table
-//     var loginSqlQuery = "INSERT INTO login(email,password) VALUES (?,?)";
-  
-//     // Call database to insert into login table
-//     db.query(loginSqlQuery, [email,password], function (error, loginResult,fields,) {
-//       if (error) {
-//         res.send(JSON.stringify({ success: false, message: error }));
-//       } else {
-//         // Insert successful, now get the login ID
-//         var loginId = loginResult.insertId;
-        
-//         //Create query for inserting into user table
-//         var userSqlQuery = "INSERT INTO student(login_id, student_name, student_number) VALUES (?, ?, ?)";
-  
-//         // Call database to insert into user table
-//         db.query(userSqlQuery, [loginId, student_name, student_number], function (error, userResult) {
-//           if (error) {
-//             res.send(JSON.stringify({ success: false, message: error }));
-//           } else {
-//             // Registration successful
-//             res.send(JSON.stringify({ success: true, message: 'register' }));
-//           }
-//         });
-//       }
-//     });
-//   });
-
 router.route('/login').post((req,res)=>{
-
+    console.log(req.body);
     var student_email=req.body.student_email;
     var student_password=req.body.student_password;
 
