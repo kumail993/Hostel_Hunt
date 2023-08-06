@@ -1,5 +1,7 @@
 import 'package:findyournewhome/UserAuthentication/Screens/Login_page.dart';
+import 'package:findyournewhome/rest/rest_api.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 class Signup_page extends StatefulWidget {
   const Signup_page({Key? key}) : super(key: key);
 
@@ -19,6 +21,10 @@ class _Signup_pageState extends State<Signup_page> {
     }
   }
   final _formKey = GlobalKey<FormState>();
+
+  final TextEditingController name = TextEditingController();
+  final TextEditingController email = TextEditingController();
+  final TextEditingController password = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -75,6 +81,7 @@ class _Signup_pageState extends State<Signup_page> {
                       height: 10,
                     ),
                     TextFormField(
+                      controller: name,
                       decoration:  InputDecoration(
                         hintText: 'Enter Your Name',
                         enabledBorder: OutlineInputBorder(
@@ -97,6 +104,7 @@ class _Signup_pageState extends State<Signup_page> {
                       height: 10,
                     ),
                     TextFormField(
+                      controller: email,
                       decoration:  InputDecoration(
                         hintText: 'Enter Your Email',
                         enabledBorder: OutlineInputBorder(
@@ -119,6 +127,7 @@ class _Signup_pageState extends State<Signup_page> {
                       height: 10,
                     ),
                     TextFormField(
+                      controller: password,
                       decoration:  InputDecoration(
                         hintText: 'Enter Your Password',
                         enabledBorder: OutlineInputBorder(
@@ -173,7 +182,9 @@ class _Signup_pageState extends State<Signup_page> {
                       )
                   ),
                   onPressed: () {
-
+                      name.text.isNotEmpty && email.text.isNotEmpty && password.text.isNotEmpty
+                          ? doRegister(name.text,email.text,password.text)
+                          : Fluttertoast.showToast( msg: 'All Fields are required');
                   },
 
                   child: const Text(
@@ -204,5 +215,19 @@ class _Signup_pageState extends State<Signup_page> {
       ),
       ),
     );
+  }
+
+  doRegister(String name, String email, String password) async {
+
+    var res = await userRegister(name, email, password);
+    print(res.toString());
+
+    if (res['success']){
+      Fluttertoast.showToast(msg: "Registered Succesfully");
+      Route route= MaterialPageRoute(builder: (_)=> LoginPage());
+      Navigator.pushReplacement(context, route);
+    }else{
+      Fluttertoast.showToast(msg: 'Email or name Already Exist');
+    }
   }
 }

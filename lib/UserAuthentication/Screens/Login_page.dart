@@ -1,6 +1,5 @@
 import 'package:findyournewhome/Home.dart';
 import 'package:findyournewhome/UserAuthentication/Screens/Sign_up.dart';
-import 'package:findyournewhome/main_page.dart';
 import 'package:findyournewhome/rest/rest_api.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -192,7 +191,13 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   dologin(String email, String password) async {
+
     var res = await userlogin(email.trim(), password.trim());
+
+    // String userEmail = res['user'][0]['email'];
+    // String userId = res['user'][0]['id'];
+
+
     if (res['success']){
       Route route= MaterialPageRoute(builder: (_)=> MyHomePage());
       Navigator.pushReplacement(context, route);

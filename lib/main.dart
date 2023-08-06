@@ -1,3 +1,4 @@
+import 'package:findyournewhome/OTP-verification.dart';
 import 'package:findyournewhome/searchpage.dart';
 import 'package:findyournewhome/splash_Screen.dart';
 import 'package:flutter/material.dart';
@@ -18,7 +19,7 @@ class MyApp extends StatelessWidget {
         colorScheme: defaultColorScheme,
         textTheme: GoogleFonts.latoTextTheme(Theme.of(context).textTheme),
       ),
-      home: const splash_screen(),
+      home:  splash_screen(),
     );
   }
 }

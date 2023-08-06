@@ -35,7 +35,7 @@ class _HostelDetaislState extends State<HostelDetaisl> {
                 borderRadius: BorderRadius.circular(5.0),
                 child:
                 Image.asset(
-                    widget.details.photo, width: 500, fit: BoxFit.fill),
+                    "Assets/${widget.details.photo}", width: 500, fit: BoxFit.fill),
               ),
             ),
             Padding(padding: const EdgeInsets.only(left: 0,),
@@ -43,7 +43,7 @@ class _HostelDetaislState extends State<HostelDetaisl> {
                 borderRadius: BorderRadius.circular(5.0),
                 child:
                 Image.asset(
-                    widget.details.photo, width: 400, fit: BoxFit.fill),
+                    "Assets/${widget.details.photo}", width: 400, fit: BoxFit.fill),
               ),
             ),
             Padding(padding: const EdgeInsets.only(left: 0,),
@@ -51,7 +51,7 @@ class _HostelDetaislState extends State<HostelDetaisl> {
                 borderRadius: BorderRadius.circular(5.0),
                 child:
                 Image.asset(
-                    widget.details.photo, width: 400, fit: BoxFit.fill),
+                    "Assets/${widget.details.photo}", width: 400, fit: BoxFit.fill),
               ),
             ),
             Padding(padding: const EdgeInsets.only(left: 0,),
@@ -59,7 +59,7 @@ class _HostelDetaislState extends State<HostelDetaisl> {
                 borderRadius: BorderRadius.circular(5.0),
                 child:
                 Image.asset(
-                    widget.details.photo, width: 400, fit: BoxFit.fill),
+                    "Assets/${widget.details.photo}", width: 400, fit: BoxFit.fill),
               ),
             ),
 
