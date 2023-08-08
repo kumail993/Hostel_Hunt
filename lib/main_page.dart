@@ -5,6 +5,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:findyournewhome/UserAuthentication/Screens/Login_page.dart';
 import 'package:findyournewhome/hostel_details.dart';
+import 'package:findyournewhome/rest/rest_api.dart';
 import 'package:findyournewhome/user_profile.dart';
 import 'package:findyournewhome/util/data_store.dart';
 import 'package:flutter/material.dart';
@@ -22,28 +23,15 @@ class home_page extends StatefulWidget {
 class _home_pageState extends State<home_page> with SingleTickerProviderStateMixin {
   int _currentIndex = 0;
 
-  Future<List<hostels>> fetchHostel() async {
-    final response = await http.get(
-        Uri.parse('http://192.168.18.141:3000/login/data'));
-    print('Response Status Code: ${response.statusCode}');
-    print('Response Body: ${response.body}');
-    if (response.statusCode == 200) {
-      final List<dynamic> responseData = json.decode(response.body);
-      return responseData.map((json) =>
-          hostels(
-              name: json['hostel_name'],
-              address: json['hostel_address'],
-              photo: json['hostel_image'])).toList();
-    } else {
-      throw Exception('Failed to fetch data');
-    }
-  }
-  late Future<List<hostels>> hostelData;
+  late Future<List<hostels>> PremiumhostelData;
+  late Future<List<hostels>> RatedhostelData;
   @override
   void initState() {
     super.initState();
-    hostelData = fetchHostel();
+    PremiumhostelData = fetchPremiumHostel();
+    RatedhostelData = fetchRatedHostel();
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -624,6 +612,10 @@ class _home_pageState extends State<home_page> with SingleTickerProviderStateMix
             height: 5,
           ),
 
+
+          //-----------------------------Premium portion-------------------//
+
+
           SizedBox(
             height: 350,
             width: double.maxFinite,
@@ -662,7 +654,7 @@ class _home_pageState extends State<home_page> with SingleTickerProviderStateMix
                   Expanded(
                       child:
                            FutureBuilder<List<hostels>>(
-                          future: hostelData,
+                          future: PremiumhostelData,
                           builder: (context, snapshot) {
                             if (snapshot.connectionState ==
                                 ConnectionState.waiting) {
@@ -874,6 +866,11 @@ child:Divider(
 const SizedBox(
   height: 5,
 ),
+
+
+          //---------------------Rated Portion--------------------------------------------------------//
+
+
           SizedBox(
             height: 350,
             width: double.maxFinite,
@@ -909,7 +906,207 @@ const SizedBox(
                   const SizedBox(
                     height: 10,
                   ),
+                  Expanded(
+                      child:
+                      FutureBuilder<List<hostels>>(
+                        future: RatedhostelData,
+                        builder: (context, snapshot) {
+                          if (snapshot.connectionState ==
+                              ConnectionState.waiting) {
+                            return CircularProgressIndicator();
+                          } else if (snapshot.hasError) {
+                            return Text('Error: ${snapshot.error}');
+                          } else {
+                            final hostels = snapshot.data!;
+                            return ListView.builder(
+                                shrinkWrap: true,
+                                primary: false,
+                                scrollDirection: Axis.horizontal,
+                                itemCount: hostels.length,
+                                itemBuilder: (BuildContext context,
+                                    int index) {
+                                  //hostels popuu = hostels[index];
+                                  return GestureDetector(
+                                    onTap:
+                                        () {
+                                      Navigator.of(context)
+                                          .push(MaterialPageRoute(
+                                          builder: (context) {
+                                            return HostelDetaisl(
+                                                details: hostels[index]);
+                                          }));
+                                    },
+                                    child:
+                                    Column(
+                                      children: [
+                                        Padding(
+                                          padding: const EdgeInsets.only(
+                                            left: 2,),
+                                          child:
+                                          Container(
+                                            height: 280,
+                                            width: 190,
+                                            margin: const EdgeInsets.only(
+                                                left: 0),
 
+                                            decoration: BoxDecoration(
+                                              borderRadius: BorderRadius
+                                                  .circular(30),
+                                              //color: const Color(0xff0fc1fa).withOpacity(0.1),
+                                              // gradient: LinearGradient(
+                                              //   begin: Alignment.topCenter,
+                                              //   end: Alignment.bottomCenter,
+                                              //   colors: <Color>[
+                                              //     Colors.black.withAlpha(0),
+                                              //     Colors.orangeAccent,
+                                              //     Colors.white
+                                              //   ],
+                                              // ),
+                                            ),
+                                            child:
+
+                                            Card(
+                                              shape: RoundedRectangleBorder(
+                                                // side: BorderSide(
+                                                //   color: Colors.greenAccent,
+                                                // ),
+                                                borderRadius: BorderRadius
+                                                    .circular(
+                                                    10.0), //<-- SEE HERE
+                                              ),
+                                              elevation: 10,
+                                              child:
+                                              Column(
+                                                  crossAxisAlignment: CrossAxisAlignment
+                                                      .start,
+                                                  children: [
+
+                                                    Stack(
+                                                      children: [
+                                                        Padding(
+                                                          padding: const EdgeInsets
+                                                              .only(top: 5,
+                                                              left: 5,
+                                                              right: 5),
+                                                          child:
+                                                          Container(
+                                                            width: double
+                                                                .infinity,
+                                                            height: 180,
+                                                            decoration: BoxDecoration(
+                                                                borderRadius: BorderRadius
+                                                                    .circular(
+                                                                    10),
+                                                                shape: BoxShape
+                                                                    .rectangle,
+                                                                image: DecorationImage(
+                                                                  fit: BoxFit
+                                                                      .cover,
+                                                                  image: AssetImage(
+                                                                      "Assets/${hostels[index].photo}"),
+                                                                )
+                                                            ),
+                                                          ),
+                                                        ),
+                                                        CornerBanner(
+                                                          bannerPosition: CornerBannerPosition
+                                                              .topLeft,
+                                                          bannerColor: Theme
+                                                              .of(context)
+                                                              .colorScheme
+                                                              .onSecondary,
+                                                          child: Text(
+                                                            "Rated",
+                                                            style: TextStyle(
+                                                              color: Theme
+                                                                  .of(context)
+                                                                  .colorScheme
+                                                                  .primary,
+                                                              fontWeight: FontWeight
+                                                                  .w700,
+                                                            ),
+                                                          ),
+                                                        ),
+
+                                                      ],
+                                                    ),
+                                                    Padding(
+                                                      padding: const EdgeInsets
+                                                          .only(
+                                                          left: 10, top: 5),
+                                                      child:
+                                                      Text(
+                                                        hostels[index].name,
+                                                        style: const TextStyle(
+                                                          fontSize: 15,
+                                                          fontWeight: FontWeight
+                                                              .w700,
+                                                          color: Colors.black,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    const SizedBox(
+                                                      height: 2,
+                                                    ),
+                                                    Padding(
+                                                      padding: const EdgeInsets
+                                                          .only(left: 10,),
+                                                      child:
+                                                      Text(
+                                                        hostels[index].address,
+                                                        style: const TextStyle(
+                                                          fontSize: 15,
+                                                          fontWeight: FontWeight
+                                                              .w100,
+                                                        ),
+                                                      ),
+                                                    ),
+                                                    const SizedBox(
+                                                      height: 2,
+                                                    ),
+                                                    const Padding(
+                                                        padding: EdgeInsets
+                                                            .only(left: 10),
+                                                        child:
+                                                        Row(
+                                                          children: [
+                                                            Icon(Icons.star,
+                                                              color: Color(
+                                                                  0xff0fc1fa),
+                                                            ),
+                                                            Icon(Icons.star,
+                                                              color: Color(
+                                                                  0xff0fc1fa),
+                                                            ),
+                                                            Icon(Icons.star,
+                                                              color: Color(
+                                                                  0xff0fc1fa),
+                                                            ),
+                                                            Icon(Icons.star,
+                                                              color: Color(
+                                                                  0xff0fc1fa),
+                                                            ),
+                                                            Icon(Icons.star,
+                                                              color: Colors
+                                                                  .grey,
+                                                            ),
+
+                                                          ],
+                                                        )
+                                                    ),
+                                                  ]
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                  );
+                                }
+                            );
+                          }
+                        },
+                      )),
                   // Expanded(
                   //     child:
                   //

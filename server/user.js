@@ -68,6 +68,7 @@ router.route('/register').post((req, res) => {
                     } else {
                         // Insert successful, now get the login ID
                         var loginId = loginResult.insertId;
+                        console.log(loginId);
 
                         // Create query for inserting into user table
                         var userSqlQuery = "INSERT INTO student(login_id, student_name) VALUES (?, ?)";
@@ -117,8 +118,8 @@ router.route('/login').post((req,res)=>{
 });
 
 
-router.route('/data').get((req, res) => {
-    const query = 'SELECT * FROM hostels';
+router.route('/premiumhostels').get((req, res) => {
+    const query = 'SELECT * FROM hostels WHERE Category = "premium";';
   
     db.query(query, (err, result) => {
       if (err) {
@@ -130,7 +131,54 @@ router.route('/data').get((req, res) => {
       res.status(200).json(result);
     });
   });
+
+
+
+  router.route('/ratedhostels').get((req, res) => {
+    const query = 'SELECT * FROM hostels WHERE Category = "rated";';
   
+    db.query(query, (err, result) => {
+      if (err) {
+        console.error('Error fetching data:', err);
+        res.status(500).json({ error: 'Internal Server Error' });
+        return;
+      }
+    //   const hostelIds = result.map(hostel => hostel.id);
+
+    //     res.status(200).json({ hostelIds })
+  
+      res.status(200).json(result);
+    });
+  });
+
+  router.route('/reservation').post((req, res) => {
+    console.log(req.body);
+    //const { Hostel_id, reservation_name, reservation_email, reservation_phone, type } = req.body;
+    const Hostel_id = req.body.Hostel_id;
+    const reservation_name = req.body.reservation_name;
+    const reservation_email = req.body.reservation_email;
+    const reservation_phone = req.body.reservation_phone;
+    const type = req.body.type;
+    const sql = 'INSERT INTO reservations (Hostel_id, name, email, ph_no, type) VALUES (?, ?, ?, ?, ?)';
+    const values = [Hostel_id, reservation_name, reservation_email, reservation_phone, type];
+    db.query(sql, values, (error, result) => {
+        if (error) {
+            res.send(JSON.stringify({ success: false, message: error }));
+        } else {
+            // Registration successful
+            res.send(JSON.stringify({ success: true, message: 'Reservation Successfuly' }));
+        }
+    });
+    //   if (err) {
+    //     console.error('Error storing reservation data:', err);
+    //     res.status(500).json({ error: 'An error occurred while storing reservation data' });
+    //     return;
+    //   }
+    //   console.log('Reservation data stored successfully');
+    //   res.status(200).json({ message: 'Reservation data stored successfully' });
+    // });
+  });
+
 
 
 module.exports =router;

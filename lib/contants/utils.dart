@@ -1,5 +1,5 @@
 class Utils{
 
-  static String baseUrl="http://10.0.2.2:8000";
+  static String baseUrl="http://192.168.18.141:3000";
 
 }

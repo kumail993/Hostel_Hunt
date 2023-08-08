@@ -2,7 +2,10 @@ import 'package:findyournewhome/Home.dart';
 import 'package:findyournewhome/hostel_details.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'main_page.dart';
+
+
 class Reservation extends StatefulWidget {
   const Reservation({Key? key,required this.res}) : super(key: key);
 final res;
@@ -10,8 +13,33 @@ final res;
   State<Reservation> createState() => _ReservationState();
 }
 
+
 class _ReservationState extends State<Reservation> {
-  final TextEditingController controller = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
+
+  final TextEditingController name = TextEditingController();
+  final TextEditingController email = TextEditingController();
+  final TextEditingController phone = TextEditingController();
+  final TextEditingController type = TextEditingController();
+
+   late int storedId;
+  @override
+  void initState() {
+    super.initState();
+    storedId = widget.res.id;
+  }
+  doReserve(String name, String email, String phone, String type) async {
+    var res = await widget.res.Reservation(storedId,name,email,phone,type);
+    print(res.toString());
+
+    if (res["success"]){
+      Fluttertoast.showToast(msg: "Reservation Succesfully");
+       showAlertDialog( context);
+    }else{
+      Fluttertoast.showToast(msg: 'Reservation Failed');
+    }
+  }
+   // Declare a variable to store the id
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,6 +55,7 @@ class _ReservationState extends State<Reservation> {
       ),
       child:
       Form(
+        key: _formKey,
       child:
       Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -85,6 +114,7 @@ class _ReservationState extends State<Reservation> {
           Padding(padding: const EdgeInsets.only(left: 20),
           child:
           TextFormField(
+            controller: name,
             validator: (text) {
               if (text == null || text.isEmpty) {
                 return 'Text is empty';
@@ -119,6 +149,7 @@ class _ReservationState extends State<Reservation> {
           Padding(padding: const EdgeInsets.only(left: 20,right: 20),
           child:
           TextFormField(
+            controller: email,
             decoration:  InputDecoration(
               hintText: 'Enter Your Email',
               enabledBorder: OutlineInputBorder(
@@ -146,6 +177,7 @@ class _ReservationState extends State<Reservation> {
           ),
         Padding(padding: const EdgeInsets.only(left: 20,right: 20),
           child: TextFormField(
+            controller: phone,
             maxLength: 11,
             keyboardType: TextInputType.number,
             inputFormatters: <TextInputFormatter>[
@@ -176,8 +208,9 @@ class _ReservationState extends State<Reservation> {
 const SizedBox(
   height: 10,
 ),
-          Padding(padding: EdgeInsets.only(left: 20,right: 20),
+          Padding(padding: const EdgeInsets.only(left: 20,right: 20),
           child: TextFormField(
+            controller: type,
             maxLength: 1,
               keyboardType: TextInputType.number,
               inputFormatters: <TextInputFormatter>[
@@ -225,6 +258,10 @@ const SizedBox(
                                 )
                             ),
                             onPressed: () {
+                              name.text.isNotEmpty && email.text.isNotEmpty && phone.text.isNotEmpty && type.text.isNotEmpty
+                                  ? doReserve(name.text,email.text,phone.text,type.text)
+                                  : Fluttertoast.showToast( msg: 'All Fields are required');
+                              print(storedId);
                               showAlertDialog( context);
                             },
                             child: const Text(
@@ -247,7 +284,10 @@ const SizedBox(
       ),
     );
   }
-}
+
+
+
+  }
 showAlertDialog(BuildContext context) async {
   // Create button
 
