@@ -1,4 +1,4 @@
-import 'package:findyournewhome/student_portal.dart';
+import 'package:findyournewhome/Portal/student_portal.dart';
 import 'package:flutter/material.dart';
 class studentportal_first extends StatefulWidget {
   const studentportal_first({Key? key}) : super(key: key);

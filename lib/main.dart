@@ -1,6 +1,6 @@
-import 'package:findyournewhome/OTP-verification.dart';
-import 'package:findyournewhome/searchpage.dart';
-import 'package:findyournewhome/splash_Screen.dart';
+import 'package:findyournewhome/OTP_Verification/OTP-verification.dart';
+import 'package:findyournewhome/Hostel%20Search/searchpage.dart';
+import 'package:findyournewhome/Splash%20Screen/splash_Screen.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 void main() {

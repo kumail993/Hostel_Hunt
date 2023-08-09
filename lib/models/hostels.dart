@@ -1,6 +1,7 @@
 import 'dart:convert';
 
-import 'package:findyournewhome/reservation%20_screen.dart';
+import 'package:findyournewhome/Reservation/reservation%20_screen.dart';
+import 'package:findyournewhome/contants/utils.dart';
 import 'package:http/http.dart' as http;
 class hostels {
   final int id;
@@ -19,7 +20,7 @@ class hostels {
       String type) async {
     print("1");
     final response = await http.post(
-        Uri.parse('http://192.168.18.141:3000/login/reservation'),
+        Uri.parse('${Utils.baseUrl}/Hostel-hunt/reservation'),
         headers: { 'Content-Type': 'application/json',},
         body: jsonEncode({
           "Hostel_id": storedId,
@@ -36,7 +37,7 @@ class hostels {
     return DecodedData;
 // }
   }
-  //int compareTo(hostels other) => rent.compareTo(other.rent);
+  int compareTo(hostels other) => name.compareTo(other.name);
 }
 // class popular extends hostels{
 //   popular({required super.address,required super.name,required super.photo,required super.rating,required super.type,required super.rent});

@@ -1,7 +1,7 @@
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:findyournewhome/Home.dart';
-import 'package:findyournewhome/models/cars.dart';
-import 'package:findyournewhome/reservation%20_screen.dart';
+import 'package:findyournewhome/Bottom_navbar/Home.dart';
+import 'package:findyournewhome/models/hostels.dart';
+import 'package:findyournewhome/Reservation/reservation%20_screen.dart';
 import 'package:flutter/material.dart';
 class HostelDetaisl extends StatefulWidget {
   const HostelDetaisl({Key? key,required this.details}) : super(key: key);
@@ -345,6 +345,7 @@ class _HostelDetaislState extends State<HostelDetaisl> {
     ],
     ),
     ),
+          Spacer(),
           Expanded(
             flex: 2,
             child:
@@ -396,6 +397,7 @@ class _HostelDetaislState extends State<HostelDetaisl> {
                 ]
             ),
           ),
+          const SizedBox(height: 10,),
     ],
       ),
       ),

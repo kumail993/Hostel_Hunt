@@ -1,8 +1,10 @@
-import 'package:findyournewhome/Home.dart';
+import 'package:findyournewhome/Bottom_navbar/Home.dart';
 import 'package:findyournewhome/UserAuthentication/Screens/Sign_up.dart';
-import 'package:findyournewhome/rest/rest_api.dart';
+import 'package:findyournewhome/rest/OTP.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+
+import '../../rest/Login_Api.dart';
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
 
@@ -30,7 +32,8 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: Container(
+        body:
+        Container(
         height: double.maxFinite,
         width: double.maxFinite,
         decoration: const BoxDecoration(
@@ -55,7 +58,7 @@ class _LoginPageState extends State<LoginPage> {
           height: 200,
           width: 200,
           child:
-          Image.asset('Assets/logo.png',fit: BoxFit.fill,),
+          Image.asset('Assets/logo4.0.png',fit: BoxFit.fill,),
         ),
          const Text('Login',
         style: TextStyle(
@@ -167,6 +170,7 @@ class _LoginPageState extends State<LoginPage> {
         const Center(
           child: Text('Forgot Password?'),
         ),
+         Spacer(),
 
          Expanded(child:
           Row(
@@ -187,16 +191,12 @@ class _LoginPageState extends State<LoginPage> {
     ) ,
     ),
         ),
-    );
+        );
   }
 
   dologin(String email, String password) async {
 
     var res = await userlogin(email.trim(), password.trim());
-
-    // String userEmail = res['user'][0]['email'];
-    // String userId = res['user'][0]['id'];
-
 
     if (res['success']){
       Route route= MaterialPageRoute(builder: (_)=> MyHomePage());

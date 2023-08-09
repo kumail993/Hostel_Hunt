@@ -1,7 +1,9 @@
 import 'package:findyournewhome/UserAuthentication/Screens/Login_page.dart';
-import 'package:findyournewhome/rest/rest_api.dart';
+import 'package:findyournewhome/rest/OTP.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+
+import '../../rest/Sign_up.dart';
 class Signup_page extends StatefulWidget {
   const Signup_page({Key? key}) : super(key: key);
 
@@ -28,7 +30,8 @@ class _Signup_pageState extends State<Signup_page> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
+      body:
+      Container(
         height: double.maxFinite,
         width: double.maxFinite,
         decoration: const BoxDecoration(
@@ -53,7 +56,7 @@ class _Signup_pageState extends State<Signup_page> {
                     height: 200,
                     width: 200,
                     child:
-                    Image.asset('Assets/logo.png',fit: BoxFit.fill,),
+                    Image.asset('Assets/logo4.0.png',fit: BoxFit.fill,),
                   ),
                   const Text('Create an Account',
                     style: TextStyle(

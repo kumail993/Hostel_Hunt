@@ -1,7 +1,7 @@
 import 'package:animated_notch_bottom_bar/animated_notch_bottom_bar/animated_notch_bottom_bar.dart';
-import 'package:findyournewhome/main_page.dart';
-import 'package:findyournewhome/studentportal_firstscreen.dart';
-import 'package:findyournewhome/user_profile.dart';
+import 'package:findyournewhome/Hostels/main_page.dart';
+import 'package:findyournewhome/Portal/studentportal_firstscreen.dart';
+import 'package:findyournewhome/User%20profile/user_profile.dart';
 import 'package:flutter/material.dart';
 class MyHomePage extends StatefulWidget {
   const MyHomePage({Key? key}) : super(key: key);

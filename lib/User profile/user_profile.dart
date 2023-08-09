@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'Home.dart';
+import '../Bottom_navbar/Home.dart';
 class profile extends StatefulWidget {
   const profile({Key? key}) : super(key: key);
 

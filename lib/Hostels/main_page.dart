@@ -1,18 +1,16 @@
-import 'dart:convert';
-
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:findyournewhome/UserAuthentication/Screens/Login_page.dart';
-import 'package:findyournewhome/hostel_details.dart';
-import 'package:findyournewhome/rest/rest_api.dart';
-import 'package:findyournewhome/user_profile.dart';
-import 'package:findyournewhome/util/data_store.dart';
+import 'package:findyournewhome/Hostels/hostel_details.dart';
+import 'package:findyournewhome/User%20profile/user_profile.dart';
 import 'package:flutter/material.dart';
 import 'package:search_page/search_page.dart';
 import 'package:super_banners/super_banners.dart';
-import 'models/cars.dart';
-import 'package:http/http.dart' as http;
+import '../models/hostels.dart';
+import '../rest/HostelsFetch_API.dart';
+
+
 class home_page extends StatefulWidget {
   const home_page({Key? key,}) : super(key: key);
 
@@ -59,7 +57,7 @@ class _home_pageState extends State<home_page> with SingleTickerProviderStateMix
           //               context: context,
           //               delegate: SearchPage(
           //               //onQueryUpdate: print,
-          //               items: Datastore.hos,
+          //               items: hostels[index],
           //               searchLabel: 'Search Hostel',
           //               suggestion:
           //               Container(
@@ -85,7 +83,7 @@ class _home_pageState extends State<home_page> with SingleTickerProviderStateMix
           //           filter: (hostels) => [
           //           hostels.name,
           //           //person.surname,
-          //           hostels.rent.toString(),
+          //           //hostels.rent.toString(),
           //           ],
           //           sort: (a, b) => a.compareTo(b),
           //           builder: (hostels) =>
@@ -179,7 +177,7 @@ class _home_pageState extends State<home_page> with SingleTickerProviderStateMix
                               minRadius: 50,
                               foregroundColor: Colors.white,
                               backgroundColor: Colors.white,
-                              backgroundImage: AssetImage("Assets/logo.png",
+                              backgroundImage: AssetImage("Assets/logo4.0.png",
                               ),
                             ),
 
@@ -331,7 +329,7 @@ class _home_pageState extends State<home_page> with SingleTickerProviderStateMix
 
       SingleChildScrollView(
     child:
-        Padding(padding: const EdgeInsets.only(bottom: 20),
+        Padding(padding: const EdgeInsets.only(bottom: 50),
       child:
       Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -1107,148 +1105,6 @@ const SizedBox(
                           }
                         },
                       )),
-                  // Expanded(
-                  //     child:
-                  //
-                  //     ListView.builder(
-                  //         shrinkWrap: true,
-                  //         primary: false,
-                  //         scrollDirection: Axis.horizontal,
-                  //         itemCount: DataStore.rec.length,
-                  //         itemBuilder: (BuildContext context, int index) {
-                  //           hostels reccom = DataStore.rec[index];
-                  //           return GestureDetector(
-                  //             onTap:
-                  //                 () {
-                  //               Navigator.of(context)
-                  //                   .push(MaterialPageRoute(builder: (context) {
-                  //                 return HostelDetaisl(details: reccom);
-                  //               }));
-                  //             },
-                  //             child:
-                  //             Column(
-                  //               children:[
-                  //                 Padding(padding: const EdgeInsets.only(left: 10,bottom: 30),
-                  //                   child:
-                  //                   Container(
-                  //                     height: 280,
-                  //                     width: 180,
-                  //                     margin: const EdgeInsets.only(left: 0),
-                  //
-                  //                     decoration: BoxDecoration(
-                  //                       borderRadius: BorderRadius.circular(20),
-                  //                       //color: const Color(0xff0fc1fa).withOpacity(0.1),
-                  //                       // gradient: LinearGradient(
-                  //                       //   begin: Alignment.topCenter,
-                  //                       //   end: Alignment.bottomCenter,
-                  //                       //   colors: <Color>[
-                  //                       //     Colors.black.withAlpha(0),
-                  //                       //     Colors.orangeAccent,
-                  //                       //     Colors.white
-                  //                       //   ],
-                  //                       // ),
-                  //                     ),
-                  //                     child:
-                  //                         Card(
-                  //                           shape: RoundedRectangleBorder(
-                  //                             // ),
-                  //                             borderRadius: BorderRadius.circular(10.0), //<-- SEE HERE
-                  //                           ),
-                  //                           elevation: 10,
-                  //                           child:
-                  //                     Column(
-                  //                         crossAxisAlignment: CrossAxisAlignment.start,
-                  //                         children:[
-                  //                           Stack(
-                  //                             children: [
-                  //                               Padding(padding: const EdgeInsets.only(top: 5,left: 5,right: 5),
-                  //                                 child:
-                  //                                 Container(
-                  //                                   width: double.infinity,
-                  //                                   height: 180,
-                  //                                   decoration: BoxDecoration(
-                  //                                       borderRadius: BorderRadius.circular(10),
-                  //                                       shape: BoxShape.rectangle,
-                  //                                       image: DecorationImage(
-                  //                                           fit: BoxFit.cover,
-                  //                                           image: AssetImage(reccom.photo)
-                  //                                       )
-                  //                                   ),
-                  //                                 ),
-                  //                               ),
-                  //                               CornerBanner(
-                  //                                 bannerPosition: CornerBannerPosition.topLeft,
-                  //                                 bannerColor: Theme.of(context).colorScheme.primary,
-                  //                                 child: const Text("Rated",
-                  //                                   style: TextStyle(
-                  //                                     color: Colors.white,
-                  //                                   ),
-                  //                                 ),
-                  //                               ),
-                  //
-                  //                             ],
-                  //                           ),
-                  //                           Padding(padding: const EdgeInsets.only(left: 10,top: 5),
-                  //                           child:
-                  //                           Text(
-                  //                             reccom.name,
-                  //                             style: const TextStyle(
-                  //                               fontSize: 15,
-                  //                               fontWeight: FontWeight.w700,
-                  //                               color: Colors.black,
-                  //                             ),
-                  //                           ),
-                  //                           ),
-                  //                           const SizedBox(
-                  //                             height: 2,
-                  //                           ),
-                  //                       Padding(padding: const EdgeInsets.only(left: 10),
-                  //                           child:
-                  //                           Text(
-                  //                             reccom.address,
-                  //                             style: const TextStyle(
-                  //                               fontSize: 15,
-                  //                               fontWeight: FontWeight.w100,
-                  //                             ),
-                  //                           ),
-                  //                       ),
-                  //                           const SizedBox(
-                  //                             height: 2,
-                  //                           ),
-                  //                           const Padding(padding: EdgeInsets.only(left: 10),
-                  //                             child:
-                  //                             Row(
-                  //                               children: [
-                  //                                 Icon(Icons.star,
-                  //                                 color: Color(0xff0fc1fa),
-                  //                                 ),
-                  //                                 Icon(Icons.star,
-                  //                                   color: Color(0xff0fc1fa),
-                  //                                 ),
-                  //                                 Icon(Icons.star,
-                  //                                   color: Color(0xff0fc1fa),
-                  //                                 ),
-                  //                                 Icon(Icons.star,
-                  //                                   color: Color(0xff0fc1fa),
-                  //                                 ),
-                  //                                 Icon(Icons.star,
-                  //                                   color: Colors.grey,
-                  //                                 ),
-                  //
-                  //                               ],
-                  //                             )
-                  //                           ),
-                  //
-                  //                         ]
-                  //                     ),
-                  //                   ),
-                  //                     ),
-                  //                 ),
-                  //               ],
-                  //             ),);
-                  //         }
-                  //     ),
-                  // ),
                 ]
             ),
           ),

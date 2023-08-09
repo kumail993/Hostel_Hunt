@@ -1,9 +1,9 @@
-import 'package:findyournewhome/Home.dart';
-import 'package:findyournewhome/hostel_details.dart';
+import 'package:findyournewhome/Bottom_navbar/Home.dart';
+import 'package:findyournewhome/Hostels/hostel_details.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'main_page.dart';
+import '../Hostels/main_page.dart';
 
 
 class Reservation extends StatefulWidget {
@@ -111,7 +111,7 @@ class _ReservationState extends State<Reservation> {
           const SizedBox(
             height: 10,
           ),
-          Padding(padding: const EdgeInsets.only(left: 20),
+          Padding(padding: const EdgeInsets.only(left: 20,right:20),
           child:
           TextFormField(
             controller: name,
@@ -194,7 +194,7 @@ class _ReservationState extends State<Reservation> {
           ),
         ),
           const SizedBox(
-            height: 20,
+            height: 10,
           ),
           const Padding(padding: EdgeInsets.only(left: 20),
               child:
@@ -226,6 +226,7 @@ const SizedBox(
             ),
           ),
           ),
+          Spacer(),
           Expanded(
             flex: 1,
             child:
@@ -261,8 +262,7 @@ const SizedBox(
                               name.text.isNotEmpty && email.text.isNotEmpty && phone.text.isNotEmpty && type.text.isNotEmpty
                                   ? doReserve(name.text,email.text,phone.text,type.text)
                                   : Fluttertoast.showToast( msg: 'All Fields are required');
-                              print(storedId);
-                              showAlertDialog( context);
+
                             },
                             child: const Text(
                                 "Submit",
@@ -277,7 +277,7 @@ const SizedBox(
                 ]
             ),
           ),
-
+          const SizedBox(height: 10,),
         ],
       ),
       ),

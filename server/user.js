@@ -15,7 +15,7 @@ router.route('/register').post((req, res) => {
 
 
     // Check if the email or name already exists
-    var checkExistingQuery = "SELECT * FROM login WHERE email = ? OR password = ?";
+    var checkExistingQuery = "SELECT * FROM login WHERE email = ? AND password = ?";
     db.query(checkExistingQuery, [email, student_name], function (error, existingUsers) {
         if (error) {
             res.send(JSON.stringify({ success: false, message: error }));
@@ -59,7 +59,7 @@ router.route('/register').post((req, res) => {
 
 
                 // Create query for inserting into login table
-                var loginSqlQuery = "INSERT INTO login(email, password, otp) VALUES (?, ?, ?)";
+                var loginSqlQuery = "INSERT INTO login(email, password, otp, created_at) VALUES (?, ?, ?, NOW())";
 
                 // Call database to insert into login table
                 db.query(loginSqlQuery, [email, password, otp], function (error, loginResult, fields) {
@@ -71,7 +71,7 @@ router.route('/register').post((req, res) => {
                         console.log(loginId);
 
                         // Create query for inserting into user table
-                        var userSqlQuery = "INSERT INTO student(login_id, student_name) VALUES (?, ?)";
+                        var userSqlQuery = "INSERT INTO student(login_id, student_name,created_at) VALUES (?, ?,NOW())";
 
                         // Call database to insert into user table
                         db.query(userSqlQuery, [loginId, student_name], function (error, userResult) {
@@ -159,8 +159,8 @@ router.route('/premiumhostels').get((req, res) => {
     const reservation_email = req.body.reservation_email;
     const reservation_phone = req.body.reservation_phone;
     const type = req.body.type;
-    const sql = 'INSERT INTO reservations (Hostel_id, name, email, ph_no, type) VALUES (?, ?, ?, ?, ?)';
-    const values = [Hostel_id, reservation_name, reservation_email, reservation_phone, type];
+    const sql = 'INSERT INTO reservations ( name, email, ph_no, type, created_at,Hostel_id) VALUES (?, ?, ?, ?,NOW(),?)';
+    const values = [ reservation_name, reservation_email, reservation_phone, type,Hostel_id,];
     db.query(sql, values, (error, result) => {
         if (error) {
             res.send(JSON.stringify({ success: false, message: error }));

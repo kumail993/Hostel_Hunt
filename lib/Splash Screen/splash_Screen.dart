@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'package:findyournewhome/Home.dart';
+import 'package:findyournewhome/Bottom_navbar/Home.dart';
 import 'package:findyournewhome/UserAuthentication/Screens/Login_page.dart';
 import 'package:flutter/material.dart';
 class splash_screen extends StatefulWidget {
