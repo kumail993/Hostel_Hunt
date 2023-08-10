@@ -300,16 +300,22 @@ class _home_pageState extends State<home_page> with SingleTickerProviderStateMix
               const SizedBox(
                 height:30,
               ),
-              const ListTile(
-                leading: Icon(Icons.logout),
-                trailing: Icon(Icons.arrow_forward_ios_outlined),
-                title: Text("Log Out",
+               ListTile(
+                leading: const Icon(Icons.logout),
+                trailing: const Icon(Icons.arrow_forward_ios_outlined),
+                title: const Text("Log Out",
                   style: TextStyle(
                     fontWeight: FontWeight.w700,
                     fontSize: 15,
                   ),
                 ),
+                onTap: (){
+                  Navigator.pushReplacement(context,
+                    MaterialPageRoute(builder: (context) =>const LoginPage(),
 
+                    ),
+                  );
+                },
               ),
             ],
           ),
@@ -347,7 +353,7 @@ class _home_pageState extends State<home_page> with SingleTickerProviderStateMix
                   borderRadius: BorderRadius.circular(20.0),
                   child:
                   Image.asset(
-                      'Assets/splash screen.jpg', width: 500, fit: BoxFit.fill),
+                      "Assets/Advertisement1.jpg", width: 500, fit: BoxFit.fill),
                 ),
               ),
               Padding(padding: const EdgeInsets.only(left: 15,right: 15),
@@ -355,7 +361,7 @@ class _home_pageState extends State<home_page> with SingleTickerProviderStateMix
                   borderRadius: BorderRadius.circular(20.0),
                   child:
                   Image.asset(
-                      'Assets/splash screen.jpg', width: 400, fit: BoxFit.fill),
+                      'Assets/Advertisement2.jpg', width: 400, fit: BoxFit.fill),
                 ),
               ),
               Padding(padding: const EdgeInsets.only(left:15,right: 15),
@@ -363,7 +369,7 @@ class _home_pageState extends State<home_page> with SingleTickerProviderStateMix
                   borderRadius: BorderRadius.circular(20.0),
                   child:
                   Image.asset(
-                      'Assets/splash screen.jpg', width: 400, fit: BoxFit.fill),
+                      'Assets/Advertisement1.jpg', width: 400, fit: BoxFit.fill),
                 ),
               ),
               Padding(padding: const EdgeInsets.only(left: 15,right: 15),
@@ -371,7 +377,7 @@ class _home_pageState extends State<home_page> with SingleTickerProviderStateMix
                   borderRadius: BorderRadius.circular(20.0),
                   child:
                   Image.asset(
-                      'Assets/splash screen.jpg', width: 400, fit: BoxFit.fill),
+                      'Assets/Advertisement2.jpg', width: 400, fit: BoxFit.fill),
                 ),
               ),
 
@@ -392,71 +398,6 @@ class _home_pageState extends State<home_page> with SingleTickerProviderStateMix
               ),
 
             ),
-          // CarouselSlider.builder(itemCount:DataStore.p.length,
-          //     itemBuilder: (BuildContext context, int itemIndex, int pageViewIndex) {
-          //       hostels paidd = DataStore.p[itemIndex];
-          //       return GestureDetector(
-          //         child: Padding(padding: const EdgeInsets.only(left: 0,),
-          //             child:
-          //             Card(
-          //               shape: RoundedRectangleBorder(
-          //                 // side: BorderSide(
-          //                 //   color: Colors.greenAccent,
-          //                 // ),
-          //                 borderRadius: BorderRadius.circular(20.0), //<-- SEE HERE
-          //               ),
-          //               elevation: 10,
-          //               color: Colors.white,
-          //               child:
-          //               Column(
-          //                   crossAxisAlignment: CrossAxisAlignment.start,
-          //                   children: [
-          //                     Padding(padding: const EdgeInsets.only(
-          //                         left: 10, right: 10, top: 10),
-          //                       child:
-          //                       ClipRRect(
-          //                         borderRadius: BorderRadius.circular(10.0),
-          //                         child:
-          //                         Image.asset(
-          //                             paidd.photo, width: 300,
-          //                             height: 150,
-          //                             fit: BoxFit.fill),
-          //                       ),
-          //                     ),
-          //                     Expanded(child:
-          //                     Padding(padding: const EdgeInsets.only(
-          //                         left: 20, right: 20, top: 10),
-          //                       child:
-          //                       Text(paidd.name,
-          //                         style: const TextStyle(
-          //                           fontSize: 15,
-          //                           fontWeight: FontWeight.w500,
-          //                         ),
-          //                       ),
-          //                     ),
-          //                     ),
-          //                   ]
-          //               ),
-          //             ),
-          //           ),
-          //         );
-          //     },
-          //   options: CarouselOptions(
-          //     height: 200.0,
-          //     enlargeCenterPage: true,
-          //     autoPlay: true,
-          //     aspectRatio: 16 / 9,
-          //     autoPlayCurve: Curves.fastOutSlowIn,
-          //     enableInfiniteScroll: true,
-          //     autoPlayAnimationDuration: const Duration(milliseconds: 800),
-          //     viewportFraction: 1,
-          //     pageSnapping: true,
-          //     padEnds: true,
-          //     onPageChanged: (index, reason) {
-          //       _currentIndex = index;
-          //       setState((){});
-          //     },
-          //   ), ),
           ),
           Center(child:
           DotsIndicator(
@@ -1011,15 +952,13 @@ const SizedBox(
                                                               .topLeft,
                                                           bannerColor: Theme
                                                               .of(context)
-                                                              .colorScheme
-                                                              .onSecondary,
+                                                              .colorScheme.primary,
                                                           child: Text(
                                                             "Rated",
                                                             style: TextStyle(
                                                               color: Theme
                                                                   .of(context)
-                                                                  .colorScheme
-                                                                  .primary,
+                                                                  .colorScheme.secondary,
                                                               fontWeight: FontWeight
                                                                   .w700,
                                                             ),

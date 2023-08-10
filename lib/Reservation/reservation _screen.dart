@@ -43,6 +43,7 @@ class _ReservationState extends State<Reservation> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body:
       Container(
       height: double.maxFinite,

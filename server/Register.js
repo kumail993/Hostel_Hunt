@@ -15,14 +15,14 @@ router.route('/register').post((req, res) => {
 
 
     // Check if the email or name already exists
-    var checkExistingQuery = "SELECT * FROM login WHERE email = ? AND password = ?";
-    db.query(checkExistingQuery, [email, student_name], function (error, existingUsers) {
+    var checkExistingQuery = "SELECT * FROM login WHERE email = ?";
+    db.query(checkExistingQuery, [email], function (error, existingUsers) {
         if (error) {
             res.send(JSON.stringify({ success: false, message: error }));
         } else {
             if (existingUsers.length > 0) {
                 // User with the same email or name already exists
-                res.send(JSON.stringify({ success: false, message: 'User with the same email or name already registered' }));
+                res.send(JSON.stringify({ success: false, message: 'User with the same email already registered' }));
             } else {
                 //here
 
@@ -88,97 +88,5 @@ router.route('/register').post((req, res) => {
         }
     });
 });
-
-
-router.route('/login').post((req,res)=>{
-    console.log(req.body);
-    var student_email=req.body.student_email;
-    var student_password=req.body.student_password;
-
-    var sql="SELECT * FROM login WHERE email=? AND password=?";
-    
-    if(student_email != "" && student_password !=""){
-        db.query(sql,[student_email,student_password],function(err,data,fields){
-            if(err){
-                res.send(JSON.stringify({success:false,message:err}));
-
-            }else{
-                if(data.length > 0)
-                {
-                    res.send(JSON.stringify({success:true,user:data}));
-                }else{
-                    res.send(JSON.stringify({success:false,message:'Empty Data'}));
-                }
-            }
-        });
-    }else{
-        res.send(JSON.stringify({success:false,message:'Email and password required!'}));
-    }
-
-});
-
-
-router.route('/premiumhostels').get((req, res) => {
-    const query = 'SELECT * FROM hostels WHERE Category = "premium";';
-  
-    db.query(query, (err, result) => {
-      if (err) {
-        console.error('Error fetching data:', err);
-        res.status(500).json({ error: 'Internal Server Error' });
-        return;
-      }
-  
-      res.status(200).json(result);
-    });
-  });
-
-
-
-  router.route('/ratedhostels').get((req, res) => {
-    const query = 'SELECT * FROM hostels WHERE Category = "rated";';
-  
-    db.query(query, (err, result) => {
-      if (err) {
-        console.error('Error fetching data:', err);
-        res.status(500).json({ error: 'Internal Server Error' });
-        return;
-      }
-    //   const hostelIds = result.map(hostel => hostel.id);
-
-    //     res.status(200).json({ hostelIds })
-  
-      res.status(200).json(result);
-    });
-  });
-
-  router.route('/reservation').post((req, res) => {
-    console.log(req.body);
-    //const { Hostel_id, reservation_name, reservation_email, reservation_phone, type } = req.body;
-    const Hostel_id = req.body.Hostel_id;
-    const reservation_name = req.body.reservation_name;
-    const reservation_email = req.body.reservation_email;
-    const reservation_phone = req.body.reservation_phone;
-    const type = req.body.type;
-    const sql = 'INSERT INTO reservations ( name, email, ph_no, type, created_at,Hostel_id) VALUES (?, ?, ?, ?,NOW(),?)';
-    const values = [ reservation_name, reservation_email, reservation_phone, type,Hostel_id,];
-    db.query(sql, values, (error, result) => {
-        if (error) {
-            res.send(JSON.stringify({ success: false, message: error }));
-        } else {
-            // Registration successful
-            res.send(JSON.stringify({ success: true, message: 'Reservation Successfuly' }));
-        }
-    });
-    //   if (err) {
-    //     console.error('Error storing reservation data:', err);
-    //     res.status(500).json({ error: 'An error occurred while storing reservation data' });
-    //     return;
-    //   }
-    //   console.log('Reservation data stored successfully');
-    //   res.status(200).json({ message: 'Reservation data stored successfully' });
-    // });
-  });
-
-
 
 module.exports =router;
