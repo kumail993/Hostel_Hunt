@@ -17,8 +17,9 @@ router.route('/reservation').post((req, res) => {
     const reservation_email = req.body.reservation_email;
     const reservation_phone = req.body.reservation_phone;
     const type = req.body.type;
-    const sql = 'INSERT INTO reservations ( name, email, ph_no, type, created_at,Hostel_id) VALUES (?, ?, ?, ?,NOW(),?)';
-    const values = [ reservation_name, reservation_email, reservation_phone, type,Hostel_id,];
+    const login = req.body.login_id;
+    const sql = 'INSERT INTO reservations ( name, email, ph_no, type, created_at,Hostel_id, login_id) VALUES (?, ?, ?, ?,NOW(),?,?)';
+    const values = [ reservation_name, reservation_email, reservation_phone, type,Hostel_id,login];
     db.query(sql, values, (error, result) => {
         if (error) {
             res.send(JSON.stringify({ success: false, message: error }));

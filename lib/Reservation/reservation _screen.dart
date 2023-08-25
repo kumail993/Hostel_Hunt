@@ -3,6 +3,7 @@ import 'package:findyournewhome/Hostels/hostel_details.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../Hostels/main_page.dart';
 
 
@@ -22,14 +23,30 @@ class _ReservationState extends State<Reservation> {
   final TextEditingController phone = TextEditingController();
   final TextEditingController type = TextEditingController();
 
+
+   String Login_id = '';
+
+  //late SharedPreferences _sharedPreferences;
+
+  _loadData() async {
+     SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      Login_id = prefs.getString('userid') ?? '';
+    });
+  }
+  // _saveData() async {
+  //   SharedPreferences prefs = await SharedPreferences.getInstance();
+  //   prefs.setString('key_string', 'new_value');
+  // }
    late int storedId;
   @override
   void initState() {
     super.initState();
     storedId = widget.res.id;
+    _loadData();
   }
-  doReserve(String name, String email, String phone, String type) async {
-    var res = await widget.res.Reservation(storedId,name,email,phone,type);
+  doReserve(String name, String email, String phone, String type,) async {
+    var res = await widget.res.Reservation(storedId,name,email,phone,type,Login_id);
     print(res.toString());
 
     if (res["success"]){

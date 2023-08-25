@@ -17,7 +17,7 @@ class hostels {
 
   );
   Future Reservation(int storedId, String name, String email, String phone,
-      String type) async {
+      String type, String Login_id) async {
     print("1");
     final response = await http.post(
         Uri.parse('${Utils.baseUrl}/Hostel-hunt/reservation'),
@@ -27,7 +27,8 @@ class hostels {
           "reservation_name": name,
           "reservation_email": email,
           "reservation_phone": phone,
-          "type": type
+          "type": type,
+          "login_id" :Login_id,
         })
     );
     var DecodedData = jsonDecode(response.body);

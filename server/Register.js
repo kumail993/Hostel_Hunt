@@ -59,7 +59,7 @@ router.route('/register').post((req, res) => {
 
 
                 // Create query for inserting into login table
-                var loginSqlQuery = "INSERT INTO login(email, password, otp, created_at) VALUES (?, ?, ?, NOW())";
+                var loginSqlQuery = "INSERT INTO login(email, password, otp, created_at,active_status) VALUES (?, ?, ?, NOW(),0)";
 
                 // Call database to insert into login table
                 db.query(loginSqlQuery, [email, password, otp], function (error, loginResult, fields) {

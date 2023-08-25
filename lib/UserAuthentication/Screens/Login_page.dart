@@ -195,7 +195,7 @@ class _LoginPageState extends State<LoginPage> {
         const Center(
           child: Text('Forgot Password?'),
         ),
-         Spacer(),
+         const Spacer(),
 
          Expanded(child:
           Row(
@@ -204,7 +204,7 @@ class _LoginPageState extends State<LoginPage> {
               const Text('Don\'t have Account?',),
               TextButton(onPressed: (){
                 Navigator.pushReplacement(context,
-                  MaterialPageRoute(builder: (context) =>Signup_page(),
+                  MaterialPageRoute(builder: (context) =>const Signup_page(),
 
                   ),
                 );
@@ -236,7 +236,7 @@ class _LoginPageState extends State<LoginPage> {
       _sharedPreferences.setString('usermail', userEmail);
 
 
-      Route route= MaterialPageRoute(builder: (_)=> MyHomePage());
+      Route route= MaterialPageRoute(builder: (_)=> const MyHomePage());
       Navigator.pushReplacement(context, route);
 
       // await setLoggedIn();
