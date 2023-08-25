@@ -2,6 +2,8 @@ import 'dart:async';
 import 'package:findyournewhome/Bottom_navbar/Home.dart';
 import 'package:findyournewhome/UserAuthentication/Screens/Login_page.dart';
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:findyournewhome/Bottom_navbar/Home.dart';
 class splash_screen extends StatefulWidget {
   const splash_screen({Key? key}) : super(key: key);
 
@@ -10,25 +12,46 @@ class splash_screen extends StatefulWidget {
 }
 
 class _splash_screenState extends State<splash_screen> {
-  Timer? _timer;
+  // Timer? _timer;
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   _timer = Timer(const Duration(seconds: 10),
+  //           () {
+  //         if (mounted) {
+  //           Navigator.pushReplacement(
+  //             context,
+  //             MaterialPageRoute(builder: (context) => const LoginPage()),
+  //           );
+  //         }
+  //       }
+  //   );
+  // }
+  // @override
+  // void dispose() {
+  //   _timer?.cancel(); // Cancel the timer when the widget is disposed
+  //   super.dispose();
+  // }
+  late SharedPreferences _sharedPreferences;
   @override
   void initState() {
     super.initState();
-    _timer = Timer(const Duration(seconds: 10),
-            () {
-          if (mounted) {
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(builder: (context) => const LoginPage()),
-            );
-          }
-        }
-    );
+
+    isLogin();
   }
-  @override
-  void dispose() {
-    _timer?.cancel(); // Cancel the timer when the widget is disposed
-    super.dispose();
+
+  void isLogin() async {
+    _sharedPreferences = await SharedPreferences.getInstance();
+    Timer(Duration(seconds: 10), () {
+      if (_sharedPreferences.getInt('userid') == null &&
+          _sharedPreferences.getString('usermail') == null) {
+        Route route = MaterialPageRoute(builder: (_) => LoginPage());
+        Navigator.pushReplacement(context, route);
+      } else {
+        Route route = MaterialPageRoute(builder: (_) => MyHomePage());
+        Navigator.pushReplacement(context, route);
+      }
+    });
   }
   Widget build(BuildContext context) {
     return Scaffold(
@@ -68,7 +91,7 @@ class _splash_screenState extends State<splash_screen> {
                 color: Colors.white,
               ),
               ),
-                
+
               ]
                 ),
                 const SizedBox(height: 5,),
@@ -130,11 +153,20 @@ class _splash_screenState extends State<splash_screen> {
                       )
                   ),
                   onPressed: () {
-                    Navigator.pushReplacement(context,
-                      MaterialPageRoute(builder: (context) =>const LoginPage(),
-
-                      ),
-                    );
+                    // Navigator.pushReplacement(context,
+                    //   // MaterialPageRoute(builder: (context) =>const LoginPage(),
+                    //
+                    // ),
+                    if (_sharedPreferences.getInt('userid') == null &&
+                        _sharedPreferences.getString('usermail') == null) {
+                      Route route = MaterialPageRoute(
+                          builder: (_) => LoginPage());
+                      Navigator.pushReplacement(context, route);
+                    } else {
+                      Route route = MaterialPageRoute(
+                          builder: (_) => MyHomePage());
+                      Navigator.pushReplacement(context, route);
+                    }
                   },
                   child: const Text(
                       "Let's Start",

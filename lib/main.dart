@@ -1,6 +1,12 @@
+import 'dart:async';
+
+import 'package:findyournewhome/Bottom_navbar/Home.dart';
+import 'package:findyournewhome/Hostels/main_page.dart';
 import 'package:findyournewhome/OTP_Verification/OTP-verification.dart';
 import 'package:findyournewhome/Hostel%20Search/searchpage.dart';
 import 'package:findyournewhome/Splash%20Screen/splash_Screen.dart';
+import 'package:findyournewhome/UserAuthentication/Screens/Login_page.dart';
+import 'package:findyournewhome/preferences.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 void main() {
@@ -13,13 +19,27 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return
+      MaterialApp(
       title: "Hostle Hunt",
       theme: ThemeData(
         colorScheme: defaultColorScheme,
         textTheme: GoogleFonts.latoTextTheme(Theme.of(context).textTheme),
       ),
       home:  splash_screen(),
+      // home: FutureBuilder<bool>(
+      //   future: isLoggedIn(),
+      //   builder: (context, snapshot) {
+      //     if (snapshot.connectionState == ConnectionState.waiting) {
+      //       return CircularProgressIndicator();
+      //     }
+      //     return snapshot.data == true ? MyHomePage() : LoginPage();
+      //   },
+      // ),
+      // routes: {
+      //   '/login': (context) => LoginPage(),
+      //   '/main': (context) => MyHomePage(),
+      // },
     );
   }
 }

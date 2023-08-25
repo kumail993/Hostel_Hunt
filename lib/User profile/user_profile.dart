@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../Bottom_navbar/Home.dart';
 class profile extends StatefulWidget {
-  const profile({Key? key}) : super(key: key);
+  const profile({Key? key,}) : super(key: key);
 
   @override
   State<profile> createState() => _profileState();
@@ -99,7 +99,8 @@ class _profileState extends State<profile> {
             ),
             const ListTile(
               leading: Icon(Icons.email_outlined),
-              title: Text('Khaider308@gmail.com'),
+              title: Text('khaider308@gmail.com',
+            ),
             ),
             const SizedBox(
               height: 10,
@@ -124,9 +125,8 @@ class _profileState extends State<profile> {
                   thickness: 2,
                 ),
             ),
-
-          ],
-        ),
+      ]
+    )
     )
     );
   }

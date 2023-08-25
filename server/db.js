@@ -19,6 +19,8 @@
         database:dbDatabase,       // 3306 is default port no. of mysql 
      // your db name
     });
+
+
     
     
     connection.connect(function(err){

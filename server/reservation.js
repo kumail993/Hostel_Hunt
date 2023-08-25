@@ -2,14 +2,16 @@
 const express=require('express');
 const router=express.Router();
 var db=require('./db.js');
-const otpGenerator = require("otp-generator");
-const nodemailer = require("nodemailer");
-
+//const url = require('url');
 const app = express();
 
 router.route('/reservation').post((req, res) => {
     console.log(req.body);
     //const { Hostel_id, reservation_name, reservation_email, reservation_phone, type } = req.body;
+
+    //const parsedUrl = url.parse(req.url, true)
+
+    //if(parsedUrl.pathname = '/login'){
     const Hostel_id = req.body.Hostel_id;
     const reservation_name = req.body.reservation_name;
     const reservation_email = req.body.reservation_email;
@@ -25,14 +27,7 @@ router.route('/reservation').post((req, res) => {
             res.send(JSON.stringify({ success: true, message: 'Reservation Successfuly' }));
         }
     });
-    //   if (err) {
-    //     console.error('Error storing reservation data:', err);
-    //     res.status(500).json({ error: 'An error occurred while storing reservation data' });
-    //     return;
-    //   }
-    //   console.log('Reservation data stored successfully');
-    //   res.status(200).json({ message: 'Reservation data stored successfully' });
-    // });
+    
   });
 
 

@@ -44,7 +44,7 @@ router.route('/register').post((req, res) => {
                 const mailOptions = {
                     from: "Khaider308@gmail.com",
                     to: email, // Recipient's email
-                    subject: "Your OTP Code",
+                    subject: "Your Hostel-hunt Verification Code OTP Code",
                     text: `Your OTP code is: ${otp}`,
                 };
 

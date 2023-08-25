@@ -1,9 +1,8 @@
 import 'package:findyournewhome/Bottom_navbar/Home.dart';
 import 'package:findyournewhome/UserAuthentication/Screens/Sign_up.dart';
-import 'package:findyournewhome/rest/OTP.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-
+import 'package:shared_preferences/shared_preferences.dart';
 import '../../rest/Login_Api.dart';
 class LoginPage extends StatefulWidget {
   const LoginPage({Key? key}) : super(key: key);
@@ -29,6 +28,31 @@ class _LoginPageState extends State<LoginPage> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController email_controller = TextEditingController();
   final TextEditingController password_controller = TextEditingController();
+
+
+   late SharedPreferences _sharedPreferences;
+  // late SharedPreferences _prefs;
+  // String _savedValue = '';
+  //
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   _initSharedPreferences();
+  // }
+  //
+  // Future<void> _initSharedPreferences() async {
+  //   _prefs = await SharedPreferences.getInstance();
+  //   setState(() {
+  //     _savedValue = _prefs.getString('textfield_value') ?? '';
+  //   });
+  // }
+  //
+  // Future<void> _saveTextFieldValue() async {
+  //   await _prefs.setString('textfield_value', email_controller.text);
+  //   setState(() {
+  //     _savedValue = email_controller.text;
+  //   });
+  // }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -199,9 +223,24 @@ class _LoginPageState extends State<LoginPage> {
 
     var res = await userlogin(email.trim(), password.trim());
 
+    _sharedPreferences=await SharedPreferences.getInstance();
+
+
     if (res['success']){
+
+      String userEmail=res['user'][0]['email'];
+      int userId=res['user'][0]['login_id'];
+      print(userId);
+      print(userEmail);
+      _sharedPreferences.setInt('userid', userId);
+      _sharedPreferences.setString('usermail', userEmail);
+
+
       Route route= MaterialPageRoute(builder: (_)=> MyHomePage());
       Navigator.pushReplacement(context, route);
+
+      // await setLoggedIn();
+      // Navigator.pushReplacementNamed(context, '/main');
     }else{
       Fluttertoast.showToast(msg: 'Email and password not valid');
     }
