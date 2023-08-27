@@ -24,20 +24,23 @@ class _ReservationState extends State<Reservation> {
   final TextEditingController type = TextEditingController();
 
 
-   String Login_id = '';
+    late int Login_id;
 
   //late SharedPreferences _sharedPreferences;
 
   _loadData() async {
-     SharedPreferences prefs = await SharedPreferences.getInstance();
-    setState(() {
-      Login_id = prefs.getString('userid') ?? '';
-    });
+
+    try {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      setState(() {
+        Login_id = prefs.getInt('userid')!;
+      });
+    } catch (e) {
+      print("Error loading data: $e");
+    }
   }
-  // _saveData() async {
-  //   SharedPreferences prefs = await SharedPreferences.getInstance();
-  //   prefs.setString('key_string', 'new_value');
-  // }
+
+
    late int storedId;
   @override
   void initState() {
@@ -48,6 +51,7 @@ class _ReservationState extends State<Reservation> {
   doReserve(String name, String email, String phone, String type,) async {
     var res = await widget.res.Reservation(storedId,name,email,phone,type,Login_id);
     print(res.toString());
+    print(Login_id);
 
     if (res["success"]){
       Fluttertoast.showToast(msg: "Reservation Succesfully");

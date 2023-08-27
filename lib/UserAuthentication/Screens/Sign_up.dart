@@ -41,6 +41,14 @@ class _Signup_pageState extends State<Signup_page> {
       Fluttertoast.showToast(msg: 'Email or name Already Exist');
     }
   }
+
+  bool passwordVisible=false;
+
+  @override
+  void initState(){
+    super.initState();
+    passwordVisible=true;
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -107,6 +115,7 @@ class _Signup_pageState extends State<Signup_page> {
                             width: 1, color: Theme.of(context).colorScheme.surface,),
 
                         ),
+                        prefixIcon: Icon(Icons.supervised_user_circle)
                       ),
                     ),
                     const SizedBox(
@@ -130,6 +139,7 @@ class _Signup_pageState extends State<Signup_page> {
                             width: 1, color: Theme.of(context).colorScheme.surface,),
 
                         ),
+                        prefixIcon: Icon(Icons.email),
                       ),
                     ),
                     const SizedBox(
@@ -152,6 +162,19 @@ class _Signup_pageState extends State<Signup_page> {
                           borderSide: BorderSide(
                             width: 1, color: Theme.of(context).colorScheme.surface,),
 
+                        ),
+                        prefixIcon: Icon(Icons.password_outlined),
+                        suffixIcon: IconButton(
+                          icon: Icon(passwordVisible
+                              ? Icons.visibility
+                              : Icons.visibility_off),
+                          onPressed: () {
+                            setState(
+                                  () {
+                                passwordVisible = !passwordVisible;
+                              },
+                            );
+                          },
                         ),
                       ),
                       obscureText: true,

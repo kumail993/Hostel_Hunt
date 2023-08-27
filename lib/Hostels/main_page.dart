@@ -6,6 +6,7 @@ import 'package:findyournewhome/Hostels/hostel_details.dart';
 import 'package:findyournewhome/User%20profile/user_profile.dart';
 import 'package:flutter/material.dart';
 import 'package:search_page/search_page.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:super_banners/super_banners.dart';
 import '../models/hostels.dart';
 import '../rest/HostelsFetch_API.dart';
@@ -23,11 +24,29 @@ class _home_pageState extends State<home_page> with SingleTickerProviderStateMix
 
   late Future<List<hostels>> PremiumhostelData;
   late Future<List<hostels>> RatedhostelData;
+
+  late String email_id = '';
+
+  //late SharedPreferences _sharedPreferences;
+
+  _loadData() async {
+
+    try {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      setState(() {
+        email_id = prefs.getString('usermail')!;
+      });
+    } catch (e) {
+      print("Error loading data: $e");
+    }
+  }
+
   @override
   void initState() {
     super.initState();
     PremiumhostelData = fetchPremiumHostel();
     RatedhostelData = fetchRatedHostel();
+    _loadData();
   }
 
 
@@ -167,8 +186,12 @@ class _home_pageState extends State<home_page> with SingleTickerProviderStateMix
               const SizedBox(
                 height:30,
               ),
-              const Row(
+
+                 const Row(
+                   crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children:[
+
                     Padding(padding: EdgeInsets.only(left: 30,),
                       child:
                       Column(
@@ -184,22 +207,26 @@ class _home_pageState extends State<home_page> with SingleTickerProviderStateMix
                           ]
                       ),
                     ),
-                    Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children:[
-                          Text('Kumail Haider',
-                            style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.w700,
 
-                            ),
-                          ),
-                          SizedBox(
-                            height: 5,
-                          ),
-                        ]
+                  ]
+              ),
+
+              Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children:[
+                    Padding(padding: EdgeInsets.only(left: 30),
+                    child:
+                    Text('$email_id',
+                      style: const TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.w700,
+
+                      ),
                     ),
-
+                    ),
+                    const SizedBox(
+                      height: 5,
+                    ),
                   ]
               ),
 
@@ -309,7 +336,9 @@ class _home_pageState extends State<home_page> with SingleTickerProviderStateMix
                     fontSize: 15,
                   ),
                 ),
-                onTap: (){
+                onTap: () async {
+                  SharedPreferences prefs = await SharedPreferences.getInstance();
+                  prefs.clear();
                   Navigator.pushReplacement(context,
                     MaterialPageRoute(builder: (context) =>const LoginPage(),
 
@@ -597,7 +626,7 @@ class _home_pageState extends State<home_page> with SingleTickerProviderStateMix
                           builder: (context, snapshot) {
                             if (snapshot.connectionState ==
                                 ConnectionState.waiting) {
-                              return CircularProgressIndicator();
+                              return const CircularProgressIndicator();
                             } else if (snapshot.hasError) {
                               return Text('Error: ${snapshot.error}');
                             } else {
@@ -852,7 +881,7 @@ const SizedBox(
                         builder: (context, snapshot) {
                           if (snapshot.connectionState ==
                               ConnectionState.waiting) {
-                            return CircularProgressIndicator();
+                            return const CircularProgressIndicator();
                           } else if (snapshot.hasError) {
                             return Text('Error: ${snapshot.error}');
                           } else {

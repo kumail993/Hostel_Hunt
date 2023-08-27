@@ -17,7 +17,7 @@ class hostels {
 
   );
   Future Reservation(int storedId, String name, String email, String phone,
-      String type, String Login_id) async {
+      String type, int Login_id) async {
     print("1");
     final response = await http.post(
         Uri.parse('${Utils.baseUrl}/Hostel-hunt/reservation'),
@@ -31,6 +31,7 @@ class hostels {
           "login_id" :Login_id,
         })
     );
+    print(Login_id);
     var DecodedData = jsonDecode(response.body);
     print(DecodedData);
     response.statusCode;
@@ -40,21 +41,3 @@ class hostels {
   }
   int compareTo(hostels other) => name.compareTo(other.name);
 }
-// class popular extends hostels{
-//   popular({required super.address,required super.name,required super.photo,required super.rating,required super.type,required super.rent});
-//
-// }
-// class Recommended extends hostels{
-//   Recommended({required super.address,required super.name,required super.photo,required super.rating,required super.type,required super.rent});
-// }
-// class Nearest extends hostels{
-//   Nearest({required super.name, required super.rating, required super.photo, required super.type, required super.address,required super.rent});
-//
-// }
-// class Paid extends hostels{
-//   Paid({required super.name, required super.rating, required super.photo, required super.type, required super.address,required super.rent});
-// }
-// class All extends hostels{
-//   All({required super.name, required super.rating, required super.photo, required super.type, required super.address, required super.rent});
-//
-// }

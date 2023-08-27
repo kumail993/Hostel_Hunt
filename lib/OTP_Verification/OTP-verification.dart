@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:findyournewhome/rest/OTP.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 
 
@@ -61,7 +62,7 @@ class _otp_verificationState
                 height: MediaQuery.of(context).size.height / 3,
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(30),
-                  child: Image.asset("lib/assets/images/logo/image_otp_gif.gif"),
+                  child: Image.asset("Assets/otpverification.jpg"),
                 ),
               ),
               const SizedBox(height: 8),
@@ -78,7 +79,7 @@ class _otp_verificationState
                 const EdgeInsets.symmetric(horizontal: 30.0, vertical: 8),
                 child: RichText(
                   text: TextSpan(
-                    text: "Enter the code sent to ",
+                    text: "We are pleased to inform you that an OTP has been successfully sent to ",
                     children: [
                       TextSpan(
                         text: "$email",
@@ -117,7 +118,7 @@ class _otp_verificationState
                     blinkWhenObscuring: true,
                     animationType: AnimationType.fade,
                     pinTheme: PinTheme(
-                      shape: PinCodeFieldShape.circle,
+                      shape: PinCodeFieldShape.underline,
                       borderRadius: BorderRadius.circular(5),
                       fieldHeight: 50,
                       fieldWidth: 40,
@@ -178,7 +179,7 @@ class _otp_verificationState
                     child: const Text(
                       "RESEND",
                       style: TextStyle(
-                        color: Color(0xFFF1A733),
+                        color: Color(0xff0fc1fa),
                         fontWeight: FontWeight.bold,
                         fontSize: 16,
                       ),
@@ -195,25 +196,26 @@ class _otp_verificationState
                 decoration: BoxDecoration(
                   color: Theme.of(context).colorScheme.primary,
                   borderRadius: BorderRadius.circular(5),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Theme.of(context).colorScheme.primary,
-                      offset: const Offset(1, -2),
-                      blurRadius: 5,
-                    ),
-                    BoxShadow(
-                      color: Theme.of(context).colorScheme.primary,
-                      offset: const Offset(-1, 2),
-                      blurRadius: 5,
-                    ),
-                  ],
+                  // boxShadow: [
+                  //   BoxShadow(
+                  //     color: Theme.of(context).colorScheme.primary,
+                  //     offset: const Offset(1, -2),
+                  //     blurRadius: 5,
+                  //   ),
+                  //   BoxShadow(
+                  //     color: Theme.of(context).colorScheme.primary,
+                  //     offset: const Offset(-1, 2),
+                  //     blurRadius: 5,
+                  //   ),
+                  // ],
                 ),
                 child: ButtonTheme(
                   height: 50,
                   child: TextButton(
                     onPressed: () {
                       formKey.currentState!.validate();
-                      ConnectivityHelper.verifyOTP(email, currentText);
+                      ConnectivityHelper.verifyOTP(email, currentText,context);
+                      //doVerifyOTP(email,currentText );
 
                       //otpverify();
                       // conditions for validating
@@ -262,4 +264,27 @@ class _otp_verificationState
       ),
     );
   }
-}
+  // doVerifyOTP(String email, String otp) async {
+  //
+  //   var response = await ConnectivityHelper.verifyOTP(email, currentText);
+  //
+  //
+  //
+  //   if (response.statusCode == 200) {
+  //
+  //     Fluttertoast.showToast(msg: "Email Verified Successfully");
+  //     // Route route= MaterialPageRoute(builder: (_)=> LoginPage());
+  //     // Navigator.pushReplacement(context, route);
+  //     //Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => LoginPage()));
+  //     // Perform any actions you need after successful verification
+  //   } else if (response.statusCode == 400) {
+  //     Fluttertoast.showToast(msg: "Invalid OTP");
+  //     print('Invalid OTP');
+  //     // Handle invalid OTP case
+  //   } else {
+  //     Fluttertoast.showToast(msg: "Error verifying OTP");
+  //     print('Error verifying OTP');
+  //     // Handle other error cases
+  //   }
+  // }
+  }
