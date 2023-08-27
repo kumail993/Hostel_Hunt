@@ -78,6 +78,7 @@ class _LoginPageState extends State<LoginPage> {
     child:
     Form(
       key: _formKey,
+    autovalidateMode: AutovalidateMode.onUserInteraction,
     child:
     Column(
       crossAxisAlignment: CrossAxisAlignment.start,

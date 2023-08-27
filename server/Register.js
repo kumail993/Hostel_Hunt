@@ -46,6 +46,9 @@ router.route('/register').post((req, res) => {
                     to: email, // Recipient's email
                     subject: "Your Hostel-hunt Verification Code OTP Code",
                     text: `Your OTP code is: ${otp}`,
+
+
+
                 };
 
 
