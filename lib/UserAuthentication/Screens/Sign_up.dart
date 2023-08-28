@@ -160,45 +160,44 @@ class _Signup_pageState extends State<Signup_page> {
                     ),
                     TextFormField(
                       controller: password,
-                      decoration:  InputDecoration(
+                      obscureText: passwordVisible,
+                      decoration: InputDecoration(
                         hintText: 'Enter Your Password',
                         enabledBorder: OutlineInputBorder(
                           borderSide: BorderSide(
-                            width: 1, color: Theme.of(context).colorScheme.surface,),
-
+                            width: 1,
+                            color: Theme.of(context).colorScheme.surface,
+                          ),
                         ),
-                        prefixIcon: Icon(Icons.password_outlined),
-                        suffixIcon: IconButton(
-                          icon: Icon(passwordVisible
-                              ? Icons.visibility
-                              : Icons.visibility_off),
-                          onPressed: () {
-                            setState(
-                                  () {
-                                passwordVisible = !passwordVisible;
-                              },
-                            );
+                        prefixIcon: Icon(Icons.lock),
+                        suffixIcon: GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              passwordVisible = !passwordVisible;
+                            });
                           },
+                          child: Icon(
+                            passwordVisible ? Icons.visibility : Icons.visibility_off,
+                          ),
                         ),
                       ),
-                      obscureText: true,
-                      validator: (value){
-                        if(value!.isEmpty){
-                          return "Please enter password";
-                        }else{
-                          //call function to check password
+                      validator: (value) {
+                        if (value!.isEmpty) {
+                          return "Please enter a password";
+                        } else {
+                          // Call a function to check password
                           bool result = validatePassword(value);
-                          if(result){
-                            // create account event
+                          if (result) {
+                            // Password is valid
                             return null;
-                          }else{
-                            return " Password should contain Capital, small letter & Number & Special";
+                          } else {
+                            // Password is invalid
+                            return "Password should contain at least one uppercase letter, one lowercase letter, one number, and one special character.";
                           }
                         }
                       },
-
-
                     )
+
                   ],
                 )
             ),

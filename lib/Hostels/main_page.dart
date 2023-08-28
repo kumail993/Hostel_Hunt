@@ -242,7 +242,7 @@ class _home_pageState extends State<home_page> with SingleTickerProviderStateMix
                 ListTile(
 
                   //leading: Icon(Icons.article),
-                  title: const Text("Your Profile",
+                  title: const Text("Your Reservation",
                     style: TextStyle(
                       fontWeight: FontWeight.w700,
                       fontSize: 15,
@@ -252,7 +252,7 @@ class _home_pageState extends State<home_page> with SingleTickerProviderStateMix
                   trailing: const Icon(Icons.arrow_forward_ios_outlined),
                   onTap: (){
                     Navigator.pushReplacement(context,
-                      MaterialPageRoute(builder: (context) =>const profile(),
+                      MaterialPageRoute(builder: (context) => ReservationListScreen(),
 
                       ),
                     );

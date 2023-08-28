@@ -157,7 +157,7 @@ class _LoginPageState extends State<LoginPage> {
                     width: 1, color: Theme.of(context).colorScheme.surface,),
 
                 ),
-                prefixIcon: Icon(Icons.password_outlined),
+                prefixIcon: const Icon(Icons.lock),
                 suffixIcon: IconButton(
                   icon: Icon(passwordVisible
                       ? Icons.visibility
@@ -232,7 +232,7 @@ class _LoginPageState extends State<LoginPage> {
 
                   ),
                 );
-              }, child: const Text('Sign up'))
+              }, child: const Text('Create Account'))
             ],
           )
         ),

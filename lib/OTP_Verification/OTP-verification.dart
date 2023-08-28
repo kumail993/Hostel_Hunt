@@ -118,7 +118,7 @@ class _otp_verificationState
                     blinkWhenObscuring: true,
                     animationType: AnimationType.fade,
                     pinTheme: PinTheme(
-                      shape: PinCodeFieldShape.underline,
+                      shape: PinCodeFieldShape.circle,
                       borderRadius: BorderRadius.circular(5),
                       fieldHeight: 50,
                       fieldWidth: 40,

@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:findyournewhome/contants/utils.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
 Future userlogin(String email,String password) async{
   print("1");
@@ -11,6 +12,10 @@ Future userlogin(String email,String password) async{
         "student_password":password
       })
   );
+  if (response.statusCode == 403){
+
+    Fluttertoast.showToast(msg: 'User Is Not Verified');
+  }
   var DecodedData= jsonDecode(response.body);
   print(DecodedData);
   response.statusCode;

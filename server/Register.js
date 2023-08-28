@@ -44,8 +44,70 @@ router.route('/register').post((req, res) => {
                 const mailOptions = {
                     from: "Khaider308@gmail.com",
                     to: email, // Recipient's email
-                    subject: "Your Hostel-hunt Verification Code OTP Code",
-                    text: `Your OTP code is: ${otp}`,
+                    subject: "Your Hostel-hunt Verification Code",
+                    //text: `Your OTP code is: ${otp}`,
+                    html: `<html>
+                    <head>
+                    <style>
+                      body {
+                        font-family: Arial, sans-serif;
+                        background-color: white;
+                        margin: 0;
+                        padding: 0;
+                      }
+                      .container {
+                        max-width: 600px;
+                        margin: 0 auto;
+                        padding: 20px;
+                        border: 1px solid #ddd;
+                      }
+                      .header {
+                        color: #0d47a1; /* Dark Blue */
+                        font-size: 24px;
+                        margin-bottom: 10px;
+                        text-align: center;
+                      }
+                      .info {
+                        font-size: 18px;
+                        margin-bottom: 20px;
+                        text-align: center;
+                        color: #333; /* Dark Gray */
+                      }
+                      .otp {
+                        font-weight: bold;
+                        font-size: 28px;
+                        color: #0d47a1; /* Dark Blue */
+                        text-align: center;
+                        margin: 20px 0;
+                      }
+                      .footer {
+                        font-size: 14px;
+                        margin-top: 20px;
+                        color: white;
+                        background-color: #0d47a1; /* Dark Blue */
+                        padding: 10px;
+                        text-align: center;
+                      }
+                    </style>
+                  </head>
+                  <body>
+                    <div class="container">
+                      <div class="header">Verification Email</div>
+                      <div class="info">
+                        Hello, ${student_name}!<br>
+                        We're delighted to welcome you to our Hostel-hunt community.
+                      </div>
+                      <div class="otp">${otp}</div>
+                      <div class="info">
+                        Use the verification code above to complete your registration process. If you haven't initiated this request, kindly disregard this email.
+                      </div>
+                      <div class="footer">
+                        Best regards,<br>
+                        The Hostel-hunt Team
+                      </div>
+                    </div>
+                  </body>
+                    </html>`
 
 
 
