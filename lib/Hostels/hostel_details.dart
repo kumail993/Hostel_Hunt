@@ -1,8 +1,16 @@
+import 'dart:convert';
+
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:findyournewhome/Bottom_navbar/Home.dart';
 import 'package:findyournewhome/models/hostels.dart';
 import 'package:findyournewhome/Reservation/reservation%20_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+
+import '../contants/utils.dart';
+
+
+
 class HostelDetaisl extends StatefulWidget {
   const HostelDetaisl({Key? key,required this.details}) : super(key: key);
   final hostels details;
@@ -11,6 +19,31 @@ class HostelDetaisl extends StatefulWidget {
 }
 
 class _HostelDetaislState extends State<HostelDetaisl> {
+
+  late int storedId;
+
+  List<Map<String, dynamic>> roomTypeData = [];
+
+  Future<void> fetchRoomTypes(int hostelId) async {
+    final response = await http.get(Uri.parse('${Utils.baseUrl}/Hostel-hunt/roomtype/$hostelId'));
+
+    if (response.statusCode == 200) {
+      final jsonData = json.decode(response.body) as List<dynamic>;
+      roomTypeData = List<Map<String, dynamic>>.from(jsonData);
+      setState(() {});
+    } else {
+      throw Exception('Failed to load room types');
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    storedId = widget.details.id;
+    //fetchRent(storedId);
+    fetchRoomTypes(storedId);
+  }
+
   @override
   Widget build(BuildContext context) {
     return  Scaffold(
@@ -289,60 +322,25 @@ class _HostelDetaislState extends State<HostelDetaisl> {
     'Prices-PKR',
     style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)
     )),
-    ], rows: [
-      DataRow(
-        color: MaterialStateColor.resolveWith((states) {
-          // Change the background color of the DataRow based on a specific condition
-          if (states.contains(MaterialState.selected)) {
-            return Colors.green;
-          }
-          return const Color(0xff0fc1fa).withOpacity(0.1);  // Return null to use the default background color
-        }),
-        cells: const [
-      DataCell(Text('1 Seater')),
-      DataCell(Text('Stephen')),
-      DataCell(Text('22,000')),
-      ]),
-      DataRow(
-        color: MaterialStateColor.resolveWith((states) {
-          // Change the background color of the DataRow based on a specific condition
-          if (states.contains(MaterialState.selected)) {
-            return Colors.green;
-          }
-          return const Color(0xff0fc1fa).withOpacity(0.1);  // Return null to use the default background color
-        }),
-        cells: const [
-      DataCell(Text('2 seater')),
-      DataCell(Text('Stephen')),
-      DataCell(Text('18,000')),
-      ]),
-      DataRow(
-        color: MaterialStateColor.resolveWith((states) {
-          // Change the background color of the DataRow based on a specific condition
-          if (states.contains(MaterialState.selected)) {
-            return Colors.green;
-          }
-          return const Color(0xff0fc1fa).withOpacity(0.1);  // Return null to use the default background color
-        }),
-        cells: const [
-      DataCell(Text('3 Seater')),
-      DataCell(Text('Stephen')),
-      DataCell(Text('15,000')),
-      ]),
-      DataRow(
-        color: MaterialStateColor.resolveWith((states) {
-          // Change the background color of the DataRow based on a specific condition
-          if (states.contains(MaterialState.selected)) {
-            return Colors.green;
-          }
-          return const Color(0xff0fc1fa).withOpacity(0.1); // Return null to use the default background color
-        }),
-        cells: const [
-      DataCell(Text('4 Seater')),
-      DataCell(Text('Stephen')),
-      DataCell(Text('12,000')),
-      ]),
-    ],
+      ],
+      rows: roomTypeData.map<DataRow>((entry) {
+        final roomType = entry['room_type'];
+        final totalRent = entry['total_rent'];
+        return DataRow(
+          color: MaterialStateColor.resolveWith((states) {
+            // Change the background color of the DataRow based on a specific condition
+            if (states.contains(MaterialState.selected)) {
+              return Colors.green;
+            }
+            return const Color(0xff0fc1fa).withOpacity(0.1);
+          }),
+          cells: [
+            DataCell(Text(roomType)),
+            DataCell(Text('Inc Mess')), // Replace with appropriate data
+            DataCell(Text('$totalRent')), // Display total rent here
+          ],
+        );
+      }).toList(),
     ),
     ),
           Spacer(),
@@ -399,8 +397,8 @@ class _HostelDetaislState extends State<HostelDetaisl> {
           ),
           const SizedBox(height: 10,),
     ],
-      ),
-      ),
-    );
+    )
+    ),
+      );
   }
 }

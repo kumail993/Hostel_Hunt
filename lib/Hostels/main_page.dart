@@ -477,131 +477,131 @@ class _home_pageState extends State<home_page> with SingleTickerProviderStateMix
            const SizedBox(
              height: 5,
            ),
-           const Padding(padding: EdgeInsets.only(left: 20),
-           child:
-           Text('Categories',
-           style: TextStyle(
-             fontWeight: FontWeight.w700,
-             fontSize: 20,
-           ),
-           ),
-           ),
-           const SizedBox(
-             height: 10,
-           ),
+          //  const Padding(padding: EdgeInsets.only(left: 20),
+          //  child:
+          //  Text('Categories',
+          //  style: TextStyle(
+          //    fontWeight: FontWeight.w700,
+          //    fontSize: 20,
+          //  ),
+          //  ),
+          //  ),
+          //  const SizedBox(
+          //    height: 10,
+          //  ),
+          //
+          //  Row(
+          //    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          //   children: [
+          //       SizedBox(
+          //           height: 50,
+          //           width: 50,
+          //           //color: Theme.of(context).colorScheme.primary.withOpacity(0.2),
+          //           child: Card(
+          //             color: Theme.of(context).colorScheme.secondary,
+          //             shape: RoundedRectangleBorder(
+          //               // side: BorderSide(
+          //               //   color: Colors.greenAccent,
+          //               // ),
+          //               borderRadius: BorderRadius.circular(10.0), //<-- SEE HERE
+          //             ),
+          //             elevation: 20,
+          //             child:  Icon(Icons.bed_sharp,
+          //             size: 30,
+          //               color: Theme.of(context).colorScheme.primary,
+          //             ),
+          //           ),
+          //           ),
+          //       SizedBox(
+          //         height: 50,
+          //         width: 50,
+          //         //color: Theme.of(context).colorScheme.primary.withOpacity(0.2),
+          //         child:  Card(
+          //           color: Theme.of(context).colorScheme.secondary,
+          //           shape: RoundedRectangleBorder(
+          //             // side: BorderSide(
+          //             //   color: Colors.greenAccent,
+          //             // ),
+          //             borderRadius: BorderRadius.circular(10.0), //<-- SEE HERE
+          //           ),
+          //           elevation: 20,
+          //           child:  Icon(Icons.add_call,
+          //           size: 30,
+          //             color: Theme.of(context).colorScheme.primary,
+          //           ),
+          //         ),
+          //       ),
+          //         SizedBox(
+          //           height: 50,
+          //           width: 50,
+          //           //color: Theme.of(context).colorScheme.primary.withOpacity(0.2),
+          //           child:  Card(
+          //             color: Theme.of(context).colorScheme.secondary,
+          //             shape: RoundedRectangleBorder(
+          //               // side: BorderSide(
+          //               //   color: Colors.greenAccent,
+          //               // ),
+          //               borderRadius: BorderRadius.circular(10.0), //<-- SEE HERE
+          //             ),
+          //             elevation: 20,
+          //
+          //             child: Icon(Icons.account_balance,
+          //               size: 30,
+          //               color: Theme.of(context).colorScheme.primary,
+          //             ),
+          //           ),
+          //         ),
+          //
+          //         SizedBox(
+          //           height: 50,
+          //           width: 50,
+          //           //color: Theme.of(context).colorScheme.primary.withOpacity(0.2),
+          //           child:  Card(
+          //             color: Theme.of(context).colorScheme.secondary,
+          //             shape: RoundedRectangleBorder(
+          //               // side: BorderSide(
+          //               //   color: Colors.greenAccent,
+          //               // ),
+          //               borderRadius: BorderRadius.circular(10.0), //<-- SEE HERE
+          //             ),
+          //             elevation: 20,
+          //             child:  Icon(Icons.account_balance,
+          //               size: 30,
+          //               color: Theme.of(context).colorScheme.primary,
+          //             ),
+          //         )
+          //     ),
+          //         SizedBox(
+          //           height: 50,
+          //           width: 50,
+          //           //color: Theme.of(context).colorScheme.primary.withOpacity(0.2),
+          //           child:  Card(
+          //             color: Theme.of(context).colorScheme.secondary,
+          //             shape: RoundedRectangleBorder(
+          //               // side: BorderSide(
+          //               //   color: Colors.greenAccent,
+          //               // ),
+          //               borderRadius: BorderRadius.circular(10.0), //<-- SEE HERE
+          //             ),
+          //             elevation: 20,
+          //             child: Icon(Icons.account_balance,
+          //               size: 30,
+          //               color: Theme.of(context).colorScheme.primary,
+          //             ),
+          //           ),
+          //         )
+          // ]
+          //  ),
 
-           Row(
-             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-                SizedBox(
-                    height: 50,
-                    width: 50,
-                    //color: Theme.of(context).colorScheme.primary.withOpacity(0.2),
-                    child: Card(
-                      color: Theme.of(context).colorScheme.secondary,
-                      shape: RoundedRectangleBorder(
-                        // side: BorderSide(
-                        //   color: Colors.greenAccent,
-                        // ),
-                        borderRadius: BorderRadius.circular(10.0), //<-- SEE HERE
-                      ),
-                      elevation: 20,
-                      child:  Icon(Icons.bed_sharp,
-                      size: 30,
-                        color: Theme.of(context).colorScheme.primary,
-                      ),
-                    ),
-                    ),
-                SizedBox(
-                  height: 50,
-                  width: 50,
-                  //color: Theme.of(context).colorScheme.primary.withOpacity(0.2),
-                  child:  Card(
-                    color: Theme.of(context).colorScheme.secondary,
-                    shape: RoundedRectangleBorder(
-                      // side: BorderSide(
-                      //   color: Colors.greenAccent,
-                      // ),
-                      borderRadius: BorderRadius.circular(10.0), //<-- SEE HERE
-                    ),
-                    elevation: 20,
-                    child:  Icon(Icons.add_call,
-                    size: 30,
-                      color: Theme.of(context).colorScheme.primary,
-                    ),
-                  ),
-                ),
-                  SizedBox(
-                    height: 50,
-                    width: 50,
-                    //color: Theme.of(context).colorScheme.primary.withOpacity(0.2),
-                    child:  Card(
-                      color: Theme.of(context).colorScheme.secondary,
-                      shape: RoundedRectangleBorder(
-                        // side: BorderSide(
-                        //   color: Colors.greenAccent,
-                        // ),
-                        borderRadius: BorderRadius.circular(10.0), //<-- SEE HERE
-                      ),
-                      elevation: 20,
-
-                      child: Icon(Icons.account_balance,
-                        size: 30,
-                        color: Theme.of(context).colorScheme.primary,
-                      ),
-                    ),
-                  ),
-
-                  SizedBox(
-                    height: 50,
-                    width: 50,
-                    //color: Theme.of(context).colorScheme.primary.withOpacity(0.2),
-                    child:  Card(
-                      color: Theme.of(context).colorScheme.secondary,
-                      shape: RoundedRectangleBorder(
-                        // side: BorderSide(
-                        //   color: Colors.greenAccent,
-                        // ),
-                        borderRadius: BorderRadius.circular(10.0), //<-- SEE HERE
-                      ),
-                      elevation: 20,
-                      child:  Icon(Icons.account_balance,
-                        size: 30,
-                        color: Theme.of(context).colorScheme.primary,
-                      ),
-                  )
-              ),
-                  SizedBox(
-                    height: 50,
-                    width: 50,
-                    //color: Theme.of(context).colorScheme.primary.withOpacity(0.2),
-                    child:  Card(
-                      color: Theme.of(context).colorScheme.secondary,
-                      shape: RoundedRectangleBorder(
-                        // side: BorderSide(
-                        //   color: Colors.greenAccent,
-                        // ),
-                        borderRadius: BorderRadius.circular(10.0), //<-- SEE HERE
-                      ),
-                      elevation: 20,
-                      child: Icon(Icons.account_balance,
-                        size: 30,
-                        color: Theme.of(context).colorScheme.primary,
-                      ),
-                    ),
-                  )
-          ]
-           ),
-
-          const SizedBox(
-            height: 10,
-          ),
-          const Padding(padding: EdgeInsets.only(left: 10,right: 10),
-          child:
-          Divider(
-            thickness: 1,
-          ),
-          ),
+          // const SizedBox(
+          //   height: 10,
+          // ),
+          // const Padding(padding: EdgeInsets.only(left: 10,right: 10),
+          // child:
+          // Divider(
+          //   thickness: 1,
+          // ),
+          // ),
           const SizedBox(
             height: 5,
           ),

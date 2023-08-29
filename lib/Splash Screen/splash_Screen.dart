@@ -12,26 +12,6 @@ class splash_screen extends StatefulWidget {
 }
 
 class _splash_screenState extends State<splash_screen> {
-  // Timer? _timer;
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   _timer = Timer(const Duration(seconds: 10),
-  //           () {
-  //         if (mounted) {
-  //           Navigator.pushReplacement(
-  //             context,
-  //             MaterialPageRoute(builder: (context) => const LoginPage()),
-  //           );
-  //         }
-  //       }
-  //   );
-  // }
-  // @override
-  // void dispose() {
-  //   _timer?.cancel(); // Cancel the timer when the widget is disposed
-  //   super.dispose();
-  // }
   late SharedPreferences _sharedPreferences;
   @override
   void initState() {
@@ -42,7 +22,7 @@ class _splash_screenState extends State<splash_screen> {
 
   void isLogin() async {
     _sharedPreferences = await SharedPreferences.getInstance();
-    Timer(Duration(seconds: 10), () {
+    Timer(Duration(seconds: 3), () {
       if (_sharedPreferences.getInt('userid') == null &&
           _sharedPreferences.getString('usermail') == null) {
         Route route = MaterialPageRoute(builder: (_) => LoginPage());
@@ -53,6 +33,8 @@ class _splash_screenState extends State<splash_screen> {
       }
     });
   }
+  @override
+
   Widget build(BuildContext context) {
     return Scaffold(
         body: Container(
@@ -60,7 +42,7 @@ class _splash_screenState extends State<splash_screen> {
             width: double.maxFinite,
             decoration: const BoxDecoration(
               image: DecorationImage(
-                image: AssetImage("Assets/splash screen.jpg"),
+                image: AssetImage("Assets/splashScreen.jpg"),
                 fit: BoxFit.cover,
               ),
             ),
@@ -118,72 +100,69 @@ class _splash_screenState extends State<splash_screen> {
                       ),
                     )
                 ),
-        const SizedBox(
-          height: 200,
-        ),
-        Expanded(
-          flex: 1,
-          child:
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children:[
-        FittedBox(
-
-          child:Row(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: <Widget>[
-
-              ElevatedButton(
-                  style: ButtonStyle(
-                      padding: MaterialStateProperty.all(
-                        const EdgeInsets.symmetric(
-                            vertical: 20.0, horizontal: 50.0),
-                      ),
-                      foregroundColor: MaterialStateProperty.all<
-                          Color>(Theme.of(context).colorScheme.secondary,),
-                      backgroundColor: MaterialStateProperty.all<
-                          Color>( Theme.of(context).colorScheme.primary,),
-                      shape: MaterialStateProperty.all<
-                          RoundedRectangleBorder>(
-                          RoundedRectangleBorder(
-                            side:  BorderSide(color: Theme.of(context).colorScheme.primary,),
-                            borderRadius: BorderRadius.circular(
-                                18.0),
-                          )
-                      )
-                  ),
-                  onPressed: () {
-                    // Navigator.pushReplacement(context,
-                    //   // MaterialPageRoute(builder: (context) =>const LoginPage(),
-                    //
-                    // ),
-                    if (_sharedPreferences.getInt('userid') == null &&
-                        _sharedPreferences.getString('usermail') == null) {
-                      Route route = MaterialPageRoute(
-                          builder: (_) => LoginPage());
-                      Navigator.pushReplacement(context, route);
-                    } else {
-                      Route route = MaterialPageRoute(
-                          builder: (_) => MyHomePage());
-                      Navigator.pushReplacement(context, route);
-                    }
-                  },
-                  child: const Text(
-                      "Let's Start",
-                      style: TextStyle(fontSize: 20),
-                  )
-              ),
-
-
-              ],
-        ),
-        ),
+        // const SizedBox(
+        //   height: 200,
+        // ),
+        // Expanded(
+        //   flex: 1,
+        //   child:
+        // Row(
+        //   mainAxisAlignment: MainAxisAlignment.center,
+        //   children:[
+        // FittedBox(
+        //
+        //   child:Row(
+        //     mainAxisAlignment: MainAxisAlignment.start,
+        //     children: <Widget>[
+        //
+        //       ElevatedButton(
+        //           style: ButtonStyle(
+        //               padding: MaterialStateProperty.all(
+        //                 const EdgeInsets.symmetric(
+        //                     vertical: 20.0, horizontal: 50.0),
+        //               ),
+        //               foregroundColor: MaterialStateProperty.all<
+        //                   Color>(Theme.of(context).colorScheme.secondary,),
+        //               backgroundColor: MaterialStateProperty.all<
+        //                   Color>( Theme.of(context).colorScheme.primary,),
+        //               shape: MaterialStateProperty.all<
+        //                   RoundedRectangleBorder>(
+        //                   RoundedRectangleBorder(
+        //                     side:  BorderSide(color: Theme.of(context).colorScheme.primary,),
+        //                     borderRadius: BorderRadius.circular(
+        //                         18.0),
+        //                   )
+        //               )
+        //           ),
+        //           onPressed: () {
+        //             // Navigator.pushReplacement(context,
+        //             //   // MaterialPageRoute(builder: (context) =>const LoginPage(),
+        //             //
+        //             // ),
+        //             if (_sharedPreferences.getInt('userid') == null &&
+        //                 _sharedPreferences.getString('usermail') == null) {
+        //               Route route = MaterialPageRoute(
+        //                   builder: (_) => LoginPage());
+        //               Navigator.pushReplacement(context, route);
+        //             } else {
+        //               Route route = MaterialPageRoute(
+        //                   builder: (_) => MyHomePage());
+        //               Navigator.pushReplacement(context, route);
+        //             }
+        //           },
+        //           child: const Text(
+        //               "Let's Start",
+        //               style: TextStyle(fontSize: 20),
+        //           )
+        //       ),
+        //
+        //
+        //       ],
+        // ),
+        // ),
           ]
             ),
         ),
-            ]
-        ),
-    )
         );
   }
 }
