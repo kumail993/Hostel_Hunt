@@ -42,6 +42,7 @@ class ReservationListScreen extends StatefulWidget {
 class _ReservationListScreenState extends State<ReservationListScreen> {
   List<Reservation> reservations = [];
   late int Login_id;
+  late int count;
 
   //late SharedPreferences _sharedPreferences;
 
@@ -91,38 +92,83 @@ class _ReservationListScreenState extends State<ReservationListScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Reservation List'),
+        title: Center(child:Text('Reservation List')),
       ),
-      body: ListView.builder(
+      body:
+      ListView.builder(
+        shrinkWrap: true,
         itemCount: reservations.length,
         itemBuilder: (context, index) {
-          final reservation = reservations[index];
-          return
-            Column(
+          final reversedIndex = reservations.length - 1 - index;
+          final reservation = reservations[reversedIndex];
+          count = index;
+          count++;
+          if(reversedIndex<0){
+            return Center(child: Text("No result Found"));
+          }
+          else {
+            return
+              Column(
 
-          children:[
-            ListTile(
-            title: Text(reservation.hostelName),
-            subtitle: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.start,
-            children:[
-              SizedBox(height: 5,),
-              Text(reservation.reservationName),
-              SizedBox(height: 5,),
-              Text(reservation.reservationEmail),
-              SizedBox(height: 5,),
-              Text(reservation.reservationPhone),
+                children: [
+                  ListTile(
+                    title: Text(reservation.hostelName),
 
-            ]
-            ),
-            //trailing: Text(reservation.reservationType),
-          ),
-            const Divider(
-              thickness: 2,
-            )
-          ],
-          );
+                    leading: Text('$count',
+                      style: const TextStyle(
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                    subtitle: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+
+                          const SizedBox(height: 5,),
+                          Row(
+                              children: [
+                                const Text('Name: ',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w700,
+                                  ),
+                                ),
+                                Text(reservation.reservationName),
+                              ]
+                          ),
+                          const SizedBox(height: 5,),
+                          Row(
+                              children: [
+                                const Text('Email: ',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w700,
+                                  ),
+                                ),
+                                Text(reservation.reservationEmail),
+                              ]
+                          ),
+                          const SizedBox(height: 5,),
+                          Row(
+                              children: [
+                                const Text('Phone Number: ',
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w700,
+                                  ),
+                                ),
+                                Text(reservation.reservationPhone),
+                              ]
+                          ),
+
+                        ]
+                    ),
+                    //trailing: Text(reservation.reservationType),
+                  ),
+                  const Divider(
+                    thickness: 2,
+                    color: Color(0xff0fc1fa),
+                  )
+                ],
+              );
+          }
         },
       ),
     );

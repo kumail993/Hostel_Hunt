@@ -37,3 +37,21 @@ Future<List<hostels>> fetchRatedHostel() async {
     throw Exception('Failed to fetch data');
   }
 }
+
+Future<List<hostels>> fetchAllHostel() async {
+  final response = await http.get(
+      Uri.parse('${Utils.baseUrl}/Hostel-hunt/Allhostels'));
+  print('Response Status Code: ${response.statusCode}');
+  print('Response Body: ${response.body}');
+  if (response.statusCode == 200) {
+    final List<dynamic> responseData = json.decode(response.body);
+    return responseData.map((json) =>
+        hostels(
+            id: json['hostel_id'],
+            name: json['hostel_name'],
+            address: json['hostel_address'],
+            photo: json['hostel_image'])).toList();
+  } else {
+    throw Exception('Failed to fetch data');
+  }
+ }

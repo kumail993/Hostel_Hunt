@@ -24,6 +24,7 @@ class _home_pageState extends State<home_page> with SingleTickerProviderStateMix
 
   late Future<List<hostels>> PremiumhostelData;
   late Future<List<hostels>> RatedhostelData;
+  late Future<List<hostels>> AllhostelData;
 
   late String email_id = '';
 
@@ -46,6 +47,7 @@ class _home_pageState extends State<home_page> with SingleTickerProviderStateMix
     super.initState();
     PremiumhostelData = fetchPremiumHostel();
     RatedhostelData = fetchRatedHostel();
+    AllhostelData = fetchAllHostel();
     _loadData();
   }
 
@@ -58,7 +60,7 @@ class _home_pageState extends State<home_page> with SingleTickerProviderStateMix
         appBar: AppBar(
           title:  Center(child: AnimatedTextKit(
               repeatForever: true,
-              pause: const Duration(milliseconds: 5),
+              pause: const Duration(milliseconds: 20),
               stopPauseOnTap: true,
 
               animatedTexts: [
@@ -66,115 +68,139 @@ class _home_pageState extends State<home_page> with SingleTickerProviderStateMix
                 RotateAnimatedText('Find Your Hostel'),
           ])
           ),
-          // actions: [
-          //   Padding(padding: const EdgeInsets.only(right: 10),
-          //   child:
-          //       InkWell(
-          //         child:
-          //   const Icon(Icons.search_outlined,),
-          //         onTap: () => showSearch(
-          //               context: context,
-          //               delegate: SearchPage(
-          //               //onQueryUpdate: print,
-          //               items: hostels[index],
-          //               searchLabel: 'Search Hostel',
-          //               suggestion:
-          //               Container(
-          //                 height: double.maxFinite,
-          //                 width: double.maxFinite,
-          //                 decoration: const BoxDecoration(
-          //                   image: DecorationImage(
-          //                     image: AssetImage("Assets/Background.jpg"),
-          //                     fit: BoxFit.cover,
-          //                     opacity: 0.6,
-          //
-          //                   ),
-          //                 ),
-          //                 child:
-          //                Center(
-          //               child: Image.asset('Assets/searchgif.gif',height: 200,width: 200,)
-          //           ),
-          //               ),
-          //           failure:
-          //           const Center(
-          //           child: Text('No Hostel found :('),
-          //           ),
-          //           filter: (hostels) => [
-          //           hostels.name,
-          //           //person.surname,
-          //           //hostels.rent.toString(),
-          //           ],
-          //           sort: (a, b) => a.compareTo(b),
-          //           builder: (hostels) =>
-          //               GestureDetector(
-          //                 onTap:
-          //                     () {
-          //                   Navigator.of(context)
-          //                       .push(MaterialPageRoute(builder: (context) {
-          //                     return HostelDetaisl(details: hostels);
-          //                   }));
-          //                 },
-          //                 child:
-          //               Card(
-          //             shape: RoundedRectangleBorder(
-          //               // side: BorderSide(
-          //               //   color: Colors.greenAccent,
-          //               // ),
-          //               borderRadius: BorderRadius.circular(10.0), //<-- SEE HERE
-          //             ),
-          //             elevation: 10,
-          //             child:
-          //             Column(
-          //                 crossAxisAlignment: CrossAxisAlignment.start,
-          //                 children:[
-          //                       Padding(padding: const EdgeInsets.only(top: 5,left: 5,right: 5),
-          //                         child:
-          //                         Container(
-          //                           width: double.infinity,
-          //                           height: 180,
-          //                           decoration: BoxDecoration(
-          //                               borderRadius: BorderRadius.circular(10),
-          //                               shape: BoxShape.rectangle,
-          //                               image: DecorationImage(
-          //                                   fit: BoxFit.cover,
-          //                                   image: AssetImage(hostels.photo)
-          //                               )
-          //                           ),
-          //                         ),
-          //                       ),
-          //                   Padding(padding: const EdgeInsets.only(left:10,top: 5),
-          //                     child:
-          //                     Text(
-          //                       hostels.name,
-          //                       style: const TextStyle(
-          //                         fontSize: 15,
-          //                         fontWeight: FontWeight.w700,
-          //                         color: Colors.black,
-          //                       ),
-          //                     ),
-          //                   ),
-          //                   const SizedBox(
-          //                     height: 2,
-          //                   ),
-          //                   Padding(padding: const EdgeInsets.only(left:10,),
-          //                     child:
-          //                     Text(
-          //                       hostels.address,
-          //                       style: const TextStyle(
-          //                         fontSize: 15,
-          //                         fontWeight: FontWeight.w100,
-          //                       ),
-          //                     ),
-          //                   ),
-          //                 ]
-          //             ),
-          //           ),
-          //               ),
-          //           ),
-          //   ),
-          //   ),
-          //   ),
-          // ],
+          actions: [
+            Padding(padding: const EdgeInsets.only(right: 10),
+            child:
+            FutureBuilder<List<hostels>>(
+            future: AllhostelData,
+            builder: (context, snapshot) {
+              if (snapshot.connectionState ==
+                  ConnectionState.waiting) {
+                return const CircularProgressIndicator();
+              } else if (snapshot.hasError) {
+                return Text('Error: ${snapshot.error}');
+              } else {
+                final hostels = snapshot.data!;
+                return
+                  InkWell(
+                    child:
+                    const Icon(Icons.search_outlined,),
+
+                    onTap: () =>
+                        showSearch(
+                            context: context,
+                            delegate:
+                            SearchPage(
+                              //onQueryUpdate: print,
+                                items:hostels,
+                                searchLabel: 'Search Hostel',
+                                suggestion:
+                                Container(
+                                  height: double.maxFinite,
+                                  width: double.maxFinite,
+                                  decoration: const BoxDecoration(
+                                    image: DecorationImage(
+                                      image: AssetImage(
+                                          "Assets/Background.jpg"),
+                                      fit: BoxFit.cover,
+                                      opacity: 0.6,
+
+                                    ),
+                                  ),
+                                  child:
+                                  Center(
+                                      child: Image.asset(
+                                        'Assets/searchgif.gif', height: 200,
+                                        width: 200,)
+                                  ),
+                                ),
+                                failure:
+                                const Center(
+                                  child: Text('No Hostel found :('),
+                                ),
+                                filter: (hostels) => [
+                                hostels.name,
+                                //person.surname,
+                                //hostels.rent.toString(),
+                                ],
+                                sort: (a, b) => a.compareTo(b),
+                    builder: (hostels) =>
+                        GestureDetector(
+                          onTap:
+                              () {
+                            Navigator.of(context)
+                                .push(MaterialPageRoute(builder: (context) {
+                              return HostelDetaisl(details: hostels);
+                            }));
+                          },
+                          child:
+                          Card(
+                            shape: RoundedRectangleBorder(
+                              // side: BorderSide(
+                              //   color: Colors.greenAccent,
+                              // ),
+                              borderRadius: BorderRadius.circular(
+                                  10.0), //<-- SEE HERE
+                            ),
+                            elevation: 10,
+                            child:
+                            Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Padding(padding: const EdgeInsets.only(
+                                      top: 5, left: 5, right: 5),
+                                    child:
+                                    Container(
+                                      width: double.infinity,
+                                      height: 180,
+                                      decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.circular(
+                                              10),
+                                          shape: BoxShape.rectangle,
+                                          image: DecorationImage(
+                                              fit: BoxFit.cover,
+                                              image: AssetImage("Assets/${hostels.photo}")
+                                          )
+                                      ),
+                                    ),
+                                  ),
+                                  Padding(padding: const EdgeInsets.only(
+                                      left: 10, top: 5),
+                                    child:
+                                    Text(
+                                      hostels.name,
+                                      style: const TextStyle(
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.w700,
+                                        color: Colors.black,
+                                      ),
+                                    ),
+                                  ),
+                                  const SizedBox(
+                                    height: 2,
+                                  ),
+                                  Padding(padding: const EdgeInsets.only(
+                                    left: 10,),
+                                    child:
+                                    Text(
+                                      hostels.address,
+                                      style: const TextStyle(
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.w100,
+                                      ),
+                                    ),
+                                  ),
+                                ]
+                            ),
+                          ),
+                        ),
+                  ),),
+              );
+            }
+            }
+            ),
+            )
+          ],
         ),
         drawer: Drawer(
           backgroundColor: Theme.of(context).colorScheme.secondary,
@@ -214,7 +240,7 @@ class _home_pageState extends State<home_page> with SingleTickerProviderStateMix
               Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children:[
-                    Padding(padding: EdgeInsets.only(left: 30),
+                    Padding(padding: const EdgeInsets.only(left: 30),
                     child:
                     Text('$email_id',
                       style: const TextStyle(
