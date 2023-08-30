@@ -19,7 +19,7 @@ class MyApp extends StatelessWidget {
         colorScheme: defaultColorScheme,
         textTheme: GoogleFonts.latoTextTheme(Theme.of(context).textTheme),
       ),
-      home:  splash_screen(),
+      home:  const splash_screen(),
       debugShowCheckedModeBanner: false,
 
     );
@@ -30,7 +30,7 @@ ColorScheme defaultColorScheme = const ColorScheme(
   secondary: Color(0xffffffff),
   surface: Color(0xff030000),
   background: Color(0xfff7ece6),
-  error: Color(0xff0022a8),
+  error: Color(0xfffa0c03),
   onPrimary: Color(0xfff7ece6),
   onSecondary: Color(0xfffff36c),
   onSurface: Color(0xff0e0000),

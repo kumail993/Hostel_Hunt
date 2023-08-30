@@ -631,14 +631,14 @@ class _home_pageState extends State<home_page> with SingleTickerProviderStateMix
                       ),
                     ),
                             ),
-                            Padding(padding: EdgeInsets.only(right: 10),
-                            child:
-                            TextButton(onPressed: null, child: Text("View All",
-                            style: TextStyle(
-                              decoration: TextDecoration.underline,
-                            ),
-                            ))
-                            ),
+                            // Padding(padding: EdgeInsets.only(right: 10),
+                            // child:
+                            // TextButton(onPressed: null, child: Text("View All",
+                            // style: TextStyle(
+                            //   decoration: TextDecoration.underline,
+                            // ),
+                            // ))
+                            // ),
                     ]
                   ),
                   ),
@@ -886,14 +886,14 @@ const SizedBox(
                             ),
                           ),
                           ),
-                          Padding(padding: EdgeInsets.only(right: 10),
-                              child:
-                              TextButton(onPressed: null, child: Text("View All",
-                                style: TextStyle(
-                                  decoration: TextDecoration.underline,
-                                ),
-                              ))
-                          ),
+                          // Padding(padding: EdgeInsets.only(right: 10),
+                          //     child:
+                          //     TextButton(onPressed: null, child: Text("View All",
+                          //       style: TextStyle(
+                          //         decoration: TextDecoration.underline,
+                          //       ),
+                          //     ))
+                          // ),
                         ]
                     ),
                   ),
