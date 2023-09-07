@@ -52,6 +52,7 @@ class _Signup_pageState extends State<Signup_page> {
   @override
   Widget build(BuildContext context) {
     double screenHeight = MediaQuery.of(context).size.height;
+    double screenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body:
@@ -60,8 +61,9 @@ class _Signup_pageState extends State<Signup_page> {
         width: double.maxFinite,
         decoration: const BoxDecoration(
           image: DecorationImage(
-            image: AssetImage("Assets/Background.jpg"),
+            image: AssetImage("Assets/gradient_4_16.jpg"),
             fit: BoxFit.cover,
+            opacity: 0.5,
           ),
         ),
         child:
@@ -202,47 +204,96 @@ class _Signup_pageState extends State<Signup_page> {
                 )
             ),
             const SizedBox(
-              height: 50,
+              height: 30,
             ),
-            Center(
-              child: ElevatedButton(
+            Expanded(
+              flex: 1,
+              child:
+              Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children:[
+                    FittedBox(
 
-                  style: ButtonStyle(
-                      padding: MaterialStateProperty.all(
-                        const EdgeInsets.symmetric(
-                            vertical: 20.0, horizontal: 70.0),
+                      child:Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: <Widget>[
+
+                          ElevatedButton(
+                              style: ButtonStyle(
+                                  padding: MaterialStateProperty.all(
+                                    const EdgeInsets.symmetric(
+                                        vertical: 20.0, horizontal: 50.0),
+                                  ),
+                                  foregroundColor: MaterialStateProperty.all<
+                                      Color>(Theme.of(context).colorScheme.secondary,),
+                                  backgroundColor: MaterialStateProperty.all<
+                                      Color>( Theme.of(context).colorScheme.primary,),
+                                  shape: MaterialStateProperty.all<
+                                      RoundedRectangleBorder>(
+                                      RoundedRectangleBorder(
+                                        side:  BorderSide(color: Theme.of(context).colorScheme.secondary,),
+                                        borderRadius: BorderRadius.circular(
+                                            18.0),
+                                      )
+                                  )
+                              ),
+                              onPressed: () {
+
+                                if (_formKey.currentState!.validate()) {
+                // Form data is valid, proceed with submission
+                                doRegister(name.text,email.text,password.text);
+                                 }
+                              },
+                              child: const Text(
+                                  "Submit",
+                                  style: TextStyle(fontSize: 14)
+                              )
+                          ),
+
+
+                        ],
                       ),
-                      foregroundColor: MaterialStateProperty.all<
-                          Color>(Theme.of(context).colorScheme.secondary,),
-                      backgroundColor: MaterialStateProperty.all<
-                          Color>( Theme.of(context).colorScheme.primary,),
-                      shape: MaterialStateProperty.all<
-                          RoundedRectangleBorder>(
-                          RoundedRectangleBorder(
-                            side:  BorderSide(color: Theme.of(context).colorScheme.secondary,),
-                            borderRadius: BorderRadius.circular(
-                                18.0),
-                          )
-                      )
-                  ),
-                  onPressed: () {
-                      if (_formKey.currentState!.validate()) {
-                        // Form data is valid, proceed with submission
-                        doRegister(name.text,email.text,password.text);
-                      }
-                      // name.text.isNotEmpty && email.text.isNotEmpty && password.text.isNotEmpty
-                      //     ? doRegister(name.text,email.text,password.text)
-                      //     : Fluttertoast.showToast( msg: 'All Fields are required');
-                  },
-
-                  child: const Text(
-                    "Sign Up",
-                    style: TextStyle(fontSize: 14),
-                  )
+                    ),
+                  ]
               ),
             ),
-
-             Expanded(child:
+            // Center(
+            //   child: ElevatedButton(
+            //
+            //       style: ButtonStyle(
+            //           padding: MaterialStateProperty.all(
+            //             const EdgeInsets.symmetric(
+            //                 vertical: 20.0, horizontal: 50.0),
+            //           ),
+            //           foregroundColor: MaterialStateProperty.all<
+            //               Color>(Theme.of(context).colorScheme.secondary,),
+            //           backgroundColor: MaterialStateProperty.all<
+            //               Color>( Theme.of(context).colorScheme.primary,),
+            //           shape: MaterialStateProperty.all<
+            //               RoundedRectangleBorder>(
+            //               RoundedRectangleBorder(
+            //                 side:  BorderSide(color: Theme.of(context).colorScheme.secondary,),
+            //                 borderRadius: BorderRadius.circular(
+            //                     18.0),
+            //               )
+            //           )
+            //       ),
+            //       onPressed: () {
+            //           if (_formKey.currentState!.validate()) {
+            //             // Form data is valid, proceed with submission
+            //             doRegister(name.text,email.text,password.text);
+            //           }
+            //           // name.text.isNotEmpty && email.text.isNotEmpty && password.text.isNotEmpty
+            //           //     ? doRegister(name.text,email.text,password.text)
+            //           //     : Fluttertoast.showToast( msg: 'All Fields are required');
+            //       },
+            //
+            //       child: const Text(
+            //         "Sign Up",
+            //         style: TextStyle(fontSize: 14),
+            //       )
+            //   ),
+            // ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -254,10 +305,13 @@ class _Signup_pageState extends State<Signup_page> {
                 ),
                 );
                 },
-                    child: const Text('Sign in'))
+                    child:  Text('Sign in',
+                    style: TextStyle(
+                      color: Theme.of(context).colorScheme.onPrimary,
+                    ),
+                    ))
               ],
             )
-            ),
           ],
         ) ,
       ),

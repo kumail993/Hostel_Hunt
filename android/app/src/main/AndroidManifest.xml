@@ -4,7 +4,7 @@
     <application
         android:label="Hostel Hunt"
         android:name="${applicationName}"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/logo"
         android:usesCleartextTraffic="true">
         <activity
             android:name=".MainActivity"

@@ -1,3 +1,4 @@
+import 'package:findyournewhome/Bottom_navbar/Home.dart';
 import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
@@ -15,6 +16,17 @@ class _student_portalState extends State<student_portal> {
     return Scaffold(
       appBar: AppBar(
         title: const Center(child: Text('Student Portal'),),
+        leading: InkWell(
+          onTap: () {
+            Navigator.pushReplacement(context,
+              MaterialPageRoute(builder: (context) =>MyHomePage(),
+
+              ),
+            );
+          },
+
+          child:const Icon(Icons.arrow_back_ios),
+        ),
       ),
       body: Stack(
         children: [

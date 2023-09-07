@@ -7,25 +7,12 @@ const nodemailer = require("nodemailer");
 
 const app = express();
 
-router.route('/register').post((req, res) => {
+router.route('/resendotp').post((req, res) => {
     // Get params
     console.log(req.body);
-    var student_name = req.body.student_name;
     var email = req.body.email;
-    var password = req.body.password;
 
-    // Check if the email already exists in the database
-    var checkExistingQuery = "SELECT * FROM login WHERE email = ?";
-    db.query(checkExistingQuery, [email], function (error, existingUsers) {
-        if (error) {
-            res.status(500).json({ success: false, message: 'Internal server error' });
-        } else {
-            if (existingUsers.length > 0) {
-                // User with the same email already exists
-                res.status(409).json({ success: false, message: 'User with the same email already registered' });
-            } else {
-                // Generate OTP for User Authentication
-                const otp = otpGenerator.generate(6, { digits: true, alphabets: false, upperCaseAlphabets: false, lowerCaseAlphabets: false, specialChars: false });
+    const otp = otpGenerator.generate(6, { digits: true, alphabets: false, upperCaseAlphabets: false, lowerCaseAlphabets: false, specialChars: false });
                 console.log(otp);
 
                 // Send OTP to the given Email
@@ -88,7 +75,6 @@ router.route('/register').post((req, res) => {
                     <div class="container">
                       <div class="header">Verification Email</div>
                       <div class="info">
-                        Hello, ${student_name}!<br>
                         We're delighted to welcome you to our Hostel-hunt community.
                       </div>
                       <div class="otp">${otp}</div>
@@ -108,41 +94,22 @@ router.route('/register').post((req, res) => {
                     if (error) {
                         console.error("Error sending OTP:", error);
                         res.status(500).json({ success: false, message: 'Error sending OTP' });
-                    } else {
-                        console.log("OTP email sent:", info.response);
-
-                        // Create query for inserting into login table
-                        var loginSqlQuery = "INSERT INTO login(email, password, otp, created_at, active_status) VALUES (?, ?, ?, NOW(), 0)";
-
-                        // Call database to insert into login table
-                        db.query(loginSqlQuery, [email, password, otp], function (error, loginResult, fields) {
-                            if (error) {
-                                console.error("Error inserting into login table:", error);
-                                res.status(500).json({ success: false, message: 'Error inserting into login table' });
-                            } else {
-                                // Insert successful, now get the login ID
-                                var loginId = loginResult.insertId;
-                                console.log(loginId);
-
-                                // Create query for inserting into user table
-                                var userSqlQuery = "INSERT INTO student(login_id, student_name, created_at) VALUES (?, ?, NOW())";
-
-                                // Call database to insert into user table
-                                db.query(userSqlQuery, [loginId, student_name], function (error, userResult) {
-                                    if (error) {
-                                        console.error("Error inserting into user table:", error);
-                                        res.status(500).json({ success: false, message: 'Error inserting into user table' });
-                                    } else {
-                                        // Registration successful
-                                        res.status(201).json({ success: true, message: 'Registration successful' });
-                                    }
-                                });
-                            }
-                        });
                     }
-                });
+                    else {
+                        console.log("OTP email sent:", info.response);
+                    }
+                })
+
+    const query = 'UPDATE login SET otp = ? WHERE email =?'
+
+    db.query(query,[otp,email,], function (error, result, ){
+
+            if(error){
+                console.error("Error Sending OTP", error);
+                 res.status(500).json({ success: false, message: 'Error Updating otp' });
             }
-        }
+            res.status(201).json({ success: true, message: 'OTP updated successfully successful' });
+
     });
 });
 

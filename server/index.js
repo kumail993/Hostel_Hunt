@@ -14,6 +14,7 @@ const ReservationRouter = require('./reservation');
 const otpverificationRouter = require('./OTP_verification');
 const reservationlistRouter = require('./reservation_list');
 const RentRouter = require('./fetchrent');
+const ResendOTPRouter = require('./resendOtp.js')
 
 
 app.use('/Hostel-hunt',RegisterRouter);
@@ -23,6 +24,7 @@ app.use('/Hostel-hunt',ReservationRouter);
 app.use('/Hostel-hunt',otpverificationRouter);
 app.use('/Hostel-hunt',reservationlistRouter);
 app.use('/Hostel-hunt',RentRouter);
+app.use('/Hostel-hunt',ResendOTPRouter);
 
 
 app.listen(3000,()=> console.log('your server is running on port 3000'))

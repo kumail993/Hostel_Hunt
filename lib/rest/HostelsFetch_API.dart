@@ -6,7 +6,6 @@ Future<List<hostels>> fetchPremiumHostel() async {
   final response = await http.get(
       Uri.parse('${Utils.baseUrl}/Hostel-hunt/premiumhostels'));
   print('Response Status Code: ${response.statusCode}');
-  print('Response Body: ${response.body}');
   if (response.statusCode == 200) {
     final List<dynamic> responseData = json.decode(response.body);
     return responseData.map((json) =>
@@ -24,7 +23,6 @@ Future<List<hostels>> fetchRatedHostel() async {
   final response = await http.get(
       Uri.parse('${Utils.baseUrl}/Hostel-hunt/ratedhostels'));
   print('Response Status Code: ${response.statusCode}');
-  print('Response Body: ${response.body}');
   if (response.statusCode == 200) {
     final List<dynamic> responseData = json.decode(response.body);
     return responseData.map((json) =>
@@ -42,7 +40,6 @@ Future<List<hostels>> fetchAllHostel() async {
   final response = await http.get(
       Uri.parse('${Utils.baseUrl}/Hostel-hunt/Allhostels'));
   print('Response Status Code: ${response.statusCode}');
-  print('Response Body: ${response.body}');
   if (response.statusCode == 200) {
     final List<dynamic> responseData = json.decode(response.body);
     return responseData.map((json) =>

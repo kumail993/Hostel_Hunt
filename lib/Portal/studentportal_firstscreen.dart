@@ -15,13 +15,14 @@ class _studentportal_firstState extends State<studentportal_first> {
       width: double.maxFinite,
       decoration: const BoxDecoration(
         image: DecorationImage(
-          image: AssetImage("Assets/Background.jpg"),
+          image: AssetImage(
+              "Assets/gradient_4_16.jpg"),
           fit: BoxFit.cover,
           opacity: 0.6,
 
         ),
-      ),
-      child:   Padding(padding: EdgeInsets.all(50),
+        ),
+      child:   Padding(padding: const EdgeInsets.all(50),
       child:
       Card(
         elevation: 10,
@@ -30,12 +31,12 @@ class _studentportal_firstState extends State<studentportal_first> {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Padding(padding: EdgeInsets.only(left: 10,right: 10,top: 10),
-            child:Text(' Student Portal',
+             Padding(padding: EdgeInsets.only(left: 10,right: 10,top: 10),
+            child:Text(' HMS',
             style: TextStyle(
               fontWeight: FontWeight.w600,
               fontSize: 40,
-              color: Color(0xff0fc1fa),
+              color: Theme.of(context).colorScheme.surface,
             ),
             ),
             ),
@@ -51,7 +52,7 @@ class _studentportal_firstState extends State<studentportal_first> {
                   Image.asset('Assets/desktop.jpg',fit: BoxFit.fill,),
                 ),
               ),
-            Text('Click here to open students portal',),
+            const Text('Click here to open HMS',),
             const SizedBox(
               height: 10,
             ),
@@ -74,7 +75,7 @@ class _studentportal_firstState extends State<studentportal_first> {
                                     vertical: 20.0, horizontal: 50.0),
                               ),
                               foregroundColor: MaterialStateProperty.all<
-                                  Color>(Theme.of(context).colorScheme.secondary,),
+                                  Color>(Theme.of(context).colorScheme.onPrimary,),
                               backgroundColor: MaterialStateProperty.all<
                                   Color>( Theme.of(context).colorScheme.primary,),
                               shape: MaterialStateProperty.all<

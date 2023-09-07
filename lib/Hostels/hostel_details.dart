@@ -1,15 +1,12 @@
 import 'dart:convert';
-
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:findyournewhome/Bottom_navbar/Home.dart';
 import 'package:findyournewhome/models/hostels.dart';
 import 'package:findyournewhome/Reservation/reservation%20_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-
+import '../contants/navigatortransition.dart';
 import '../contants/utils.dart';
-
-
 
 class HostelDetaisl extends StatefulWidget {
   const HostelDetaisl({Key? key,required this.details}) : super(key: key);
@@ -52,8 +49,9 @@ class _HostelDetaislState extends State<HostelDetaisl> {
       width: double.maxFinite,
       decoration: const BoxDecoration(
         image: DecorationImage(
-          image: AssetImage("Assets/Background.jpg"),
+          image: AssetImage("Assets/gradient_4_16.jpg"),
           fit: BoxFit.cover,
+            opacity: 1.0
         ),
       ),
       child:
@@ -257,38 +255,6 @@ class _HostelDetaislState extends State<HostelDetaisl> {
                         ),
                 ],
               ),
-              // Column(
-              //   crossAxisAlignment: CrossAxisAlignment.start,
-              //   children: [
-              //     Row(
-              //       children:[
-              //         Icon(Icons.bathroom_outlined),
-              //         SizedBox(
-              //           width: 5,
-              //         ),
-              //     Text('Attached bath'),
-              //     ]
-              //     ),
-              //     Row(
-              //       children:[
-              //         Icon(Icons.electric_bolt_outlined),
-              //         SizedBox(
-              //           width: 5,
-              //         ),
-              //     Text('Electric backup'),
-              //     ]
-              //     ),
-              //     Row(
-              //       children:[
-              //         Icon(Icons.set_meal),
-              //         SizedBox(
-              //           width: 5,
-              //         ),
-              //     Text('abcd'),
-              //         ]
-              //     ),
-              //   ],
-              // )
 
             ],
           ),
@@ -332,18 +298,18 @@ class _HostelDetaislState extends State<HostelDetaisl> {
             if (states.contains(MaterialState.selected)) {
               return Colors.green;
             }
-            return const Color(0xff0fc1fa).withOpacity(0.1);
+            return  Theme.of(context).colorScheme.primary.withOpacity(0.3);
           }),
           cells: [
             DataCell(Text(roomType)),
-            DataCell(Text('Inc Mess')), // Replace with appropriate data
+            const DataCell(Text('Inc Mess')), // Replace with appropriate data
             DataCell(Text('$totalRent')), // Display total rent here
           ],
         );
       }).toList(),
     ),
     ),
-          Spacer(),
+          const Spacer(),
           Expanded(
             flex: 2,
             child:
@@ -363,7 +329,7 @@ class _HostelDetaislState extends State<HostelDetaisl> {
                                       vertical: 20.0, horizontal: 50.0),
                                 ),
                                 foregroundColor: MaterialStateProperty.all<
-                                    Color>(Theme.of(context).colorScheme.surface,),
+                                    Color>(Theme.of(context).colorScheme.secondary,),
                                 backgroundColor: MaterialStateProperty.all<
                                     Color>( Theme.of(context).colorScheme.primary,),
                                 shape: MaterialStateProperty.all<
@@ -376,11 +342,13 @@ class _HostelDetaislState extends State<HostelDetaisl> {
                                 )
                             ),
                             onPressed: () {
-                              Navigator.pushReplacement(context,
-                                MaterialPageRoute(builder: (context) =>Reservation(res: widget.details)
 
-                                ),
-                              );
+                              Navigator.of(context).push(FadePageRoute(page: Reservation(res: widget.details,)));
+                              // Navigator.pushReplacement(context,
+                              //   MaterialPageRoute(builder: (context) =>Reservation(res: widget.details)
+                              //
+                              //   ),
+                              // );
                             },
                             child: const Text(
                                 "Reserve",

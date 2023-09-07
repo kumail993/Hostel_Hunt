@@ -1,6 +1,4 @@
 import 'dart:convert';
-
-import 'package:findyournewhome/Reservation/reservation%20_screen.dart';
 import 'package:findyournewhome/contants/utils.dart';
 import 'package:http/http.dart' as http;
 class hostels {
@@ -8,6 +6,7 @@ class hostels {
   final String name;
   final String photo;
   final String address;
+  List<Map<String, dynamic>> roomTypeData = [];
   hostels({
     required this.id,
     required this.name,
@@ -39,5 +38,7 @@ class hostels {
     return DecodedData;
 // }
   }
-  int compareTo(hostels other) => name.compareTo(other.name);
+
+  int compareTo(hostels other) => name.compareTo(other.name,);
 }
+

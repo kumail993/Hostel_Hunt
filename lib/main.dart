@@ -26,13 +26,13 @@ class MyApp extends StatelessWidget {
   }
 }
 ColorScheme defaultColorScheme = const ColorScheme(
-  primary: Color(0xff0fc1fa),
-  secondary: Color(0xffffffff),
-  surface: Color(0xff030000),
+  primary: Color(0xE8080809),
+  secondary: Color(0xfff7f8f6),
+  surface: Color(0xff070707),
   background: Color(0xfff7ece6),
   error: Color(0xfffa0c03),
-  onPrimary: Color(0xfff7ece6),
-  onSecondary: Color(0xfffff36c),
+  onPrimary: Color(0xffaae76a),
+  onSecondary: Color(0xffe8de2d),
   onSurface: Color(0xff0e0000),
   onError: Color(0xff070000),
   onBackground: Color(0xfff7ece6),
@@ -40,3 +40,22 @@ ColorScheme defaultColorScheme = const ColorScheme(
   brightness: Brightness.light,
 );
 
+// ColorScheme defaultColorScheme = const ColorScheme(
+//   primary: Color(0xE8080809),
+//   secondary: Color(0xfff7f8f6),
+//   surface: Color(0xff070707),
+//   background: Color(0xfff7ece6),
+//   error: Color(0xfffa0c03),
+//   onPrimary: Color(0xffaae76a),
+//   onSecondary: Color(0xffe8de2d),
+//   onSurface: Color(0xff0e0000),
+//   onError: Color(0xff070000),
+//   onBackground: Color(0xfff7ece6),
+//
+//   brightness: Brightness.light,
+// );
+
+//Color(0xbec4a4f5),
+//secondary: Color(0xffffffff),
+//primary: Color(0xE8090808),
+//onPrimary: Color(0xffaae76a),

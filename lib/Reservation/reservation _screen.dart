@@ -4,12 +4,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import '../Hostels/main_page.dart';
+import '../contants/navigatortransition.dart';
 
 
 class Reservation extends StatefulWidget {
-  const Reservation({Key? key,required this.res}) : super(key: key);
+  const Reservation({Key? key,required this.res,}) : super(key: key);
 final res;
+  //final List<Map<String, dynamic>> roomtype;
   @override
   State<Reservation> createState() => _ReservationState();
 }
@@ -50,8 +51,6 @@ class _ReservationState extends State<Reservation> {
   }
   doReserve(String name, String email, String phone, String type,) async {
     var res = await widget.res.Reservation(storedId,name,email,phone,type,Login_id);
-    print(res.toString());
-    print(Login_id);
 
     if (res["success"]){
       Fluttertoast.showToast(msg: "Reservation Succesfully");
@@ -64,15 +63,31 @@ class _ReservationState extends State<Reservation> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: const Center(child:Text("Reservations"),),
+        leading: InkWell(
+          onTap: () {
+                  Navigator.pushReplacement(context,
+                    MaterialPageRoute(builder: (context) =>HostelDetaisl(details: widget.res),
+
+                    ),
+                  );
+                },
+
+    child:const Icon(Icons.arrow_back_ios),
+      ),
+      ),
       resizeToAvoidBottomInset: false,
       body:
       Container(
       height: double.maxFinite,
       width: double.maxFinite,
       decoration: const BoxDecoration(
+
         image: DecorationImage(
-          image: AssetImage("Assets/Background.jpg"),
+          image: AssetImage("Assets/gradient_4_16.jpg"),
           fit: BoxFit.cover,
+          opacity: 1.0,
         ),
       ),
       child:
@@ -82,46 +97,10 @@ class _ReservationState extends State<Reservation> {
       Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Container(
-            color: const Color(0xff0fc1fa),
-            height: 100,
-            width: double.infinity,
-            child:  Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                Padding(padding: const EdgeInsets.only(left: 10),
-                child:
-                InkWell(
-                  onTap: () {
-                    Navigator.pushReplacement(context,
-                      MaterialPageRoute(builder: (context) =>HostelDetaisl(details: widget.res),
-
-                      ),
-                    );
-                  },
-            child:
-                const Icon(Icons.arrow_back_ios,
-                color: Colors.white,
-                ),
-          ),
-                ),
-                const Padding(padding: EdgeInsets.only(left: 120,),
-                child:
-                Text('Reservation',
-                style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 20,
-                  fontWeight: FontWeight.w700,
-                ),
-                ),
-                ),
-              ],
-            ),
-          ),
           const SizedBox(
             height: 40,
           ),
-          const Padding(padding: EdgeInsets.only(left: 20),
+           Padding(padding: EdgeInsets.only(left: 20),
           child:
           Text('Full Name',
           style: TextStyle(
@@ -230,6 +209,7 @@ class _ReservationState extends State<Reservation> {
 const SizedBox(
   height: 10,
 ),
+
           Padding(padding: const EdgeInsets.only(left: 20,right: 20),
           child: TextFormField(
             controller: type,
@@ -248,7 +228,7 @@ const SizedBox(
             ),
           ),
           ),
-          Spacer(),
+          const Spacer(),
           Expanded(
             flex: 1,
             child:
@@ -268,7 +248,7 @@ const SizedBox(
                                       vertical: 20.0, horizontal: 50.0),
                                 ),
                                 foregroundColor: MaterialStateProperty.all<
-                                    Color>(Theme.of(context).colorScheme.surface,),
+                                    Color>(Theme.of(context).colorScheme.secondary,),
                                 backgroundColor: MaterialStateProperty.all<
                                     Color>( Theme.of(context).colorScheme.primary,),
                                 shape: MaterialStateProperty.all<
@@ -306,30 +286,24 @@ const SizedBox(
       ),
     );
   }
-
-
-
   }
+
 showAlertDialog(BuildContext context) async {
   // Create button
 
   Widget okButton =
   Center(
     child:
-  ElevatedButton(
-    style: ButtonStyle(
-      foregroundColor: MaterialStateProperty.all<Color>(Theme.of(context).colorScheme.secondary,),
-      backgroundColor: MaterialStateProperty.all<Color>( Theme.of(context).colorScheme.primary,),
-    ),
-    child: const Text("OK"),
+    ElevatedButton(
+      style: ButtonStyle(
+        foregroundColor: MaterialStateProperty.all<Color>(Theme.of(context).colorScheme.secondary,),
+        backgroundColor: MaterialStateProperty.all<Color>( Theme.of(context).colorScheme.primary,),
+      ),
+      child: const Text("OK"),
       onPressed: () {
-        Navigator.pushReplacement(context,
-          MaterialPageRoute(builder: (context) =>const MyHomePage(),
-
-          ),
-        );
+        Navigator.of(context).push(FadePageRoute(page: const MyHomePage()));
       },
-  ),
+    ),
   );
 
   // Create AlertDialog

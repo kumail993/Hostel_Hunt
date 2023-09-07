@@ -31,38 +31,17 @@ class _LoginPageState extends State<LoginPage> {
 
 
    late SharedPreferences _sharedPreferences;
-  // late SharedPreferences _prefs;
-  // String _savedValue = '';
-  //
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   _initSharedPreferences();
-  // }
-  //
-  // Future<void> _initSharedPreferences() async {
-  //   _prefs = await SharedPreferences.getInstance();
-  //   setState(() {
-  //     _savedValue = _prefs.getString('textfield_value') ?? '';
-  //   });
-  // }
-  //
-  // Future<void> _saveTextFieldValue() async {
-  //   await _prefs.setString('textfield_value', email_controller.text);
-  //   setState(() {
-  //     _savedValue = email_controller.text;
-  //   });
-  // }
-
-  bool passwordVisible=false;
-
+   bool passwordVisible=false;
   @override
   void initState(){
     super.initState();
     passwordVisible=true;
   }
+
   @override
   Widget build(BuildContext context) {
+    final double screenWidth = MediaQuery.of(context).size.width;
+    final double screenHeight = MediaQuery.of(context).size.height;
     return Scaffold(
       resizeToAvoidBottomInset: false,
         body:
@@ -71,8 +50,9 @@ class _LoginPageState extends State<LoginPage> {
         width: double.maxFinite,
         decoration: const BoxDecoration(
         image: DecorationImage(
-        image: AssetImage("Assets/Background.jpg"),
+        image: AssetImage("Assets/gradient_4_16.jpg"),
     fit: BoxFit.cover,
+          opacity: 0.5
     ),
     ),
     child:
@@ -81,7 +61,9 @@ class _LoginPageState extends State<LoginPage> {
     autovalidateMode: AutovalidateMode.onUserInteraction,
     child:
     Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
+      //crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisAlignment: MainAxisAlignment.center,
+      crossAxisAlignment: CrossAxisAlignment.center,
       children: [
         const SizedBox(
           height: 50,
@@ -181,37 +163,92 @@ class _LoginPageState extends State<LoginPage> {
         const SizedBox(
           height: 50,
         ),
-        Center(
-          child: ElevatedButton(
-              style: ButtonStyle(
-                  padding: MaterialStateProperty.all(
-                    const EdgeInsets.symmetric(
-                        vertical: 20.0, horizontal: 70.0),
+
+        Expanded(
+          flex: 1,
+          child:
+          Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children:[
+                FittedBox(
+
+                  child:Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: <Widget>[
+
+                      ElevatedButton(
+                          style: ButtonStyle(
+                              padding: MaterialStateProperty.all(
+                                const EdgeInsets.symmetric(
+                                    vertical: 20.0, horizontal: 50.0),
+                              ),
+                              foregroundColor: MaterialStateProperty.all<
+                                  Color>(Theme.of(context).colorScheme.secondary,),
+                              backgroundColor: MaterialStateProperty.all<
+                                  Color>( Theme.of(context).colorScheme.primary,),
+                              shape: MaterialStateProperty.all<
+                                  RoundedRectangleBorder>(
+                                  RoundedRectangleBorder(
+                                    side:  BorderSide(color: Theme.of(context).colorScheme.secondary,),
+                                    borderRadius: BorderRadius.circular(
+                                        18.0),
+                                  )
+                              )
+                          ),
+                          onPressed: () {
+                            email_controller.text.isNotEmpty && password_controller.text.isNotEmpty
+                                ? dologin(email_controller.text,password_controller.text)
+                                : Fluttertoast.showToast(msg: "All fields required");
+
+                          },
+                          child: const Text(
+                              "Login",
+                              style: TextStyle(fontSize: 14)
+                          )
+                      ),
+
+
+                    ],
                   ),
-                  foregroundColor: MaterialStateProperty.all<
-                      Color>(Theme.of(context).colorScheme.secondary,),
-                  backgroundColor: MaterialStateProperty.all<
-                      Color>( Theme.of(context).colorScheme.primary,),
-                  shape: MaterialStateProperty.all<
-                      RoundedRectangleBorder>(
-                      RoundedRectangleBorder(
-                        side:  BorderSide(color: Theme.of(context).colorScheme.secondary,),
-                        borderRadius: BorderRadius.circular(
-                            18.0),
-                      )
-                  )
-              ),
-              onPressed: () {
-                email_controller.text.isNotEmpty && password_controller.text.isNotEmpty
-                    ? dologin(email_controller.text,password_controller.text)
-                    : Fluttertoast.showToast(msg: "All fields required");
-              },
-              child: const Text(
-                "Login",
-                style: TextStyle(fontSize: 14),
-              )
+                ),
+              ]
           ),
         ),
+        // Expanded(child:
+        // Center(
+        //   child: ElevatedButton(
+        //       style: ButtonStyle(
+        //           padding: MaterialStateProperty.all(
+        //             const EdgeInsets.symmetric(
+        //                 vertical: 20.0, horizontal: 70.0),
+        //           ),
+        //           foregroundColor: MaterialStateProperty.all<
+        //               Color>(Theme.of(context).colorScheme.onPrimary,),
+        //           backgroundColor: MaterialStateProperty.all<
+        //               Color>(Color(0xfff7f8f6)),
+        //           shape: MaterialStateProperty.all<
+        //               RoundedRectangleBorder>(
+        //               RoundedRectangleBorder(
+        //                 side:  BorderSide(color: Theme.of(context).colorScheme.secondary,),
+        //                 borderRadius: BorderRadius.circular(
+        //                     18.0),
+        //               )
+        //           )
+        //       ),
+        //       onPressed: () {
+        //         email_controller.text.isNotEmpty && password_controller.text.isNotEmpty
+        //             ? dologin(email_controller.text,password_controller.text)
+        //             : Fluttertoast.showToast(msg: "All fields required");
+        //       },
+        //       child:  Text(
+        //         "Login",
+        //         style: TextStyle(fontSize: screenWidth * 0.05,
+        //         color: Theme.of(context).colorScheme.secondary,
+        //         ),
+        //       )
+        //   ),
+        // ),
+        // ),
         const SizedBox(
           height: 10,
         ),
@@ -232,14 +269,18 @@ class _LoginPageState extends State<LoginPage> {
 
                   ),
                 );
-              }, child: const Text('Create Account'))
+              }, child:  Text('Create Account',
+              style: TextStyle(
+                color: Theme.of(context).colorScheme.onPrimary
+              ),
+              ))
             ],
           )
         ),
       ],
     ) ,
-    ),
         ),
+    ),
         );
   }
 
@@ -265,8 +306,6 @@ class _LoginPageState extends State<LoginPage> {
 
       // await setLoggedIn();
       // Navigator.pushReplacementNamed(context, '/main');
-    }else{
-      Fluttertoast.showToast(msg: 'Email and password not valid');
     }
   }
 }

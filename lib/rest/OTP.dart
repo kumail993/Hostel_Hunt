@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
@@ -35,29 +34,3 @@ class ConnectivityHelper {
     }
   }
 }
-
-
-
-// import 'dart:convert';
-// import 'package:http/http.dart' as http;
-//
-// import '../contants/utils.dart';
-//
-//
-//
-// Future OTP(String otp, String email) async{
-//   print("1");
-//   final response= await http.post(
-//       Uri.parse('${Utils.baseUrl}/Hostel-hunt/otpverification'),
-//       headers: {  'Content-Type':'application/json',},
-//       body: jsonEncode({
-//         "otp":otp,
-//         "email":email
-//       })
-//   );
-//   var DecodedData= jsonDecode(response.body);
-//   print(DecodedData);
-//   response.statusCode;
-//   print(response.statusCode);
-//   return DecodedData;
-// }

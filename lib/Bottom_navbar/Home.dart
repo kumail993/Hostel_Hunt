@@ -1,8 +1,10 @@
 import 'package:animated_notch_bottom_bar/animated_notch_bottom_bar/animated_notch_bottom_bar.dart';
 import 'package:findyournewhome/Hostels/main_page.dart';
 import 'package:findyournewhome/Portal/studentportal_firstscreen.dart';
-import 'package:findyournewhome/User%20profile/user_profile.dart';
+//import 'package:findyournewhome/User%20profile/myreservations.dart';
 import 'package:flutter/material.dart';
+
+import '../myreservations/myreservations.dart';
 class MyHomePage extends StatefulWidget {
   const MyHomePage({Key? key}) : super(key: key);
 
@@ -47,30 +49,31 @@ class _MyHomePageState extends State<MyHomePage> {
         extendBody: true,
         bottomNavigationBar: (bottomBarPages.length <= maxCount)
             ? AnimatedNotchBottomBar(
-          color: const Color(0xff0fc1fa),
+          color: Theme.of(context).colorScheme.primary,
           showLabel: false,
-          notchColor: Colors.white,
+          notchColor: Theme.of(context).colorScheme.onPrimary,
           notchBottomBarController: _controller,
-          bottomBarItems: const [
+          bottomBarItems:  [
             BottomBarItem(
               inActiveItem: Icon(
                 Icons.person,
-                color: Colors.white,
+                //color: Colors.white,
+                color: Theme.of(context).colorScheme.onPrimary,
               ),
               activeItem: Icon(
                 Icons.person,
-                color: Color(0xff0fc1fa),
+                color: Theme.of(context).colorScheme.primary,
               ),
               itemLabel: 'Page 1',
             ),
             BottomBarItem(
               inActiveItem: Icon(
                 Icons.home,
-                color: Colors.white,
+                color: Theme.of(context).colorScheme.onPrimary,
               ),
               activeItem: Icon(
                 Icons.home,
-                color: Color(0xff0fc1fa),
+                color: Theme.of(context).colorScheme.primary,
               ),
               itemLabel: 'Page 2',
             ),
@@ -78,11 +81,11 @@ class _MyHomePageState extends State<MyHomePage> {
             BottomBarItem(
               inActiveItem: Icon(
                 Icons.desktop_windows,
-                color: Colors.white,
+                color: Theme.of(context).colorScheme.onPrimary,
               ),
               activeItem: Icon(
                 Icons.desktop_windows,
-                color: Color(0xff0fc1fa),
+                color: Theme.of(context).colorScheme.primary,
               ),
               itemLabel: 'Page 3',
             ),

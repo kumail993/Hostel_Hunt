@@ -3,7 +3,6 @@ import 'package:findyournewhome/contants/utils.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
 Future userlogin(String email,String password) async{
-  print("1");
   final response= await http.post(
       Uri.parse('${Utils.baseUrl}/Hostel-hunt/login'),
       headers: {  'Content-Type':'application/json',},
@@ -16,9 +15,13 @@ Future userlogin(String email,String password) async{
 
     Fluttertoast.showToast(msg: 'User Is Not Verified');
   }
+  if(response.statusCode == 500){
+    Fluttertoast.showToast(msg: 'Connection error');
+  }
+  if(response.statusCode==401){
+    Fluttertoast.showToast(msg: 'Incorrect Email or password');
+  }
   var DecodedData= jsonDecode(response.body);
-  print(DecodedData);
   response.statusCode;
-  print(response.statusCode);
   return DecodedData;
 }

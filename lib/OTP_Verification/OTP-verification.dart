@@ -1,8 +1,9 @@
 import 'dart:async';
 import 'package:findyournewhome/rest/OTP.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
+
+import '../rest/ResendOtp.dart';
 
 
 class otp_verification extends StatefulWidget {
@@ -175,7 +176,10 @@ class _otp_verificationState
                     style: TextStyle(color: Colors.black54, fontSize: 15),
                   ),
                   TextButton(
-                    onPressed: () => snackBar("OTP resend!!"),
+                    onPressed: () {
+                      resendOtp(email);
+
+                    },
                     child: const Text(
                       "RESEND",
                       style: TextStyle(
@@ -196,18 +200,6 @@ class _otp_verificationState
                 decoration: BoxDecoration(
                   color: Theme.of(context).colorScheme.primary,
                   borderRadius: BorderRadius.circular(5),
-                  // boxShadow: [
-                  //   BoxShadow(
-                  //     color: Theme.of(context).colorScheme.primary,
-                  //     offset: const Offset(1, -2),
-                  //     blurRadius: 5,
-                  //   ),
-                  //   BoxShadow(
-                  //     color: Theme.of(context).colorScheme.primary,
-                  //     offset: const Offset(-1, 2),
-                  //     blurRadius: 5,
-                  //   ),
-                  // ],
                 ),
                 child: ButtonTheme(
                   height: 50,
@@ -215,19 +207,6 @@ class _otp_verificationState
                     onPressed: () {
                       formKey.currentState!.validate();
                       ConnectivityHelper.verifyOTP(email, currentText,context);
-                      //doVerifyOTP(email,currentText );
-
-                      //otpverify();
-                      // conditions for validating
-                      // if (currentText.length != 6 || currentText != "123456") {
-                      //   errorController!.add(ErrorAnimationType.shake);
-                      //   setState(() => hasError = true);
-                      // } else {
-                      //   setState(() {
-                      //     hasError = false;
-                      //     snackBar("OTP Verified!!");
-                      //   });
-                      // }
                     },
                     child: Center(
                       child: Text(
@@ -264,27 +243,4 @@ class _otp_verificationState
       ),
     );
   }
-  // doVerifyOTP(String email, String otp) async {
-  //
-  //   var response = await ConnectivityHelper.verifyOTP(email, currentText);
-  //
-  //
-  //
-  //   if (response.statusCode == 200) {
-  //
-  //     Fluttertoast.showToast(msg: "Email Verified Successfully");
-  //     // Route route= MaterialPageRoute(builder: (_)=> LoginPage());
-  //     // Navigator.pushReplacement(context, route);
-  //     //Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => LoginPage()));
-  //     // Perform any actions you need after successful verification
-  //   } else if (response.statusCode == 400) {
-  //     Fluttertoast.showToast(msg: "Invalid OTP");
-  //     print('Invalid OTP');
-  //     // Handle invalid OTP case
-  //   } else {
-  //     Fluttertoast.showToast(msg: "Error verifying OTP");
-  //     print('Error verifying OTP');
-  //     // Handle other error cases
-  //   }
-  // }
   }
