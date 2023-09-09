@@ -44,6 +44,7 @@ class _splash_screenState extends State<splash_screen> {
               image: DecorationImage(
                 image: AssetImage("Assets/splashScreen.jpg"),
                 fit: BoxFit.cover,
+                opacity: 0.8,
               ),
             ),
 

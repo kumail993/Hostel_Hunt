@@ -49,9 +49,9 @@ class _HostelDetaislState extends State<HostelDetaisl> {
       width: double.maxFinite,
       decoration: const BoxDecoration(
         image: DecorationImage(
-          image: AssetImage("Assets/gradient_4_16.jpg"),
+          image: AssetImage("Assets/background5.0.jpg"),
           fit: BoxFit.cover,
-            opacity: 1.0
+            opacity: 0.5
         ),
       ),
       child:
@@ -326,7 +326,7 @@ class _HostelDetaislState extends State<HostelDetaisl> {
                             style: ButtonStyle(
                                 padding: MaterialStateProperty.all(
                                   const EdgeInsets.symmetric(
-                                      vertical: 20.0, horizontal: 50.0),
+                                      vertical: 20.0, horizontal: 100.0),
                                 ),
                                 foregroundColor: MaterialStateProperty.all<
                                     Color>(Theme.of(context).colorScheme.secondary,),

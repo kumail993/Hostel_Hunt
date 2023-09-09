@@ -83,7 +83,8 @@ class _ReservationListScreenState extends State<ReservationListScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return
+      Scaffold(
       appBar: AppBar(
         title:  Center(child:Text('Reservation List',
         style: TextStyle(
@@ -100,7 +101,7 @@ class _ReservationListScreenState extends State<ReservationListScreen> {
               child: Opacity(
                 opacity: 0.7, // Adjust the opacity value as needed
                 child: Image.asset(
-                  "Assets/emptygif.gif",
+                  "Assets/EmptyReservation.gif",
                   fit: BoxFit.cover,
                   width: 200.0, // Set the width to your desired size
                   height: 200.0,

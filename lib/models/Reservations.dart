@@ -3,7 +3,7 @@ class Reservation {
   final String reservationName;
   final String reservationEmail;
   final String reservationPhone;
-  //final int reservationType;
+  //final String reservationType;
   final String hostelName;
 
   Reservation({
@@ -21,7 +21,7 @@ class Reservation {
       reservationName: json['name'],
       reservationEmail: json['email'],
       reservationPhone: json['ph_no'],
-      //reservationType: json['type'],
+      //reservationType: json['type'.toString()],
       hostelName: json['hostel_name'],
     );
   }

@@ -1,6 +1,7 @@
 import 'package:animated_notch_bottom_bar/animated_notch_bottom_bar/animated_notch_bottom_bar.dart';
 import 'package:findyournewhome/Hostels/main_page.dart';
 import 'package:findyournewhome/Portal/studentportal_firstscreen.dart';
+import 'package:flutter/gestures.dart';
 //import 'package:findyournewhome/User%20profile/myreservations.dart';
 import 'package:flutter/material.dart';
 
@@ -40,11 +41,17 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: PageView(
+        body:
+        PageView(
           controller: _pageController,
+          allowImplicitScrolling: true,
+          clipBehavior: Clip.antiAliasWithSaveLayer,
+          dragStartBehavior: DragStartBehavior.start,
+          padEnds: true,
           physics: const NeverScrollableScrollPhysics(),
           children: List.generate(
-              bottomBarPages.length, (index) => bottomBarPages[index]),
+              bottomBarPages.length, (index) => bottomBarPages[index],)
+
         ),
         extendBody: true,
         bottomNavigationBar: (bottomBarPages.length <= maxCount)
@@ -56,12 +63,12 @@ class _MyHomePageState extends State<MyHomePage> {
           bottomBarItems:  [
             BottomBarItem(
               inActiveItem: Icon(
-                Icons.person,
+              Icons.notes_sharp,
                 //color: Colors.white,
                 color: Theme.of(context).colorScheme.onPrimary,
               ),
               activeItem: Icon(
-                Icons.person,
+                  Icons.notes_sharp,
                 color: Theme.of(context).colorScheme.primary,
               ),
               itemLabel: 'Page 1',

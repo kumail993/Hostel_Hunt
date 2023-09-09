@@ -3,6 +3,7 @@ import 'package:findyournewhome/Hostels/hostel_details.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:intl_phone_number_input/intl_phone_number_input.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../contants/navigatortransition.dart';
 
@@ -23,6 +24,9 @@ class _ReservationState extends State<Reservation> {
   final TextEditingController email = TextEditingController();
   final TextEditingController phone = TextEditingController();
   final TextEditingController type = TextEditingController();
+
+  String initialCountry = 'PK';
+  PhoneNumber number = PhoneNumber(isoCode: 'PK');
 
 
     late int Login_id;
@@ -53,7 +57,6 @@ class _ReservationState extends State<Reservation> {
     var res = await widget.res.Reservation(storedId,name,email,phone,type,Login_id);
 
     if (res["success"]){
-      Fluttertoast.showToast(msg: "Reservation Succesfully");
        showAlertDialog( context);
     }else{
       Fluttertoast.showToast(msg: 'Reservation Failed');
@@ -67,11 +70,7 @@ class _ReservationState extends State<Reservation> {
         title: const Center(child:Text("Reservations"),),
         leading: InkWell(
           onTap: () {
-                  Navigator.pushReplacement(context,
-                    MaterialPageRoute(builder: (context) =>HostelDetaisl(details: widget.res),
-
-                    ),
-                  );
+            Navigator.of(context).push(FadePageRoute(page: HostelDetaisl(details: widget.res,)));
                 },
 
     child:const Icon(Icons.arrow_back_ios),
@@ -85,9 +84,9 @@ class _ReservationState extends State<Reservation> {
       decoration: const BoxDecoration(
 
         image: DecorationImage(
-          image: AssetImage("Assets/gradient_4_16.jpg"),
+          image: AssetImage("Assets/background5.0.jpg"),
           fit: BoxFit.cover,
-          opacity: 1.0,
+          opacity: 0.5,
         ),
       ),
       child:
@@ -177,22 +176,52 @@ class _ReservationState extends State<Reservation> {
             height: 10,
           ),
         Padding(padding: const EdgeInsets.only(left: 20,right: 20),
-          child: TextFormField(
-            controller: phone,
+          child: InternationalPhoneNumberInput(
             maxLength: 11,
-            keyboardType: TextInputType.number,
-            inputFormatters: <TextInputFormatter>[
-              FilteringTextInputFormatter.digitsOnly
-            ],
-            decoration:  InputDecoration(
-              hintText: '03*********',
-              enabledBorder: OutlineInputBorder(
-                borderSide: BorderSide(
-                  width: 1, color: Theme.of(context).colorScheme.surface,),
-
-              ),
+            spaceBetweenSelectorAndTextField: 0,
+            onInputChanged: (PhoneNumber number) {
+              //print(number.phoneNumber);
+            },
+            onInputValidated: (bool value) {
+              //print(value);
+            },
+            selectorConfig: SelectorConfig(
+              selectorType: PhoneInputSelectorType.BOTTOM_SHEET,
             ),
+            ignoreBlank: false,
+            autoValidateMode: AutovalidateMode.disabled,
+            selectorTextStyle: TextStyle(color: Colors.black),
+            initialValue: number,
+            textFieldController: phone,
+            formatInput: true,
+            keyboardType:
+            TextInputType.numberWithOptions(signed: true, decimal: true),
+            //inputBorder: OutlineInputBorder(),
+            inputBorder: OutlineInputBorder(
+              borderSide: BorderSide(
+                width: 1, color: Theme.of(context).colorScheme.surface,),
+
+            ),
+            onSaved: (PhoneNumber number) {
+              print('On Saved: $number');
+            },
           ),
+          // child: TextFormField(
+          //   controller: phone,
+          //   maxLength: 11,
+          //   keyboardType: TextInputType.number,
+          //   inputFormatters: <TextInputFormatter>[
+          //     FilteringTextInputFormatter.digitsOnly
+          //   ],
+          //   decoration:  InputDecoration(
+          //     hintText: '03*********',
+          //     enabledBorder: OutlineInputBorder(
+          //       borderSide: BorderSide(
+          //         width: 1, color: Theme.of(context).colorScheme.surface,),
+          //
+          //     ),
+          //   ),
+          // ),
         ),
           const SizedBox(
             height: 10,
@@ -245,12 +274,12 @@ const SizedBox(
                             style: ButtonStyle(
                                 padding: MaterialStateProperty.all(
                                   const EdgeInsets.symmetric(
-                                      vertical: 20.0, horizontal: 50.0),
+                                      vertical: 20.0, horizontal: 100.0),
                                 ),
                                 foregroundColor: MaterialStateProperty.all<
                                     Color>(Theme.of(context).colorScheme.secondary,),
                                 backgroundColor: MaterialStateProperty.all<
-                                    Color>( Theme.of(context).colorScheme.primary,),
+                                    Color>(Theme.of(context).colorScheme.primary,),
                                 shape: MaterialStateProperty.all<
                                     RoundedRectangleBorder>(
                                     RoundedRectangleBorder(
@@ -285,6 +314,14 @@ const SizedBox(
       ),
       ),
     );
+  }
+  void getPhoneNumber(String phoneNumber) async {
+    PhoneNumber number =
+    await PhoneNumber.getRegionInfoFromPhoneNumber(phoneNumber, 'PK');
+
+    setState(() {
+      this.number = number;
+    });
   }
   }
 

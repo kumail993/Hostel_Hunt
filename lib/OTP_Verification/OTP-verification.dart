@@ -51,7 +51,18 @@ class _otp_verificationState
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      body: GestureDetector(
+      body:  Container(
+        height: double.maxFinite,
+        width: double.maxFinite,
+        decoration: const BoxDecoration(
+        image: DecorationImage(
+        image: AssetImage("Assets/background5.0.jpg"),
+    fit: BoxFit.cover,
+    opacity: 0.5
+    ),
+    ),
+    child:
+      GestureDetector(
         onTap: () {},
         child: SizedBox(
           height: MediaQuery.of(context).size.height,
@@ -63,7 +74,7 @@ class _otp_verificationState
                 height: MediaQuery.of(context).size.height / 3,
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(30),
-                  child: Image.asset("Assets/otpverification.jpg"),
+                  child: Image.asset("Assets/otpverification.png"),
                 ),
               ),
               const SizedBox(height: 8),
@@ -240,6 +251,7 @@ class _otp_verificationState
             ],
           ),
         ),
+      ),
       ),
     );
   }

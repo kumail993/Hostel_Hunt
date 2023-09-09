@@ -1,4 +1,5 @@
 
+import 'package:findyournewhome/Hostels/main_page.dart';
 import 'package:findyournewhome/Splash%20Screen/splash_Screen.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -18,6 +19,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         colorScheme: defaultColorScheme,
         textTheme: GoogleFonts.latoTextTheme(Theme.of(context).textTheme),
+        visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       home:  const splash_screen(),
       debugShowCheckedModeBanner: false,
@@ -26,12 +28,12 @@ class MyApp extends StatelessWidget {
   }
 }
 ColorScheme defaultColorScheme = const ColorScheme(
-  primary: Color(0xE8080809),
+  primary: Color(0xFF064373),
   secondary: Color(0xfff7f8f6),
   surface: Color(0xff070707),
   background: Color(0xfff7ece6),
   error: Color(0xfffa0c03),
-  onPrimary: Color(0xffaae76a),
+  onPrimary: Color(0xfffcfdfd),
   onSecondary: Color(0xffe8de2d),
   onSurface: Color(0xff0e0000),
   onError: Color(0xff070000),
