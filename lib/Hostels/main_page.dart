@@ -24,9 +24,10 @@ class home_page extends StatefulWidget {
 class _home_pageState extends State<home_page> with SingleTickerProviderStateMixin {
   int _currentIndex = 0;
 
-  late Future<List<hostels>> PremiumhostelData;
-  late Future<List<hostels>> RatedhostelData;
-  late Future<List<hostels>> AllhostelData;
+  // late Future<List<hostels>> PremiumhostelData;
+  // late Future<List<hostels>> RatedhostelData;
+  late Future<List<Hostel>> AllhostelData;
+
 
   late String email_id = '';
 
@@ -46,9 +47,9 @@ class _home_pageState extends State<home_page> with SingleTickerProviderStateMix
   @override
   void initState() {
     super.initState();
-    PremiumhostelData = fetchPremiumHostel();
-    RatedhostelData = fetchRatedHostel();
-    AllhostelData = fetchAllHostel();
+    // PremiumhostelData = fetchPremiumHostel();
+    // RatedhostelData = fetchRatedHostel();
+     AllhostelData = fetchPostData();
     _loadData();
   }
 
@@ -91,7 +92,7 @@ class _home_pageState extends State<home_page> with SingleTickerProviderStateMix
             actions: [
               Padding(padding: const EdgeInsets.only(right: 10),
                 child:
-                FutureBuilder<List<hostels>>(
+                FutureBuilder<List<Hostel>>(
                     future: AllhostelData,
                     builder: (context, snapshot) {
                       if (snapshot.connectionState ==
@@ -151,7 +152,7 @@ class _home_pageState extends State<home_page> with SingleTickerProviderStateMix
                                     ),
                                     filter: (hostels) =>
                                     [
-                                      hostels.name,
+                                      hostels.HostelName,
                                       //hostels.roomTypeData,
                                       //person.surname,
                                       //hostels.rent.toString(),
@@ -198,8 +199,7 @@ class _home_pageState extends State<home_page> with SingleTickerProviderStateMix
                                                           image: DecorationImage(
                                                               fit: BoxFit.cover,
                                                               image: AssetImage(
-                                                                  "Assets/${hostels
-                                                                      .photo}")
+                                                                  "Assets/2.jpg")
                                                           )
                                                       ),
                                                     ),
@@ -209,7 +209,7 @@ class _home_pageState extends State<home_page> with SingleTickerProviderStateMix
                                                         left: 10, top: 5),
                                                     child:
                                                     Text(
-                                                      hostels.name,
+                                                      hostels.HostelName,
                                                       style: const TextStyle(
                                                         fontSize: 15,
                                                         fontWeight: FontWeight.w700,
@@ -225,7 +225,7 @@ class _home_pageState extends State<home_page> with SingleTickerProviderStateMix
                                                       left: 10,),
                                                     child:
                                                     Text(
-                                                      hostels.address,
+                                                      hostels.postmeta[2]['meta_key'],
                                                       style: const TextStyle(
                                                         fontSize: 15,
                                                         fontWeight: FontWeight.w100,
@@ -604,8 +604,8 @@ class _home_pageState extends State<home_page> with SingleTickerProviderStateMix
                               ),
                               Expanded(
                                   child:
-                                  FutureBuilder<List<hostels>>(
-                                    future: PremiumhostelData,
+                                  FutureBuilder<List<Hostel>>(
+                                    future: AllhostelData,
                                     builder: (context, snapshot) {
                                       if (snapshot.connectionState ==
                                           ConnectionState.waiting) {
@@ -622,14 +622,18 @@ class _home_pageState extends State<home_page> with SingleTickerProviderStateMix
                                             itemCount: hostels.length,
                                             itemBuilder: (BuildContext context,
                                                 int index) {
-                                              //hostels popuu = hostels[index];
+                                              final post = hostels[index];
                                               return GestureDetector(
                                                 onTap:
                                                     () {
-                                                  Navigator.of(context).push(
-                                                      FadePageRoute(
-                                                          page: HostelDetaisl(
-                                                              details: hostels[index])));
+                                                      Navigator.of(context).push(
+                                                          FadePageRoute(
+                                                              page: HostelDetaisl(
+                                                                  details: hostels[index])));
+                                                  // Navigator.of(context).push(
+                                                  //     FadePageRoute(
+                                                  //         page: HostelDetaisl(
+                                                  //             details: hostels[index])));
                                                   // Navigator.of(context)
                                                   //     .push(MaterialPageRoute(
                                                   //     builder: (context) {
@@ -646,7 +650,7 @@ class _home_pageState extends State<home_page> with SingleTickerProviderStateMix
                                                         left: 2,),
                                                       child:
                                                       Container(
-                                                        height: 280,
+                                                        height: 316,
                                                         width: 190,
                                                         margin: const EdgeInsets
                                                             .only(
@@ -707,8 +711,7 @@ class _home_pageState extends State<home_page> with SingleTickerProviderStateMix
                                                                               fit: BoxFit
                                                                                   .cover,
                                                                               image: AssetImage(
-                                                                                  "Assets/${hostels[index]
-                                                                                      .photo}"),
+                                                                                  "Assets/2.jpg"),
                                                                             )
                                                                         ),
                                                                       ),
@@ -734,6 +737,39 @@ class _home_pageState extends State<home_page> with SingleTickerProviderStateMix
                                                                         ),
                                                                       ),
                                                                     ),
+                                                                    // Positioned(
+                                                                    //   bottom: 0,
+                                                                    //   child:
+                                                                    // Padding(
+                                                                    //     padding: const EdgeInsets
+                                                                    //         .only(
+                                                                    //         left: 10),
+                                                                    //     child:
+                                                                    //     Row(
+                                                                    //       children: [
+                                                                    //         Icon(Icons.bed_outlined,
+                                                                    //           color: Theme
+                                                                    //               .of(
+                                                                    //               context)
+                                                                    //               .colorScheme
+                                                                    //               .primary,
+                                                                    //         ),
+                                                                    //         Text(post.postmeta[1]['meta_value'],),
+                                                                    //         SizedBox(width: 20,),
+                                                                    //         Icon(Icons.bathroom,
+                                                                    //           color: Theme
+                                                                    //               .of(
+                                                                    //               context)
+                                                                    //               .colorScheme
+                                                                    //               .primary,
+                                                                    //         ),
+                                                                    //         Text(post.postmeta[0]['meta_value'],),
+                                                                    //
+                                                                    //       ],
+                                                                    //     )
+                                                                    // ),
+                                                                    // ),
+
 
                                                                   ],
                                                                 ),
@@ -744,8 +780,7 @@ class _home_pageState extends State<home_page> with SingleTickerProviderStateMix
                                                                       top: 5),
                                                                   child:
                                                                   Text(
-                                                                    hostels[index]
-                                                                        .name,
+                                                                    post.HostelName,
                                                                     style: const TextStyle(
                                                                       fontSize: 15,
                                                                       fontWeight: FontWeight
@@ -764,8 +799,9 @@ class _home_pageState extends State<home_page> with SingleTickerProviderStateMix
                                                                     left: 10,),
                                                                   child:
                                                                   Text(
-                                                                    hostels[index]
-                                                                        .address,
+                                                                    post.postmeta[2]['meta_value'],
+                                                                    overflow: TextOverflow.ellipsis,
+                                                                    maxLines: 2,
                                                                     style: const TextStyle(
                                                                       fontSize: 15,
                                                                       fontWeight: FontWeight
@@ -790,27 +826,16 @@ class _home_pageState extends State<home_page> with SingleTickerProviderStateMix
                                                                               .colorScheme
                                                                               .primary,
                                                                         ),
-                                                                        Icon(Icons.food_bank_outlined,
-                                                                          color: Theme
-                                                                              .of(
-                                                                              context).colorScheme.primary,
-                                                                        ),
-                                                                        Icon(Icons.electric_bolt_rounded,
-                                                                          color: Theme.of(context).colorScheme.primary,),
-                                                                        Icon(Icons.room_service_outlined,
+                                                                        Text(post.postmeta[1]['meta_value'],),
+                                                                        SizedBox(width: 20,),
+                                                                        Icon(Icons.bathroom,
                                                                           color: Theme
                                                                               .of(
                                                                               context)
                                                                               .colorScheme
                                                                               .primary,
                                                                         ),
-                                                                        Icon(Icons.night_shelter_outlined,
-                                                                          color: Theme
-                                                                              .of(
-                                                                              context)
-                                                                              .colorScheme
-                                                                              .primary,
-                                                                        ),
+                                                                        Text(post.postmeta[0]['meta_value'],),
 
                                                                       ],
                                                                     )
@@ -880,8 +905,8 @@ class _home_pageState extends State<home_page> with SingleTickerProviderStateMix
                               ),
                               Expanded(
                                   child:
-                                  FutureBuilder<List<hostels>>(
-                                    future: RatedhostelData,
+                                  FutureBuilder<List<Hostel>>(
+                                    future: AllhostelData,
                                     builder: (context, snapshot) {
                                       if (snapshot.connectionState ==
                                           ConnectionState.waiting) {
@@ -899,6 +924,7 @@ class _home_pageState extends State<home_page> with SingleTickerProviderStateMix
                                             itemBuilder: (BuildContext context,
                                                 int index) {
                                               //hostels popuu = hostels[index];
+                                              final post = hostels[index];
                                               return GestureDetector(
                                                 onTap:
                                                     () {
@@ -906,12 +932,6 @@ class _home_pageState extends State<home_page> with SingleTickerProviderStateMix
                                                       FadePageRoute(
                                                           page: HostelDetaisl(
                                                               details: hostels[index])));
-                                                  // Navigator.of(context)
-                                                  //     .push(MaterialPageRoute(
-                                                  //     builder: (context) {
-                                                  //       return HostelDetaisl(
-                                                  //           details: hostels[index]);
-                                                  //     }));
                                                 },
                                                 child:
                                                 Column(
@@ -922,7 +942,7 @@ class _home_pageState extends State<home_page> with SingleTickerProviderStateMix
                                                         left: 2,),
                                                       child:
                                                       Container(
-                                                        height: 280,
+                                                        height: 316,
                                                         width: 190,
                                                         margin: const EdgeInsets
                                                             .only(
@@ -983,8 +1003,7 @@ class _home_pageState extends State<home_page> with SingleTickerProviderStateMix
                                                                               fit: BoxFit
                                                                                   .cover,
                                                                               image: AssetImage(
-                                                                                  "Assets/${hostels[index]
-                                                                                      .photo}"),
+                                                                                  "Assets/2.jpg"),
                                                                             )
                                                                         ),
                                                                       ),
@@ -1020,8 +1039,7 @@ class _home_pageState extends State<home_page> with SingleTickerProviderStateMix
                                                                       top: 5),
                                                                   child:
                                                                   Text(
-                                                                    hostels[index]
-                                                                        .name,
+                                                                    post.HostelName,
                                                                     style: const TextStyle(
                                                                       fontSize: 15,
                                                                       fontWeight: FontWeight
@@ -1040,8 +1058,9 @@ class _home_pageState extends State<home_page> with SingleTickerProviderStateMix
                                                                     left: 10,),
                                                                   child:
                                                                   Text(
-                                                                    hostels[index]
-                                                                        .address,
+                                                                    post.postmeta[2]['meta_value'],
+                                                                    overflow: TextOverflow.ellipsis,
+                                                                    maxLines: 2,
                                                                     style: const TextStyle(
                                                                       fontSize: 15,
                                                                       fontWeight: FontWeight
@@ -1066,27 +1085,16 @@ class _home_pageState extends State<home_page> with SingleTickerProviderStateMix
                                                                               .colorScheme
                                                                               .primary,
                                                                         ),
-                                                                        Icon(Icons.food_bank_outlined,
-                                                                          color: Theme
-                                                                              .of(
-                                                                              context).colorScheme.primary,
-                                                                        ),
-                                                                        Icon(Icons.electric_bolt_rounded,
-                                                                          color: Theme.of(context).colorScheme.primary,),
-                                                                        Icon(Icons.room_service_outlined,
+                                                                        Text(post.postmeta[1]['meta_value'],),
+                                                                        SizedBox(width: 20,),
+                                                                        Icon(Icons.bathroom,
                                                                           color: Theme
                                                                               .of(
                                                                               context)
                                                                               .colorScheme
                                                                               .primary,
                                                                         ),
-                                                                        Icon(Icons.night_shelter_outlined,
-                                                                          color: Theme
-                                                                              .of(
-                                                                              context)
-                                                                              .colorScheme
-                                                                              .primary,
-                                                                        ),
+                                                                        Text(post.postmeta[0]['meta_value'],),
 
                                                                       ],
                                                                     )

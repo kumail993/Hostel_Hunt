@@ -8,16 +8,16 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../contants/navigatortransition.dart';
 
 
-class Reservation extends StatefulWidget {
-  const Reservation({Key? key,required this.res,}) : super(key: key);
+class Reservation_Screen extends StatefulWidget {
+  const Reservation_Screen({Key? key,required this.res,}) : super(key: key);
 final res;
   //final List<Map<String, dynamic>> roomtype;
   @override
-  State<Reservation> createState() => _ReservationState();
+  State<Reservation_Screen> createState() => _Reservation_ScreenState();
 }
 
 
-class _ReservationState extends State<Reservation> {
+class _Reservation_ScreenState extends State<Reservation_Screen> {
   final _formKey = GlobalKey<FormState>();
 
   final TextEditingController name = TextEditingController();
@@ -274,7 +274,7 @@ const SizedBox(
                             style: ButtonStyle(
                                 padding: MaterialStateProperty.all(
                                   const EdgeInsets.symmetric(
-                                      vertical: 20.0, horizontal: 100.0),
+                                      vertical: 15.0, horizontal: 50.0),
                                 ),
                                 foregroundColor: MaterialStateProperty.all<
                                     Color>(Theme.of(context).colorScheme.secondary,),
@@ -353,7 +353,7 @@ showAlertDialog(BuildContext context) async {
     title:
     const Text(
 
-      "Reservation Made Successfully.",
+      "Reservation_Screen Made Successfully.",
       style: TextStyle(
           fontWeight: FontWeight.bold,
           fontSize: 20

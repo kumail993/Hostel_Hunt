@@ -1,20 +1,35 @@
 import 'dart:convert';
 import 'package:findyournewhome/contants/utils.dart';
 import 'package:http/http.dart' as http;
-class hostels {
+class Hostel {
   final int id;
-  final String name;
-  final String photo;
-  final String address;
-  List<Map<String, dynamic>> roomTypeData = [];
-  hostels({
-    required this.id,
-    required this.name,
-    required this.photo,
-    required this.address,
-  }
+  final String HostelName;
+  final String postType;
+  //final String postName;
+  final List<Map<String, dynamic>> postmeta;
+  final String PostContent;
 
-  );
+  Hostel({
+    required this.id,
+    required this.HostelName,
+    required this.postType,
+    required this.postmeta,
+    required this.PostContent
+  });
+
+  factory Hostel.fromJson(Map<String, dynamic> json) {
+    return Hostel(
+      id: json['ID'],
+      HostelName: json['post_title'],
+      postType: json['post_type'],
+      //postName: json['post_name'],
+      postmeta: List<Map<String, dynamic>>.from(json['postmeta']),
+      PostContent: json['post_content'],
+    );
+  }
+  int compareTo(Hostel other) => HostelName.compareTo(other.HostelName,);
+}
+
   Future Reservation(int storedId, String name, String email, String phone,
       String type, int Login_id) async {
     print("1");
@@ -38,7 +53,4 @@ class hostels {
     return DecodedData;
 // }
   }
-
-  int compareTo(hostels other) => name.compareTo(other.name,);
-}
 

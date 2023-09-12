@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:findyournewhome/Bottom_navbar/Home.dart';
+import 'package:findyournewhome/Hostels/main_page.dart';
 import 'package:findyournewhome/UserAuthentication/Screens/Login_page.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';

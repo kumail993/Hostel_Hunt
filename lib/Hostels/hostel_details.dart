@@ -9,8 +9,8 @@ import '../contants/navigatortransition.dart';
 import '../contants/utils.dart';
 
 class HostelDetaisl extends StatefulWidget {
-  const HostelDetaisl({Key? key,required this.details}) : super(key: key);
-  final hostels details;
+  const HostelDetaisl({Key? key, required this.details,}) : super(key: key);
+  final Hostel details;
   @override
   State<HostelDetaisl> createState() => _HostelDetaislState();
 }
@@ -19,18 +19,40 @@ class _HostelDetaislState extends State<HostelDetaisl> {
 
   late int storedId;
 
-  List<Map<String, dynamic>> roomTypeData = [];
 
-  Future<void> fetchRoomTypes(int hostelId) async {
-    final response = await http.get(Uri.parse('${Utils.baseUrl}/Hostel-hunt/roomtype/$hostelId'));
+  //List<Map<String, dynamic>> roomTypeData = [];
 
-    if (response.statusCode == 200) {
-      final jsonData = json.decode(response.body) as List<dynamic>;
-      roomTypeData = List<Map<String, dynamic>>.from(jsonData);
-      setState(() {});
-    } else {
-      throw Exception('Failed to load room types');
+  // Future<void> fetchRoomTypes(int hostelId) async {
+  //   final response = await http.get(Uri.parse('${Utils.baseUrl}/Hostel-hunt/roomtype/$hostelId'));
+  //
+  //   if (response.statusCode == 200) {
+  //     final jsonData = json.decode(response.body) as List<dynamic>;
+  //     roomTypeData = List<Map<String, dynamic>>.from(jsonData);
+  //     setState(() {});
+  //   } else {
+  //     throw Exception('Failed to load room types');
+  //   }
+  // }
+
+  String removePTags(String html) {
+    bool insidePTag = false;
+    StringBuffer result = StringBuffer();
+
+    for (int i = 0; i < html.length; i++) {
+      if (html[i] == '<' && i + 1 < html.length && html[i + 1] == 'p') {
+        insidePTag = true;
+        continue;
+      }
+      if (insidePTag && html[i] == '>') {
+        insidePTag = false;
+        continue;
+      }
+      if (!insidePTag) {
+        result.write(html[i]);
+      }
     }
+
+    return result.toString();
   }
 
   @override
@@ -38,8 +60,9 @@ class _HostelDetaislState extends State<HostelDetaisl> {
     super.initState();
     storedId = widget.details.id;
     //fetchRent(storedId);
-    fetchRoomTypes(storedId);
+    //fetchRoomTypes(storedId);
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -54,7 +77,8 @@ class _HostelDetaislState extends State<HostelDetaisl> {
             opacity: 0.5
         ),
       ),
-      child:
+      child: SingleChildScrollView(
+    child:
       Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -65,8 +89,8 @@ class _HostelDetaislState extends State<HostelDetaisl> {
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(5.0),
                 child:
-                Image.asset(
-                    "Assets/${widget.details.photo}", width: 500, fit: BoxFit.fill),
+                 Image.asset(
+                     "Assets/2.jpg", width: 500, fit: BoxFit.fill),
               ),
             ),
             Padding(padding: const EdgeInsets.only(left: 0,),
@@ -74,7 +98,7 @@ class _HostelDetaislState extends State<HostelDetaisl> {
                 borderRadius: BorderRadius.circular(5.0),
                 child:
                 Image.asset(
-                    "Assets/${widget.details.photo}", width: 400, fit: BoxFit.fill),
+                    "Assets/2.jpg", width: 400, fit: BoxFit.fill),
               ),
             ),
             Padding(padding: const EdgeInsets.only(left: 0,),
@@ -82,7 +106,7 @@ class _HostelDetaislState extends State<HostelDetaisl> {
                 borderRadius: BorderRadius.circular(5.0),
                 child:
                 Image.asset(
-                    "Assets/${widget.details.photo}", width: 400, fit: BoxFit.fill),
+                    "Assets/2.jpg", width: 400, fit: BoxFit.fill),
               ),
             ),
             Padding(padding: const EdgeInsets.only(left: 0,),
@@ -90,7 +114,7 @@ class _HostelDetaislState extends State<HostelDetaisl> {
                 borderRadius: BorderRadius.circular(5.0),
                 child:
                 Image.asset(
-                    "Assets/${widget.details.photo}", width: 400, fit: BoxFit.fill),
+                    "Assets/2.jpg", width: 400, fit: BoxFit.fill),
               ),
             ),
 
@@ -131,7 +155,7 @@ class _HostelDetaislState extends State<HostelDetaisl> {
           ),
           Padding(padding: const EdgeInsets.only(left: 10),
           child:
-          Text(widget.details.name,
+          Text(widget.details.HostelName,
           style: const TextStyle(
             fontSize: 20,
             fontWeight: FontWeight.w700,
@@ -143,7 +167,42 @@ class _HostelDetaislState extends State<HostelDetaisl> {
           ),
           Padding(padding: const EdgeInsets.only(left: 10),
               child:
-              Text(widget.details.address,
+                  Row(
+                  children:[
+                    Icon(Icons.location_on_outlined,
+                    color: Theme.of(context).colorScheme.primary,
+                    ),
+              SizedBox(
+                width: 10,
+              ),
+              Text(widget.details.HostelName,
+                style: const TextStyle(
+                  fontSize: 15,
+                  fontWeight: FontWeight.w400,
+                ),
+              )
+              ]
+                  ),
+          ),
+          const Padding(padding: EdgeInsets.only(left: 10,right: 10),
+            child:Divider(
+              thickness: 2,
+            ),
+          ),
+          SizedBox(
+            height: 10,
+          ),
+          Padding(padding: EdgeInsets.only(left: 10,right: 10,bottom: 10),
+          child: Text('Description',
+          style: TextStyle(
+            fontSize: 15,
+            fontWeight: FontWeight.w600
+          ),
+          ),
+          ),
+          Padding(padding: const EdgeInsets.only(left: 10,right: 10),
+              child:
+              Text(removePTags(widget.details.PostContent),
                 style: const TextStyle(
                   fontSize: 15,
                   fontWeight: FontWeight.w400,
@@ -267,52 +326,49 @@ class _HostelDetaislState extends State<HostelDetaisl> {
     const SizedBox(
       height: 20,
     ),
-    const Center(
-    child: Text(
-    'Rooms Prices Plan',
-    style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
-    )),
-    FittedBox(
-    child:
-    DataTable(
-    columns: const [
-    DataColumn(label: Text(
-    'Accommodation',
-    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)
-    )),
-    DataColumn(label: Text(
-    'OverView',
-    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)
-    )),
-    DataColumn(label: Text(
-    'Prices-PKR',
-    style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)
-    )),
-      ],
-      rows: roomTypeData.map<DataRow>((entry) {
-        final roomType = entry['room_type'];
-        final totalRent = entry['total_rent'];
-        return DataRow(
-          color: MaterialStateColor.resolveWith((states) {
-            // Change the background color of the DataRow based on a specific condition
-            if (states.contains(MaterialState.selected)) {
-              return Colors.green;
-            }
-            return  Theme.of(context).colorScheme.primary.withOpacity(0.3);
-          }),
-          cells: [
-            DataCell(Text(roomType)),
-            const DataCell(Text('Inc Mess')), // Replace with appropriate data
-            DataCell(Text('$totalRent')), // Display total rent here
-          ],
-        );
-      }).toList(),
-    ),
-    ),
-          const Spacer(),
-          Expanded(
-            flex: 2,
-            child:
+    // const Center(
+    // child: Text(
+    // 'Rooms Prices Plan',
+    // style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
+    // )),
+    // FittedBox(
+    // child:
+    // DataTable(
+    // columns: const [
+    // DataColumn(label: Text(
+    // 'Accommodation',
+    // style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)
+    // )),
+    // DataColumn(label: Text(
+    // 'OverView',
+    // style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)
+    // )),
+    // DataColumn(label: Text(
+    // 'Prices-PKR',
+    // style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)
+    // )),
+    //   ],
+    //   rows: roomTypeData.map<DataRow>((entry) {
+    //     final roomType = entry['room_type'];
+    //     final totalRent = entry['total_rent'];
+    //     return DataRow(
+    //       color: MaterialStateColor.resolveWith((states) {
+    //         // Change the background color of the DataRow based on a specific condition
+    //         if (states.contains(MaterialState.selected)) {
+    //           return Colors.green;
+    //         }
+    //         return  Theme.of(context).colorScheme.primary.withOpacity(0.3);
+    //       }),
+    //       cells: [
+    //         DataCell(Text(roomType)),
+    //         const DataCell(Text('Inc Mess')), // Replace with appropriate data
+    //         DataCell(Text('$totalRent')), // Display total rent here
+    //       ],
+    //     );
+    //   }).toList(),
+    // ),
+    // ),
+
             Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children:[
@@ -326,7 +382,7 @@ class _HostelDetaislState extends State<HostelDetaisl> {
                             style: ButtonStyle(
                                 padding: MaterialStateProperty.all(
                                   const EdgeInsets.symmetric(
-                                      vertical: 20.0, horizontal: 100.0),
+                                      vertical: 15.0, horizontal: 50.0),
                                 ),
                                 foregroundColor: MaterialStateProperty.all<
                                     Color>(Theme.of(context).colorScheme.secondary,),
@@ -343,12 +399,11 @@ class _HostelDetaislState extends State<HostelDetaisl> {
                             ),
                             onPressed: () {
 
-                              Navigator.of(context).push(FadePageRoute(page: Reservation(res: widget.details,)));
+                              Navigator.of(context).push(FadePageRoute(page: Reservation_Screen(res:widget.details)));
                               // Navigator.pushReplacement(context,
                               //   MaterialPageRoute(builder: (context) =>Reservation(res: widget.details)
                               //
                               //   ),
-                              // );
                             },
                             child: const Text(
                                 "Reserve",
@@ -362,11 +417,11 @@ class _HostelDetaislState extends State<HostelDetaisl> {
                   ),
                 ]
             ),
-          ),
           const SizedBox(height: 10,),
     ],
     )
     ),
+      )
       );
   }
 }

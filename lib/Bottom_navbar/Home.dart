@@ -46,7 +46,7 @@ class _MyHomePageState extends State<MyHomePage> {
           controller: _pageController,
           allowImplicitScrolling: true,
           clipBehavior: Clip.antiAliasWithSaveLayer,
-          dragStartBehavior: DragStartBehavior.start,
+          dragStartBehavior: DragStartBehavior.down,
           padEnds: true,
           physics: const NeverScrollableScrollPhysics(),
           children: List.generate(

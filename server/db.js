@@ -11,7 +11,7 @@
     const dbDatabase = process.env.MYSQL_DATABASE
 
     
-    var connection=mysql.createConnection
+    var connection=mysql.createPool
     ({
         host: dbHost,
         user: dbUser,
@@ -19,14 +19,7 @@
         database:dbDatabase,       // 3306 is default port no. of mysql 
      // your db name
     });
-
-
     
-    
-    connection.connect(function(err){
-        if(err) throw err;
-        console.log('db connected');
-    });
     
     
     module.exports = connection;
