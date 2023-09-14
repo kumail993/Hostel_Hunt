@@ -6,12 +6,12 @@ import '../contants/utils.dart';
 
 class ConnectivityHelper {
   static Future<void> verifyOTP(String userEmail, String otp,context) async {
-    final url = Uri.parse('${Utils.baseUrl}/Hostel-Hunt/otpverification'); // Replace with your actual URL
+    final url = Uri.parse('http://192.168.130.203:3000/Hostel-Hunt/websiteotpverification'); // Replace with your actual URL
 
     final response = await http.post(
       url,
       body: {
-        'email': userEmail,
+        'user_email': userEmail,
         'otp': otp,
       },
     );

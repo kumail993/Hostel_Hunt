@@ -1,16 +1,19 @@
 import 'dart:convert';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:findyournewhome/Bottom_navbar/Home.dart';
+import 'package:findyournewhome/Hostels/main_page.dart';
 import 'package:findyournewhome/models/hostels.dart';
 import 'package:findyournewhome/Reservation/reservation%20_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import '../contants/navigatortransition.dart';
-import '../contants/utils.dart';
 
 class HostelDetaisl extends StatefulWidget {
-  const HostelDetaisl({Key? key, required this.details,}) : super(key: key);
+  const HostelDetaisl({Key? key, required this.details,required this.image,required this.address,required this.rent}) : super(key: key);
   final Hostel details;
+  final image;
+  final address;
+  final rent;
   @override
   State<HostelDetaisl> createState() => _HostelDetaislState();
 }
@@ -18,8 +21,6 @@ class HostelDetaisl extends StatefulWidget {
 class _HostelDetaislState extends State<HostelDetaisl> {
 
   late int storedId;
-
-
   //List<Map<String, dynamic>> roomTypeData = [];
 
   // Future<void> fetchRoomTypes(int hostelId) async {
@@ -34,25 +35,34 @@ class _HostelDetaislState extends State<HostelDetaisl> {
   //   }
   // }
 
-  String removePTags(String html) {
-    bool insidePTag = false;
-    StringBuffer result = StringBuffer();
+  // String removePTags(String html) {
+  //   bool insidePTag = false;
+  //   StringBuffer result = StringBuffer();
+  //
+  //   for (int i = 0; i < html.length; i++) {
+  //     if (html[i] == '<' && i + 1 < html.length && html[i + 1] == 'p') {
+  //       insidePTag = true;
+  //       continue;
+  //     }
+  //     if (insidePTag && html[i] == '>') {
+  //       insidePTag = false;
+  //       continue;
+  //     }
+  //     if (!insidePTag) {
+  //       result.write(html[i]);
+  //     }
+  //   }
+  //
+  //   return result.toString();
+  // }
+  String removeNumbersSpecialCharsAndTags(String input) {
+    // Define a regular expression pattern to match numbers, special characters, and HTML tags.
+    RegExp pattern = RegExp(r'<[^>]*>|[0-9!@#\$%^&*()_+{}\[\]:;<>,.?~\\|-]');
 
-    for (int i = 0; i < html.length; i++) {
-      if (html[i] == '<' && i + 1 < html.length && html[i + 1] == 'p') {
-        insidePTag = true;
-        continue;
-      }
-      if (insidePTag && html[i] == '>') {
-        insidePTag = false;
-        continue;
-      }
-      if (!insidePTag) {
-        result.write(html[i]);
-      }
-    }
+    // Use the replaceAll method to remove all characters that match the pattern.
+    String result = input.replaceAll(pattern, '');
 
-    return result.toString();
+    return result;
   }
 
   @override
@@ -89,32 +99,28 @@ class _HostelDetaislState extends State<HostelDetaisl> {
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(5.0),
                 child:
-                 Image.asset(
-                     "Assets/2.jpg", width: 500, fit: BoxFit.fill),
+                 Image.network(widget.image, width: 500, fit: BoxFit.fill),
               ),
             ),
             Padding(padding: const EdgeInsets.only(left: 0,),
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(5.0),
                 child:
-                Image.asset(
-                    "Assets/2.jpg", width: 400, fit: BoxFit.fill),
+                Image.network(widget.image, width: 500, fit: BoxFit.fill),
               ),
             ),
             Padding(padding: const EdgeInsets.only(left: 0,),
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(5.0),
                 child:
-                Image.asset(
-                    "Assets/2.jpg", width: 400, fit: BoxFit.fill),
+                Image.network(widget.image, width: 500, fit: BoxFit.fill),
               ),
             ),
             Padding(padding: const EdgeInsets.only(left: 0,),
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(5.0),
                 child:
-                Image.asset(
-                    "Assets/2.jpg", width: 400, fit: BoxFit.fill),
+                Image.network(widget.image, width: 500, fit: BoxFit.fill),
               ),
             ),
 
@@ -137,7 +143,7 @@ class _HostelDetaislState extends State<HostelDetaisl> {
     InkWell(
     onTap: () {
       Navigator.pushReplacement(context,
-        MaterialPageRoute(builder: (context) => const MyHomePage()
+        MaterialPageRoute(builder: (context) => const home_page()
 
         ),
       );
@@ -153,14 +159,28 @@ class _HostelDetaislState extends State<HostelDetaisl> {
           const SizedBox(
             height: 10,
           ),
-          Padding(padding: const EdgeInsets.only(left: 10),
-          child:
+          Padding(padding: const EdgeInsets.only(left: 10,right: 10),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    children:[
           Text(widget.details.HostelName,
           style: const TextStyle(
             fontSize: 20,
             fontWeight: FontWeight.w700,
           ),
-          )
+          ),
+            RichText(
+              text: TextSpan(
+                children: <TextSpan>[
+                  TextSpan(text: widget.rent,),
+                  TextSpan(text: '-'),
+                  TextSpan(text: widget.rent, )
+                ]
+
+              )
+            )
+              ]
+          ),
           ),
           const SizedBox(
             height: 10,
@@ -175,7 +195,9 @@ class _HostelDetaislState extends State<HostelDetaisl> {
               SizedBox(
                 width: 10,
               ),
-              Text(widget.details.HostelName,
+              Text(widget.address,
+                maxLines: 2,
+                //overflow: ,
                 style: const TextStyle(
                   fontSize: 15,
                   fontWeight: FontWeight.w400,
@@ -202,10 +224,11 @@ class _HostelDetaislState extends State<HostelDetaisl> {
           ),
           Padding(padding: const EdgeInsets.only(left: 10,right: 10),
               child:
-              Text(removePTags(widget.details.PostContent),
+              Text(removeNumbersSpecialCharsAndTags(widget.details.PostContent),
                 style: const TextStyle(
                   fontSize: 15,
                   fontWeight: FontWeight.w400,
+                  letterSpacing: 1.2,
                 ),
               )
           ),

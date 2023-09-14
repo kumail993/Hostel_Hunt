@@ -27,10 +27,11 @@ class _Signup_pageState extends State<Signup_page> {
   final TextEditingController name = TextEditingController();
   final TextEditingController email = TextEditingController();
   final TextEditingController password = TextEditingController();
+  final TextEditingController username = TextEditingController();
 
-  doRegister(String name, String email, String password) async {
+  doRegister(String name,String username, String email, String password) async {
 
-    var res = await userRegister(name, email, password);
+    var res = await userRegister(name,username, email, password);
     print(res.toString());
 
     if (res['success']){
@@ -76,13 +77,13 @@ class _Signup_pageState extends State<Signup_page> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const SizedBox(
-              height: 50,
+              height: 30,
             ),
             Center(child: Column(
                 children:[
                   SizedBox(
-                    height: 200,
-                    width: 200,
+                    height: 150,
+                    width: 150,
                     child:
                     Image.asset('Assets/logo4.0.png',fit: BoxFit.fill,),
                   ),
@@ -104,8 +105,8 @@ class _Signup_pageState extends State<Signup_page> {
                   children: [
                     const Text('Full Name',
                       style: TextStyle(
-                        fontWeight: FontWeight.w700,
-                        fontSize: 20,
+                        fontWeight: FontWeight.w400,
+                        fontSize: 15,
                       ),
                     ),
                     const SizedBox(
@@ -124,12 +125,36 @@ class _Signup_pageState extends State<Signup_page> {
                       ),
                     ),
                     const SizedBox(
-                      height: 20,
+                      height: 10,
+                    ),
+                    const Text('Username',
+                      style: TextStyle(
+                        fontWeight: FontWeight.w400,
+                        fontSize: 15,
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    TextFormField(
+                      controller: username,
+                      decoration:  InputDecoration(
+                          hintText: 'Enter Username',
+                          enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(
+                              width: 1, color: Theme.of(context).colorScheme.surface,),
+
+                          ),
+                          prefixIcon: Icon(Icons.supervised_user_circle)
+                      ),
+                    ),
+                    const SizedBox(
+                      height: 10,
                     ),
                     const Text('Email',
                       style: TextStyle(
-                        fontWeight: FontWeight.w700,
-                        fontSize: 20,
+                        fontWeight: FontWeight.w400,
+                        fontSize: 15,
                       ),
                     ),
                     const SizedBox(
@@ -149,12 +174,12 @@ class _Signup_pageState extends State<Signup_page> {
                       ),
                     ),
                     const SizedBox(
-                      height: 20,
+                      height: 10,
                     ),
                     const Text('Password',
                       style: TextStyle(
-                        fontWeight: FontWeight.w700,
-                        fontSize: 20,
+                        fontWeight: FontWeight.w400,
+                        fontSize: 15,
                       ),
                     ),
                     const SizedBox(
@@ -241,7 +266,7 @@ class _Signup_pageState extends State<Signup_page> {
 
                                 if (_formKey.currentState!.validate()) {
                 // Form data is valid, proceed with submission
-                                doRegister(name.text,email.text,password.text);
+                                doRegister(name.text,username.text,email.text,password.text);
                                  }
                               },
                               child: const Text(

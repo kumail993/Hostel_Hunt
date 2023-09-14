@@ -22,7 +22,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   /// widget list
   final List<Widget> bottomBarPages = [
-    ReservationListScreen(),
+    //ReservationListScreen(),
     const home_page(),
     const studentportal_first(),
   ];

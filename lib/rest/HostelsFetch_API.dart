@@ -1,12 +1,12 @@
 import 'dart:convert';
-import 'package:findyournewhome/contants/utils.dart';
 import 'package:http/http.dart' as http;
 import '../models/hostels.dart';
 
 
 
 Future<List<Hostel>> fetchPostData() async {
-  final response = await http.get(Uri.parse('http://192.168.18.46:3000/Hostel-hunt/hostelsfromweb'));
+  final response = await http.get(Uri.parse('http://192.168.130.203:3000/Hostel-hunt/hostelsfromweb'));
+  //print(response.body);
   if (response.statusCode == 200) {
     final List<dynamic> data = json.decode(response.body);
     return data.map((json) => Hostel.fromJson(json)).toList();

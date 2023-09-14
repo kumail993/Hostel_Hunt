@@ -8,13 +8,15 @@ class Hostel {
   //final String postName;
   final List<Map<String, dynamic>> postmeta;
   final String PostContent;
+  final List<dynamic> Images;
 
-  Hostel({
+  Hostel( {
     required this.id,
     required this.HostelName,
     required this.postType,
     required this.postmeta,
-    required this.PostContent
+    required this.PostContent,
+    required this.Images
   });
 
   factory Hostel.fromJson(Map<String, dynamic> json) {
@@ -24,11 +26,71 @@ class Hostel {
       postType: json['post_type'],
       //postName: json['post_name'],
       postmeta: List<Map<String, dynamic>>.from(json['postmeta']),
+
       PostContent: json['post_content'],
+        Images: json['imageGuids'],
     );
+
   }
   int compareTo(Hostel other) => HostelName.compareTo(other.HostelName,);
+  String getAddress() {
+    for (final meta in postmeta) {
+      final String metaKey = meta['meta_key'];
+      final String metaValue = meta['meta_value'];
+
+      if (metaKey == 'fave_property_map_address') {
+        return metaValue;
+      }
+    }
+
+    // Return a default value or handle the case when the key is not found
+    return 'Address Not Found';
+  }
+
+  String getRooms() {
+    for (final meta in postmeta) {
+      final String metaKey = meta['meta_key'];
+      final String metaValue = meta['meta_value'];
+
+      if (metaKey == 'fave_property_bedrooms') {
+        return metaValue;
+      }
+    }
+
+    // Return a default value or handle the case when the key is not found
+    return 'Rooms Not Found';
+  }
+
+  String getBathroom() {
+    for (final meta in postmeta) {
+      final String metaKey = meta['meta_key'];
+      final String metaValue = meta['meta_value'];
+
+      if (metaKey == 'fave_property_bathrooms') {
+        return metaValue;
+      }
+    }
+
+    // Return a default value or handle the case when the key is not found
+    return 'Bathroom Not Found';
+  }
+
+  String getRent() {
+    for (final meta in postmeta) {
+      final String metaKey = meta['meta_key'];
+      final String metaValue = meta['meta_value'];
+
+      if (metaKey == 'fave_property_price') {
+        return metaValue;
+      }
+    }
+
+    // Return a default value or handle the case when the key is not found
+    return 'Address Not Found';
+  }
+
 }
+
 
   Future Reservation(int storedId, String name, String email, String phone,
       String type, int Login_id) async {

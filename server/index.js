@@ -18,6 +18,7 @@ const ResendOTPRouter = require('./resendOtp.js');
 const UserloginRouter = require('./loginuser.js');
 const RegisterfromwebRouter = require('./registeruser.js');
 const hostelsfromwebRouter = require('./fetchhostelswebsite.js');
+const OTPverificationweb = require('./OTP_verification_web.js');
 
 
 app.use('/Hostel-hunt',RegisterRouter);
@@ -31,6 +32,7 @@ app.use('/Hostel-hunt',ResendOTPRouter);
 app.use('/Hostel-hunt',UserloginRouter);
 app.use('/Hostel-hunt',RegisterfromwebRouter);
 app.use('/Hostel-hunt',hostelsfromwebRouter);
+app.use('/Hostel-hunt',OTPverificationweb);
 
 
 app.listen(3000,()=> console.log('your server is running on port 3000'))

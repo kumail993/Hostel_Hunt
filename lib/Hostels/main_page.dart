@@ -111,6 +111,7 @@ class _home_pageState extends State<home_page> with SingleTickerProviderStateMix
                                 showSearch(
                                   context: context,
                                   delegate:
+
                                   SearchPage(
                                     //onQueryUpdate: print,
                                     items: hostels,
@@ -152,90 +153,106 @@ class _home_pageState extends State<home_page> with SingleTickerProviderStateMix
                                     ),
                                     filter: (hostels) =>
                                     [
+                                      //hostels.getAddress(),
                                       hostels.HostelName,
                                       //hostels.roomTypeData,
                                       //person.surname,
                                       //hostels.rent.toString(),
                                     ],
                                     sort: (a, b) => a.compareTo(b),
-                                    builder: (hostels) =>
-                                        GestureDetector(
-                                          onTap:
-                                              () {
-                                            Navigator.of(context)
-                                                .push(MaterialPageRoute(
-                                                builder: (context) {
-                                                  return HostelDetaisl(
-                                                      details: hostels);
-                                                }));
-                                          },
+
+                                    builder: (hostels,) {
+                                      final imageUrl = hostels.Images.isNotEmpty
+                                          ? hostels.Images[0]
+                                          : '';
+                                      final String address = hostels.getAddress();
+                                      final String rent = hostels.getRent();
+                                      return GestureDetector(
+                                        onTap:
+                                            () {
+                                          Navigator.of(context)
+                                              .push(MaterialPageRoute(
+                                              builder: (context) {
+                                                return HostelDetaisl(
+                                                    details: hostels, image: imageUrl ,address:address,rent:rent);
+                                              }));
+                                        },
+                                        child:
+                                        Card(
+                                          shape: RoundedRectangleBorder(
+                                            // side: BorderSide(
+                                            //   color: Colors.greenAccent,
+                                            // ),
+                                            borderRadius: BorderRadius.circular(
+                                                10.0), //<-- SEE HERE
+                                          ),
+                                          elevation: 10,
                                           child:
-                                          Card(
-                                            shape: RoundedRectangleBorder(
-                                              // side: BorderSide(
-                                              //   color: Colors.greenAccent,
-                                              // ),
-                                              borderRadius: BorderRadius.circular(
-                                                  10.0), //<-- SEE HERE
-                                            ),
-                                            elevation: 10,
-                                            child:
-                                            Column(
-                                                crossAxisAlignment: CrossAxisAlignment
-                                                    .start,
-                                                children: [
-                                                  Padding(
-                                                    padding: const EdgeInsets.only(
-                                                        top: 5, left: 5, right: 5),
-                                                    child:
-                                                    Container(
-                                                      width: double.infinity,
-                                                      height: 180,
-                                                      decoration: BoxDecoration(
-                                                          borderRadius: BorderRadius
-                                                              .circular(
-                                                              10),
-                                                          shape: BoxShape.rectangle,
-                                                          image: DecorationImage(
-                                                              fit: BoxFit.cover,
-                                                              image: AssetImage(
-                                                                  "Assets/2.jpg")
-                                                          )
-                                                      ),
+                                          Column(
+                                              crossAxisAlignment: CrossAxisAlignment
+                                                  .start,
+                                              children: [
+                                                Padding(
+                                                  padding: const EdgeInsets
+                                                      .only(
+                                                      top: 5,
+                                                      left: 5,
+                                                      right: 5),
+                                                  child:
+                                                  Container(
+                                                    width: double.infinity,
+                                                    height: 180,
+                                                    decoration: BoxDecoration(
+                                                        borderRadius: BorderRadius
+                                                            .circular(
+                                                            10),
+                                                        shape: BoxShape
+                                                            .rectangle,
+                                                        image: DecorationImage(
+                                                            fit: BoxFit.cover,
+                                                            image: NetworkImage(
+                                                                imageUrl)
+                                                        )
                                                     ),
                                                   ),
-                                                  Padding(
-                                                    padding: const EdgeInsets.only(
-                                                        left: 10, top: 5),
-                                                    child:
-                                                    Text(
-                                                      hostels.HostelName,
-                                                      style: const TextStyle(
-                                                        fontSize: 15,
-                                                        fontWeight: FontWeight.w700,
-                                                        color: Colors.black,
-                                                      ),
+                                                ),
+                                                Padding(
+                                                  padding: const EdgeInsets
+                                                      .only(
+                                                      left: 10, top: 5),
+                                                  child:
+                                                  Text(
+                                                    hostels.HostelName,
+                                                    style: const TextStyle(
+                                                      fontSize: 15,
+                                                      fontWeight: FontWeight
+                                                          .w700,
+                                                      color: Colors.black,
                                                     ),
                                                   ),
-                                                  const SizedBox(
-                                                    height: 2,
-                                                  ),
-                                                  Padding(
-                                                    padding: const EdgeInsets.only(
-                                                      left: 10,),
-                                                    child:
-                                                    Text(
-                                                      hostels.postmeta[2]['meta_key'],
-                                                      style: const TextStyle(
-                                                        fontSize: 15,
-                                                        fontWeight: FontWeight.w100,
-                                                      ),
+                                                ),
+                                                const SizedBox(
+                                                  height: 2,
+                                                ),
+                                                Padding(
+                                                  padding: const EdgeInsets
+                                                      .only(
+                                                    left: 10,),
+                                                  child:
+                                                  Text(
+                                                    address,
+                                                    style: const TextStyle(
+                                                      fontSize: 15,
+                                                      fontWeight: FontWeight
+                                                          .w100,
                                                     ),
                                                   ),
-                                                ]
-                                            ),
+                                                ),
+                                              ]
                                           ),
                                         ),
+                                      );
+                                    }
                                   ),),
                           );
                       }
@@ -329,12 +346,12 @@ class _home_pageState extends State<home_page> with SingleTickerProviderStateMix
                       color: Theme.of(context).colorScheme.primary,
                     ),
                     onTap: () {
-                      Navigator.pushReplacement(context,
-                        MaterialPageRoute(
-                          builder: (context) => ReservationListScreen(),
-
-                        ),
-                      );
+                      // Navigator.pushReplacement(context,
+                      //   MaterialPageRoute(
+                      //     builder: (context) => ReservationListScreen(),
+                      //
+                      //   ),
+                      // );
                     },
                   ),
                 ),
@@ -623,23 +640,21 @@ class _home_pageState extends State<home_page> with SingleTickerProviderStateMix
                                             itemBuilder: (BuildContext context,
                                                 int index) {
                                               final post = hostels[index];
+                                              final String address = post.getAddress();
+                                              final String rooms = post.getRooms();
+                                              final String bathroom = post.getBathroom();
+                                              final String rent = post.getRent();
+                                              final List<dynamic> images = post.Images;
+
+                                              // Assuming you want to display the first image in the list
+                                              final imageUrl = images.isNotEmpty ? images[0] : '';
                                               return GestureDetector(
                                                 onTap:
                                                     () {
                                                       Navigator.of(context).push(
                                                           FadePageRoute(
                                                               page: HostelDetaisl(
-                                                                  details: hostels[index])));
-                                                  // Navigator.of(context).push(
-                                                  //     FadePageRoute(
-                                                  //         page: HostelDetaisl(
-                                                  //             details: hostels[index])));
-                                                  // Navigator.of(context)
-                                                  //     .push(MaterialPageRoute(
-                                                  //     builder: (context) {
-                                                  //       return HostelDetaisl(
-                                                  //           details: hostels[index]);
-                                                  //     }));
+                                                                  details: hostels[index], image: imageUrl, address:address,rent:rent)));
                                                 },
                                                 child:
                                                 Column(
@@ -659,16 +674,6 @@ class _home_pageState extends State<home_page> with SingleTickerProviderStateMix
                                                         decoration: BoxDecoration(
                                                           borderRadius: BorderRadius
                                                               .circular(30),
-                                                          //color: const Color(0xff0fc1fa).withOpacity(0.1),
-                                                          // gradient: LinearGradient(
-                                                          //   begin: Alignment.topCenter,
-                                                          //   end: Alignment.bottomCenter,
-                                                          //   colors: <Color>[
-                                                          //     Colors.black.withAlpha(0),
-                                                          //     Colors.orangeAccent,
-                                                          //     Colors.white
-                                                          //   ],
-                                                          // ),
                                                         ),
                                                         child:
 
@@ -710,8 +715,7 @@ class _home_pageState extends State<home_page> with SingleTickerProviderStateMix
                                                                             image: DecorationImage(
                                                                               fit: BoxFit
                                                                                   .cover,
-                                                                              image: AssetImage(
-                                                                                  "Assets/2.jpg"),
+                                                                              image: NetworkImage(imageUrl),
                                                                             )
                                                                         ),
                                                                       ),
@@ -737,40 +741,6 @@ class _home_pageState extends State<home_page> with SingleTickerProviderStateMix
                                                                         ),
                                                                       ),
                                                                     ),
-                                                                    // Positioned(
-                                                                    //   bottom: 0,
-                                                                    //   child:
-                                                                    // Padding(
-                                                                    //     padding: const EdgeInsets
-                                                                    //         .only(
-                                                                    //         left: 10),
-                                                                    //     child:
-                                                                    //     Row(
-                                                                    //       children: [
-                                                                    //         Icon(Icons.bed_outlined,
-                                                                    //           color: Theme
-                                                                    //               .of(
-                                                                    //               context)
-                                                                    //               .colorScheme
-                                                                    //               .primary,
-                                                                    //         ),
-                                                                    //         Text(post.postmeta[1]['meta_value'],),
-                                                                    //         SizedBox(width: 20,),
-                                                                    //         Icon(Icons.bathroom,
-                                                                    //           color: Theme
-                                                                    //               .of(
-                                                                    //               context)
-                                                                    //               .colorScheme
-                                                                    //               .primary,
-                                                                    //         ),
-                                                                    //         Text(post.postmeta[0]['meta_value'],),
-                                                                    //
-                                                                    //       ],
-                                                                    //     )
-                                                                    // ),
-                                                                    // ),
-
-
                                                                   ],
                                                                 ),
                                                                 Padding(
@@ -799,7 +769,7 @@ class _home_pageState extends State<home_page> with SingleTickerProviderStateMix
                                                                     left: 10,),
                                                                   child:
                                                                   Text(
-                                                                    post.postmeta[2]['meta_value'],
+                                                                    address,
                                                                     overflow: TextOverflow.ellipsis,
                                                                     maxLines: 2,
                                                                     style: const TextStyle(
@@ -826,7 +796,7 @@ class _home_pageState extends State<home_page> with SingleTickerProviderStateMix
                                                                               .colorScheme
                                                                               .primary,
                                                                         ),
-                                                                        Text(post.postmeta[1]['meta_value'],),
+                                                                         Text(rooms),
                                                                         SizedBox(width: 20,),
                                                                         Icon(Icons.bathroom,
                                                                           color: Theme
@@ -835,7 +805,7 @@ class _home_pageState extends State<home_page> with SingleTickerProviderStateMix
                                                                               .colorScheme
                                                                               .primary,
                                                                         ),
-                                                                        Text(post.postmeta[0]['meta_value'],),
+                                                                         Text(bathroom),
 
                                                                       ],
                                                                     )
@@ -903,215 +873,215 @@ class _home_pageState extends State<home_page> with SingleTickerProviderStateMix
                               const SizedBox(
                                 height: 10,
                               ),
-                              Expanded(
-                                  child:
-                                  FutureBuilder<List<Hostel>>(
-                                    future: AllhostelData,
-                                    builder: (context, snapshot) {
-                                      if (snapshot.connectionState ==
-                                          ConnectionState.waiting) {
-                                        return const Center(
-                                            child: CircularProgressIndicator());
-                                      } else if (snapshot.hasError) {
-                                        return Text('Error: ${snapshot.error}');
-                                      } else {
-                                        final hostels = snapshot.data!;
-                                        return ListView.builder(
-                                            shrinkWrap: true,
-                                            primary: false,
-                                            scrollDirection: Axis.horizontal,
-                                            itemCount: hostels.length,
-                                            itemBuilder: (BuildContext context,
-                                                int index) {
-                                              //hostels popuu = hostels[index];
-                                              final post = hostels[index];
-                                              return GestureDetector(
-                                                onTap:
-                                                    () {
-                                                  Navigator.of(context).push(
-                                                      FadePageRoute(
-                                                          page: HostelDetaisl(
-                                                              details: hostels[index])));
-                                                },
-                                                child:
-                                                Column(
-                                                  children: [
-                                                    Padding(
-                                                      padding: const EdgeInsets
-                                                          .only(
-                                                        left: 2,),
-                                                      child:
-                                                      Container(
-                                                        height: 316,
-                                                        width: 190,
-                                                        margin: const EdgeInsets
-                                                            .only(
-                                                            left: 0),
-
-                                                        decoration: BoxDecoration(
-                                                          borderRadius: BorderRadius
-                                                              .circular(30),
-                                                          //color: const Color(0xff0fc1fa).withOpacity(0.1),
-                                                          // gradient: LinearGradient(
-                                                          //   begin: Alignment.topCenter,
-                                                          //   end: Alignment.bottomCenter,
-                                                          //   colors: <Color>[
-                                                          //     Colors.black.withAlpha(0),
-                                                          //     Colors.orangeAccent,
-                                                          //     Colors.white
-                                                          //   ],
-                                                          // ),
-                                                        ),
-                                                        child:
-
-                                                        Card(
-                                                          shape: RoundedRectangleBorder(
-                                                            // side: BorderSide(
-                                                            //   color: Colors.greenAccent,
-                                                            // ),
-                                                            borderRadius: BorderRadius
-                                                                .circular(
-                                                                10.0), //<-- SEE HERE
-                                                          ),
-                                                          elevation: 10,
-                                                          child:
-                                                          Column(
-                                                              crossAxisAlignment: CrossAxisAlignment
-                                                                  .start,
-                                                              children: [
-
-                                                                Stack(
-                                                                  children: [
-                                                                    Padding(
-                                                                      padding: const EdgeInsets
-                                                                          .only(
-                                                                          top: 5,
-                                                                          left: 5,
-                                                                          right: 5),
-                                                                      child:
-                                                                      Container(
-                                                                        width: double
-                                                                            .infinity,
-                                                                        height: 180,
-                                                                        decoration: BoxDecoration(
-                                                                            borderRadius: BorderRadius
-                                                                                .circular(
-                                                                                10),
-                                                                            shape: BoxShape
-                                                                                .rectangle,
-                                                                            image: DecorationImage(
-                                                                              fit: BoxFit
-                                                                                  .cover,
-                                                                              image: AssetImage(
-                                                                                  "Assets/2.jpg"),
-                                                                            )
-                                                                        ),
-                                                                      ),
-                                                                    ),
-                                                                    CornerBanner(
-                                                                      bannerPosition: CornerBannerPosition
-                                                                          .topLeft,
-                                                                      bannerColor: Theme
-                                                                          .of(
-                                                                          context)
-                                                                          .colorScheme
-                                                                          .primary,
-                                                                      child: Text(
-                                                                        "Rated",
-                                                                        style: TextStyle(
-                                                                          color: Theme
-                                                                              .of(
-                                                                              context)
-                                                                              .colorScheme
-                                                                              .onPrimary,
-                                                                          fontWeight: FontWeight
-                                                                              .w700,
-                                                                        ),
-                                                                      ),
-                                                                    ),
-
-                                                                  ],
-                                                                ),
-                                                                Padding(
-                                                                  padding: const EdgeInsets
-                                                                      .only(
-                                                                      left: 10,
-                                                                      top: 5),
-                                                                  child:
-                                                                  Text(
-                                                                    post.HostelName,
-                                                                    style: const TextStyle(
-                                                                      fontSize: 15,
-                                                                      fontWeight: FontWeight
-                                                                          .w700,
-                                                                      color: Colors
-                                                                          .black,
-                                                                    ),
-                                                                  ),
-                                                                ),
-                                                                const SizedBox(
-                                                                  height: 2,
-                                                                ),
-                                                                Padding(
-                                                                  padding: const EdgeInsets
-                                                                      .only(
-                                                                    left: 10,),
-                                                                  child:
-                                                                  Text(
-                                                                    post.postmeta[2]['meta_value'],
-                                                                    overflow: TextOverflow.ellipsis,
-                                                                    maxLines: 2,
-                                                                    style: const TextStyle(
-                                                                      fontSize: 15,
-                                                                      fontWeight: FontWeight
-                                                                          .w100,
-                                                                    ),
-                                                                  ),
-                                                                ),
-                                                                const SizedBox(
-                                                                  height: 2,
-                                                                ),
-                                                                Padding(
-                                                                    padding: const EdgeInsets
-                                                                        .only(
-                                                                        left: 10),
-                                                                    child:
-                                                                    Row(
-                                                                      children: [
-                                                                        Icon(Icons.bed_outlined,
-                                                                          color: Theme
-                                                                              .of(
-                                                                              context)
-                                                                              .colorScheme
-                                                                              .primary,
-                                                                        ),
-                                                                        Text(post.postmeta[1]['meta_value'],),
-                                                                        SizedBox(width: 20,),
-                                                                        Icon(Icons.bathroom,
-                                                                          color: Theme
-                                                                              .of(
-                                                                              context)
-                                                                              .colorScheme
-                                                                              .primary,
-                                                                        ),
-                                                                        Text(post.postmeta[0]['meta_value'],),
-
-                                                                      ],
-                                                                    )
-                                                                ),
-                                                              ]
-                                                          ),
-                                                        ),
-                                                      ),
-                                                    ),
-                                                  ],
-                                                ),
-                                              );
-                                            }
-                                        );
-                                      }
-                                    },
-                                  )),
+                              // Expanded(
+                              //     child:
+                              //     FutureBuilder<List<Hostel>>(
+                              //       future: AllhostelData,
+                              //       builder: (context, snapshot) {
+                              //         if (snapshot.connectionState ==
+                              //             ConnectionState.waiting) {
+                              //           return const Center(
+                              //               child: CircularProgressIndicator());
+                              //         } else if (snapshot.hasError) {
+                              //           return Text('Error: ${snapshot.error}');
+                              //         } else {
+                              //           final hostels = snapshot.data!;
+                              //           return ListView.builder(
+                              //               shrinkWrap: true,
+                              //               primary: false,
+                              //               scrollDirection: Axis.horizontal,
+                              //               itemCount: hostels.length,
+                              //               itemBuilder: (BuildContext context,
+                              //                   int index) {
+                              //                 //hostels popuu = hostels[index];
+                              //                 final post = hostels[index];
+                              //                 return GestureDetector(
+                              //                   onTap:
+                              //                       () {
+                              //                     // Navigator.of(context).push(
+                              //                     //     FadePageRoute(
+                              //                     //         page: HostelDetaisl(
+                              //                     //             details: hostels[index])));
+                              //                   },
+                              //                   child:
+                              //                   Column(
+                              //                     children: [
+                              //                       Padding(
+                              //                         padding: const EdgeInsets
+                              //                             .only(
+                              //                           left: 2,),
+                              //                         child:
+                              //                         Container(
+                              //                           height: 316,
+                              //                           width: 190,
+                              //                           margin: const EdgeInsets
+                              //                               .only(
+                              //                               left: 0),
+                              //
+                              //                           decoration: BoxDecoration(
+                              //                             borderRadius: BorderRadius
+                              //                                 .circular(30),
+                              //                             //color: const Color(0xff0fc1fa).withOpacity(0.1),
+                              //                             // gradient: LinearGradient(
+                              //                             //   begin: Alignment.topCenter,
+                              //                             //   end: Alignment.bottomCenter,
+                              //                             //   colors: <Color>[
+                              //                             //     Colors.black.withAlpha(0),
+                              //                             //     Colors.orangeAccent,
+                              //                             //     Colors.white
+                              //                             //   ],
+                              //                             // ),
+                              //                           ),
+                              //                           child:
+                              //
+                              //                           Card(
+                              //                             shape: RoundedRectangleBorder(
+                              //                               // side: BorderSide(
+                              //                               //   color: Colors.greenAccent,
+                              //                               // ),
+                              //                               borderRadius: BorderRadius
+                              //                                   .circular(
+                              //                                   10.0), //<-- SEE HERE
+                              //                             ),
+                              //                             elevation: 10,
+                              //                             child:
+                              //                             Column(
+                              //                                 crossAxisAlignment: CrossAxisAlignment
+                              //                                     .start,
+                              //                                 children: [
+                              //
+                              //                                   Stack(
+                              //                                     children: [
+                              //                                       Padding(
+                              //                                         padding: const EdgeInsets
+                              //                                             .only(
+                              //                                             top: 5,
+                              //                                             left: 5,
+                              //                                             right: 5),
+                              //                                         child:
+                              //                                         Container(
+                              //                                           width: double
+                              //                                               .infinity,
+                              //                                           height: 180,
+                              //                                           decoration: BoxDecoration(
+                              //                                               borderRadius: BorderRadius
+                              //                                                   .circular(
+                              //                                                   10),
+                              //                                               shape: BoxShape
+                              //                                                   .rectangle,
+                              //                                               image: DecorationImage(
+                              //                                                 fit: BoxFit
+                              //                                                     .cover,
+                              //                                                 image: AssetImage(
+                              //                                                     "Assets/2.jpg"),
+                              //                                               )
+                              //                                           ),
+                              //                                         ),
+                              //                                       ),
+                              //                                       CornerBanner(
+                              //                                         bannerPosition: CornerBannerPosition
+                              //                                             .topLeft,
+                              //                                         bannerColor: Theme
+                              //                                             .of(
+                              //                                             context)
+                              //                                             .colorScheme
+                              //                                             .primary,
+                              //                                         child: Text(
+                              //                                           "Rated",
+                              //                                           style: TextStyle(
+                              //                                             color: Theme
+                              //                                                 .of(
+                              //                                                 context)
+                              //                                                 .colorScheme
+                              //                                                 .onPrimary,
+                              //                                             fontWeight: FontWeight
+                              //                                                 .w700,
+                              //                                           ),
+                              //                                         ),
+                              //                                       ),
+                              //
+                              //                                     ],
+                              //                                   ),
+                              //                                   Padding(
+                              //                                     padding: const EdgeInsets
+                              //                                         .only(
+                              //                                         left: 10,
+                              //                                         top: 5),
+                              //                                     child:
+                              //                                     Text(
+                              //                                       post.HostelName,
+                              //                                       style: const TextStyle(
+                              //                                         fontSize: 15,
+                              //                                         fontWeight: FontWeight
+                              //                                             .w700,
+                              //                                         color: Colors
+                              //                                             .black,
+                              //                                       ),
+                              //                                     ),
+                              //                                   ),
+                              //                                   const SizedBox(
+                              //                                     height: 2,
+                              //                                   ),
+                              //                                   Padding(
+                              //                                     padding: const EdgeInsets
+                              //                                         .only(
+                              //                                       left: 10,),
+                              //                                     child:
+                              //                                     Text(
+                              //                                       post.postmeta[2]['meta_value'],
+                              //                                       overflow: TextOverflow.ellipsis,
+                              //                                       maxLines: 2,
+                              //                                       style: const TextStyle(
+                              //                                         fontSize: 15,
+                              //                                         fontWeight: FontWeight
+                              //                                             .w100,
+                              //                                       ),
+                              //                                     ),
+                              //                                   ),
+                              //                                   const SizedBox(
+                              //                                     height: 2,
+                              //                                   ),
+                              //                                   Padding(
+                              //                                       padding: const EdgeInsets
+                              //                                           .only(
+                              //                                           left: 10),
+                              //                                       child:
+                              //                                       Row(
+                              //                                         children: [
+                              //                                           Icon(Icons.bed_outlined,
+                              //                                             color: Theme
+                              //                                                 .of(
+                              //                                                 context)
+                              //                                                 .colorScheme
+                              //                                                 .primary,
+                              //                                           ),
+                              //                                           Text(post.postmeta[1]['meta_value'],),
+                              //                                           SizedBox(width: 20,),
+                              //                                           Icon(Icons.bathroom,
+                              //                                             color: Theme
+                              //                                                 .of(
+                              //                                                 context)
+                              //                                                 .colorScheme
+                              //                                                 .primary,
+                              //                                           ),
+                              //                                            Text(post.postmeta[0]['meta_value'],),
+                              //
+                              //                                         ],
+                              //                                       )
+                              //                                   ),
+                              //                                 ]
+                              //                             ),
+                              //                           ),
+                              //                         ),
+                              //                       ),
+                              //                     ],
+                              //                   ),
+                              //                 );
+                              //               }
+                              //           );
+                              //         }
+                              //       },
+                              //     )),
                             ]
                         ),
                       ),

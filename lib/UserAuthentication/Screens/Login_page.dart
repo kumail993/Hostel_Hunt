@@ -1,4 +1,5 @@
 import 'package:findyournewhome/Bottom_navbar/Home.dart';
+import 'package:findyournewhome/Hostels/main_page.dart';
 import 'package:findyournewhome/UserAuthentication/Screens/Sign_up.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -27,7 +28,7 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   final _formKey = GlobalKey<FormState>();
-  final TextEditingController email_controller = TextEditingController();
+  final TextEditingController username_controller = TextEditingController();
   final TextEditingController password_controller = TextEditingController();
 
 
@@ -105,20 +106,20 @@ class _LoginPageState extends State<LoginPage> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Text('Email',
+                      const Text('Username',
                         style: TextStyle(
-                          fontWeight: FontWeight.w700,
-                          fontSize: 20,
+                          fontWeight: FontWeight.w400,
+                          fontSize: 15,
                         ),
                       ),
                       const SizedBox(
                         height: 10,
                       ),
                       TextFormField(
-                        controller: email_controller,
-                        validator: validateEmail,
+                        controller: username_controller,
+                        //validator: validateEmail,
                         decoration: InputDecoration(
-                          hintText: 'Enter Your email',
+                          hintText: 'Username',
                           enabledBorder: OutlineInputBorder(
                             borderSide: BorderSide(
                               width: 1, color: Theme
@@ -135,8 +136,8 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                       const Text('Password',
                         style: TextStyle(
-                          fontWeight: FontWeight.w700,
-                          fontSize: 20,
+                          fontWeight: FontWeight.w400,
+                          fontSize: 15,
                         ),
                       ),
                       const SizedBox(
@@ -231,10 +232,10 @@ class _LoginPageState extends State<LoginPage> {
                                 true; // Set loading to true when button is pressed
                               });
 
-                              if (email_controller.text.isNotEmpty &&
+                              if (username_controller.text.isNotEmpty &&
                                   password_controller.text.isNotEmpty) {
                                 await dologin(
-                                  email_controller.text,
+                                  username_controller.text,
                                   password_controller.text,
                                 );
 
@@ -309,8 +310,8 @@ class _LoginPageState extends State<LoginPage> {
     final res = await userlogin(email.trim(), password.trim());
 
     if (res['success']) {
-      final userEmail = res['res']['user'][0]['email'];
-      final userId = res['res']['user'][0]['login_id'];
+      final userEmail = res['res']['user'][0]['user_login'];
+      final userId = res['res']['user'][0]['ID'];
       print(userId);
       print(userEmail);
       _sharedPreferences = await SharedPreferences.getInstance();
@@ -318,7 +319,7 @@ class _LoginPageState extends State<LoginPage> {
       _sharedPreferences.setInt('userid', userId);
       _sharedPreferences.setString('usermail', userEmail);
 
-      Route route = MaterialPageRoute(builder: (_) => const MyHomePage());
+      Route route = MaterialPageRoute(builder: (_) => const home_page());
       Navigator.pushReplacement(context, route);
     }
     else{

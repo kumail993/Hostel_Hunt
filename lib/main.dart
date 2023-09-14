@@ -1,5 +1,8 @@
 
 import 'package:findyournewhome/Bottom_navbar/Home.dart';
+import 'package:findyournewhome/Hostels/main_page.dart';
+import 'package:findyournewhome/Splash%20Screen/splash_Screen.dart';
+import 'package:findyournewhome/UserAuthentication/Screens/Login_page.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 void main() {
@@ -20,7 +23,7 @@ class MyApp extends StatelessWidget {
         textTheme: GoogleFonts.latoTextTheme(Theme.of(context).textTheme),
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home:  MyHomePage(),
+      home:  splash_screen(),
       debugShowCheckedModeBanner: false,
 
     );

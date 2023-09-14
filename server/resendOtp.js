@@ -10,7 +10,7 @@ const app = express();
 router.route('/resendotp').post((req, res) => {
     // Get params
     console.log(req.body);
-    var email = req.body.email;
+    var user_email = req.body.user_email;
 
     const otp = otpGenerator.generate(6, { digits: true, alphabets: false, upperCaseAlphabets: false, lowerCaseAlphabets: false, specialChars: false });
                 console.log(otp);
@@ -25,7 +25,7 @@ router.route('/resendotp').post((req, res) => {
                 });
                 const mailOptions = {
                     from: "Khaider308@gmail.com",
-                    to: email, // Recipient's email
+                    to: user_email, // Recipient's email
                     subject: "Your Hostel-hunt Verification Code",
                     html: `<html>
                     <head>
@@ -100,9 +100,9 @@ router.route('/resendotp').post((req, res) => {
                     }
                 })
 
-    const query = 'UPDATE login SET otp = ? WHERE email =?'
+    const query = 'UPDATE wp_users SET otp = ? WHERE user_email =?'
 
-    db.query(query,[otp,email,], function (error, result, ){
+    db.query(query,[otp,user_email,], function (error, result, ){
 
             if(error){
                 console.error("Error Sending OTP", error);

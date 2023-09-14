@@ -70,7 +70,7 @@ class _Reservation_ScreenState extends State<Reservation_Screen> {
         title: const Center(child:Text("Reservations"),),
         leading: InkWell(
           onTap: () {
-            Navigator.of(context).push(FadePageRoute(page: HostelDetaisl(details: widget.res,)));
+            // Navigator.of(context).push(FadePageRoute(page: HostelDetaisl(details: widget.res,)));
                 },
 
     child:const Icon(Icons.arrow_back_ios),
