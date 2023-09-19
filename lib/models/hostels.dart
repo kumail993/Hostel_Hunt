@@ -86,17 +86,28 @@ class Hostel {
     }
 
     // Return a default value or handle the case when the key is not found
-    return 'Address Not Found';
+    return 'price Not Found';
   }
 
-}
+  String getAgent() {
+    for (final meta in postmeta) {
+      final String metaKey = meta['meta_key'];
+      final String metaValue = meta['meta_value'];
 
+      if (metaKey == 'fave_agents') {
+        return metaValue;
+      }
+    }
+
+    // Return a default value or handle the case when the key is not found
+    return 'price Not Found';
+  }
 
   Future Reservation(int storedId, String name, String email, String phone,
-      String type, int Login_id) async {
+      String type, String agentid, int login_id) async {
     print("1");
     final response = await http.post(
-        Uri.parse('${Utils.baseUrl}/Hostel-hunt/reservation'),
+        Uri.parse('${Utils.baseUrl}/Hostel-hunt/webreservation'),
         headers: { 'Content-Type': 'application/json',},
         body: jsonEncode({
           "Hostel_id": storedId,
@@ -104,10 +115,11 @@ class Hostel {
           "reservation_email": email,
           "reservation_phone": phone,
           "type": type,
-          "login_id" :Login_id,
+          "enquiry_to" :agentid,
+          "login_id":login_id,
         })
     );
-    print(Login_id);
+    //print(Login_id);
     var DecodedData = jsonDecode(response.body);
     print(DecodedData);
     response.statusCode;
@@ -115,4 +127,9 @@ class Hostel {
     return DecodedData;
 // }
   }
+
+}
+
+
+
 

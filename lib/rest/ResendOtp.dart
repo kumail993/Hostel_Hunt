@@ -6,7 +6,7 @@ import '../contants/utils.dart';
 
 Future<void> resendOtp(String email) async {
   final response = await http.post(
-    Uri.parse('http://192.168.130.203:3000/Hostel-hunt/resendotp'),
+    Uri.parse('${Utils.baseUrl}/Hostel-hunt/resendotp'),
     headers: {  'Content-Type':'application/json',},
     body: jsonEncode({'user_email': email}),
   );

@@ -29,7 +29,7 @@ router.route('/hostelsfromweb').get(async (req, res) => {
       SELECT pm.*
       FROM wp_postmeta pm
       WHERE pm.post_id IN (${postIds.join(',')})
-      AND (pm.meta_key = 'fave_property_price' OR pm.meta_key = 'fave_property_map_address' OR pm.meta_key = 'fave_property_bathrooms' OR pm.meta_key = 'fave_property_bedrooms' OR pm.meta_key = 'fave_property_images');
+      AND (pm.meta_key = 'fave_property_price' OR pm.meta_key = 'fave_property_map_address' OR pm.meta_key = 'fave_property_bathrooms' OR pm.meta_key = 'fave_property_bedrooms' OR pm.meta_key = 'fave_property_images' OR pm.meta_key = 'fave_agents');
     `;
     const postmetaResult = await queryAsync(postmetaQuery);
 

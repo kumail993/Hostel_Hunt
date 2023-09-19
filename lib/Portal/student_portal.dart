@@ -32,7 +32,7 @@ class _student_portalState extends State<student_portal> {
         children: [
           WebView(
             key: _webViewKey,
-            initialUrl: 'https://hostel-hunt.com/',
+            initialUrl: 'https://hms.hostel-hunt.com/',
             javascriptMode: JavascriptMode.unrestricted,
             onPageStarted: (String url) {
               setState(() {

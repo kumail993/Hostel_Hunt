@@ -1,19 +1,17 @@
-import 'dart:convert';
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:findyournewhome/Bottom_navbar/Home.dart';
 import 'package:findyournewhome/Hostels/main_page.dart';
 import 'package:findyournewhome/models/hostels.dart';
 import 'package:findyournewhome/Reservation/reservation%20_screen.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
 import '../contants/navigatortransition.dart';
 
 class HostelDetaisl extends StatefulWidget {
-  const HostelDetaisl({Key? key, required this.details,required this.image,required this.address,required this.rent}) : super(key: key);
+  const HostelDetaisl({Key? key, required this.details,required this.image,required this.address,required this.rent,required this.agent}) : super(key: key);
   final Hostel details;
   final image;
   final address;
   final rent;
+  final agent;
   @override
   State<HostelDetaisl> createState() => _HostelDetaislState();
 }
@@ -21,40 +19,9 @@ class HostelDetaisl extends StatefulWidget {
 class _HostelDetaislState extends State<HostelDetaisl> {
 
   late int storedId;
+  late String agentid;
   //List<Map<String, dynamic>> roomTypeData = [];
 
-  // Future<void> fetchRoomTypes(int hostelId) async {
-  //   final response = await http.get(Uri.parse('${Utils.baseUrl}/Hostel-hunt/roomtype/$hostelId'));
-  //
-  //   if (response.statusCode == 200) {
-  //     final jsonData = json.decode(response.body) as List<dynamic>;
-  //     roomTypeData = List<Map<String, dynamic>>.from(jsonData);
-  //     setState(() {});
-  //   } else {
-  //     throw Exception('Failed to load room types');
-  //   }
-  // }
-
-  // String removePTags(String html) {
-  //   bool insidePTag = false;
-  //   StringBuffer result = StringBuffer();
-  //
-  //   for (int i = 0; i < html.length; i++) {
-  //     if (html[i] == '<' && i + 1 < html.length && html[i + 1] == 'p') {
-  //       insidePTag = true;
-  //       continue;
-  //     }
-  //     if (insidePTag && html[i] == '>') {
-  //       insidePTag = false;
-  //       continue;
-  //     }
-  //     if (!insidePTag) {
-  //       result.write(html[i]);
-  //     }
-  //   }
-  //
-  //   return result.toString();
-  // }
   String removeNumbersSpecialCharsAndTags(String input) {
     // Define a regular expression pattern to match numbers, special characters, and HTML tags.
     RegExp pattern = RegExp(r'<[^>]*>|[0-9!@#\$%^&*()_+{}\[\]:;<>,.?~\\|-]');
@@ -69,6 +36,7 @@ class _HostelDetaislState extends State<HostelDetaisl> {
   void initState() {
     super.initState();
     storedId = widget.details.id;
+    agentid = widget.agent;
     //fetchRent(storedId);
     //fetchRoomTypes(storedId);
   }
@@ -159,53 +127,64 @@ class _HostelDetaislState extends State<HostelDetaisl> {
           const SizedBox(
             height: 10,
           ),
-          Padding(padding: const EdgeInsets.only(left: 10,right: 10),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-    children:[
-          Text(widget.details.HostelName,
-          style: const TextStyle(
-            fontSize: 20,
-            fontWeight: FontWeight.w700,
+          Padding(
+            padding: EdgeInsets.symmetric(
+              horizontal: MediaQuery.of(context).size.width * 0.05, // Adjust the horizontal padding based on screen width
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Expanded(
+                  child: Text(
+                    widget.details.HostelName,
+                    style: TextStyle(
+                      fontSize: MediaQuery.of(context).size.width * 0.05, // Adjust the font size based on screen width
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                ),
+                Text(
+                  widget.rent,
+                  style: TextStyle(
+                    fontSize: MediaQuery.of(context).size.width * 0.05, // Adjust the font size based on screen width
+                  ),
+                ),
+              ],
+            ),
           ),
-          ),
-            RichText(
-              text: TextSpan(
-                children: <TextSpan>[
-                  TextSpan(text: widget.rent,),
-                  TextSpan(text: '-'),
-                  TextSpan(text: widget.rent, )
-                ]
 
-              )
-            )
-              ]
-          ),
-          ),
           const SizedBox(
             height: 10,
           ),
-          Padding(padding: const EdgeInsets.only(left: 10),
-              child:
-                  Row(
-                  children:[
-                    Icon(Icons.location_on_outlined,
-                    color: Theme.of(context).colorScheme.primary,
-                    ),
-              SizedBox(
-                width: 10,
-              ),
-              Text(widget.address,
-                maxLines: 2,
-                //overflow: ,
-                style: const TextStyle(
-                  fontSize: 15,
-                  fontWeight: FontWeight.w400,
+          Padding(
+            padding: EdgeInsets.symmetric(
+              horizontal: MediaQuery.of(context).size.width * 0.05, // Adjust the horizontal padding based on screen width
+            ),
+            child: Row(
+              children: [
+                Icon(
+                  Icons.location_on_outlined,
+                  color: Theme.of(context).colorScheme.primary,
+                  size: MediaQuery.of(context).size.width * 0.07, // Adjust the icon size based on screen width
                 ),
-              )
-              ]
+                SizedBox(
+                  width: MediaQuery.of(context).size.width * 0.02, // Adjust the width of the SizedBox based on screen width
+                ),
+                Expanded(
+                  child: Text(
+                    widget.address,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis, // Handle text overflow
+                    style: TextStyle(
+                      fontSize: MediaQuery.of(context).size.width * 0.04, // Adjust the text size based on screen width
+                      fontWeight: FontWeight.w400,
+                    ),
                   ),
+                ),
+              ],
+            ),
           ),
+
           const Padding(padding: EdgeInsets.only(left: 10,right: 10),
             child:Divider(
               thickness: 2,
@@ -422,7 +401,7 @@ class _HostelDetaislState extends State<HostelDetaisl> {
                             ),
                             onPressed: () {
 
-                              Navigator.of(context).push(FadePageRoute(page: Reservation_Screen(res:widget.details)));
+                              Navigator.of(context).push(FadePageRoute(page: Reservation_Screen(res:widget.details,agent: agentid,)));
                               // Navigator.pushReplacement(context,
                               //   MaterialPageRoute(builder: (context) =>Reservation(res: widget.details)
                               //

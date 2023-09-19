@@ -167,6 +167,7 @@ class _home_pageState extends State<home_page> with SingleTickerProviderStateMix
                                           : '';
                                       final String address = hostels.getAddress();
                                       final String rent = hostels.getRent();
+                                      final String enquiry_to = hostels.getAgent();
                                       return GestureDetector(
                                         onTap:
                                             () {
@@ -174,7 +175,7 @@ class _home_pageState extends State<home_page> with SingleTickerProviderStateMix
                                               .push(MaterialPageRoute(
                                               builder: (context) {
                                                 return HostelDetaisl(
-                                                    details: hostels, image: imageUrl ,address:address,rent:rent);
+                                                    details: hostels, image: imageUrl ,address:address,rent:rent,agent:enquiry_to ,);
                                               }));
                                         },
                                         child:
@@ -346,12 +347,12 @@ class _home_pageState extends State<home_page> with SingleTickerProviderStateMix
                       color: Theme.of(context).colorScheme.primary,
                     ),
                     onTap: () {
-                      // Navigator.pushReplacement(context,
-                      //   MaterialPageRoute(
-                      //     builder: (context) => ReservationListScreen(),
-                      //
-                      //   ),
-                      // );
+                      Navigator.pushReplacement(context,
+                        MaterialPageRoute(
+                          builder: (context) => ReservationListScreen(),
+
+                        ),
+                      );
                     },
                   ),
                 ),
@@ -632,6 +633,286 @@ class _home_pageState extends State<home_page> with SingleTickerProviderStateMix
                                         return Text('Error: ${snapshot.error}');
                                       } else {
                                         final hostels = snapshot.data!;
+                                        // return
+                                        //  Row(
+                                        //     children: <Widget>[
+                                        //       GridView.builder(
+                                        //         shrinkWrap: true,
+                                        //         primary: false,
+                                        //         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                                        //           crossAxisCount: 2, // Number of cards per row
+                                        //           crossAxisSpacing: 10.0, // Spacing between cards horizontally
+                                        //           mainAxisSpacing: 10.0, // Spacing between cards vertically
+                                        //         ),
+                                        //         itemCount: hostels.length,
+                                        //         itemBuilder: (BuildContext context, int index) {
+                                        //           final post = hostels[index];
+                                        //           final String address = post.getAddress();
+                                        //           final String rooms = post.getRooms();
+                                        //           final String bathroom = post.getBathroom();
+                                        //           final String rent = post.getRent();
+                                        //           final String enquiry_to = post.getAgent();
+                                        //           final List<dynamic> images = post.Images;
+                                        //
+                                        //           // Assuming you want to display the first image in the list
+                                        //           final imageUrl = images.isNotEmpty ? images[0] : '';
+                                        //
+                                        //           return GestureDetector(
+                                        //             onTap: () {
+                                        //               Navigator.of(context).push(
+                                        //                 FadePageRoute(
+                                        //                   page: HostelDetaisl(
+                                        //                     details: hostels[index],
+                                        //                     image: imageUrl,
+                                        //                     address: address,
+                                        //                     rent: rent,
+                                        //                     agent: enquiry_to,
+                                        //                   ),
+                                        //                 ),
+                                        //               );
+                                        //             },
+                                        //             child: Container(
+                                        //               width: 190, // Adjust the width of each card as needed
+                                        //               child: Card(
+                                        //                 shape: RoundedRectangleBorder(
+                                        //                   borderRadius: BorderRadius.circular(10.0),
+                                        //                 ),
+                                        //                 elevation: 10,
+                                        //                 child: Column(
+                                        //                   crossAxisAlignment: CrossAxisAlignment.start,
+                                        //                   children: [
+                                        //                     Stack(
+                                        //                       children: [
+                                        //                         Container(
+                                        //                           width: double.infinity,
+                                        //                           height: 180,
+                                        //                           decoration: BoxDecoration(
+                                        //                             borderRadius: BorderRadius.circular(10),
+                                        //                             shape: BoxShape.rectangle,
+                                        //                             image: DecorationImage(
+                                        //                               fit: BoxFit.cover,
+                                        //                               image: NetworkImage(imageUrl),
+                                        //                             ),
+                                        //                           ),
+                                        //                         ),
+                                        //                         CornerBanner(
+                                        //                           bannerPosition: CornerBannerPosition.topLeft,
+                                        //                           bannerColor: Theme.of(context).colorScheme.onSecondary,
+                                        //                           child: Text(
+                                        //                             "Premium",
+                                        //                             style: TextStyle(
+                                        //                               color: Theme.of(context).colorScheme.primary,
+                                        //                               fontWeight: FontWeight.w700,
+                                        //                             ),
+                                        //                           ),
+                                        //                         ),
+                                        //                       ],
+                                        //                     ),
+                                        //                     Padding(
+                                        //                       padding: const EdgeInsets.only(left: 10, top: 5),
+                                        //                       child: Text(
+                                        //                         post.HostelName,
+                                        //                         style: const TextStyle(
+                                        //                           fontSize: 15,
+                                        //                           fontWeight: FontWeight.w700,
+                                        //                           color: Colors.black,
+                                        //                         ),
+                                        //                       ),
+                                        //                     ),
+                                        //                     const SizedBox(
+                                        //                       height: 2,
+                                        //                     ),
+                                        //                     Padding(
+                                        //                       padding: const EdgeInsets.only(left: 10),
+                                        //                       child: Text(
+                                        //                         address,
+                                        //                         overflow: TextOverflow.ellipsis,
+                                        //                         maxLines: 2,
+                                        //                         style: const TextStyle(
+                                        //                           fontSize: 15,
+                                        //                           fontWeight: FontWeight.w100,
+                                        //                         ),
+                                        //                       ),
+                                        //                     ),
+                                        //                     const SizedBox(
+                                        //                       height: 2,
+                                        //                     ),
+                                        //                     Padding(
+                                        //                       padding: const EdgeInsets.only(left: 10),
+                                        //                       child: Row(
+                                        //                         children: [
+                                        //                           Icon(
+                                        //                             Icons.bed_outlined,
+                                        //                             color: Theme.of(context).colorScheme.primary,
+                                        //                           ),
+                                        //                           Text(rooms),
+                                        //                           SizedBox(width: 20),
+                                        //                           Icon(
+                                        //                             Icons.bathroom,
+                                        //                             color: Theme.of(context).colorScheme.primary,
+                                        //                           ),
+                                        //                           Text(bathroom),
+                                        //                         ],
+                                        //                       ),
+                                        //                     ),
+                                        //                   ],
+                                        //                 ),
+                                        //               ),
+                                        //             ),
+                                        //           );
+                                        //         },
+                                        //       ),
+                                        //     ],
+                                        //   );
+
+                                        // return ListView.builder(
+                                        //   shrinkWrap: true,
+                                        //   primary: false,
+                                        //   scrollDirection: Axis.vertical,
+                                        //   itemCount: hostels.length,
+                                        //   itemBuilder: (BuildContext context, int index) {
+                                        //     final post = hostels[index];
+                                        //     final String address = post.getAddress();
+                                        //     final String rooms = post.getRooms();
+                                        //     final String bathroom = post.getBathroom();
+                                        //     final String rent = post.getRent();
+                                        //     final String enquiry_to = post.getAgent();
+                                        //     final List<dynamic> images = post.Images;
+                                        //
+                                        //     // Assuming you want to display the first image in the list
+                                        //     final imageUrl = images.isNotEmpty ? images[0] : '';
+                                        //
+                                        //     return GestureDetector(
+                                        //       onTap: () {
+                                        //         Navigator.of(context).push(
+                                        //           FadePageRoute(
+                                        //             page: HostelDetaisl(
+                                        //               details: hostels[index],
+                                        //               image: imageUrl,
+                                        //               address: address,
+                                        //               rent: rent,
+                                        //               agent: enquiry_to,
+                                        //             ),
+                                        //           ),
+                                        //         );
+                                        //       },
+                                        //       child: Row(
+                                        //         children: [
+                                        //           Padding(
+                                        //             padding: const EdgeInsets.only(left: 2),
+                                        //             child: Container(
+                                        //               width: 190,
+                                        //               margin: const EdgeInsets.only(left: 0),
+                                        //               decoration: BoxDecoration(
+                                        //                 borderRadius: BorderRadius.circular(10),
+                                        //               ),
+                                        //               child: Card(
+                                        //                 shape: RoundedRectangleBorder(
+                                        //                   borderRadius: BorderRadius.circular(10.0),
+                                        //                 ),
+                                        //                 elevation: 10,
+                                        //                 child: Column(
+                                        //                   crossAxisAlignment: CrossAxisAlignment.start,
+                                        //                   children: [
+                                        //                     Stack(
+                                        //                       children: [
+                                        //                         Padding(
+                                        //                           padding: const EdgeInsets.only(
+                                        //                             top: 5,
+                                        //                             left: 5,
+                                        //                             right: 5,
+                                        //                           ),
+                                        //                           child: Container(
+                                        //                             width: double.infinity,
+                                        //                             height: 180,
+                                        //                             decoration: BoxDecoration(
+                                        //                               borderRadius: BorderRadius.circular(10),
+                                        //                               shape: BoxShape.rectangle,
+                                        //                               image: DecorationImage(
+                                        //                                 fit: BoxFit.cover,
+                                        //                                 image: NetworkImage(imageUrl),
+                                        //                               ),
+                                        //                             ),
+                                        //                           ),
+                                        //                         ),
+                                        //                         CornerBanner(
+                                        //                           bannerPosition: CornerBannerPosition.topLeft,
+                                        //                           bannerColor:
+                                        //                           Theme.of(context).colorScheme.onSecondary,
+                                        //                           child: Text(
+                                        //                             "Premium",
+                                        //                             style: TextStyle(
+                                        //                               color: Theme.of(context).colorScheme.primary,
+                                        //                               fontWeight: FontWeight.w700,
+                                        //                             ),
+                                        //                           ),
+                                        //                         ),
+                                        //                       ],
+                                        //                     ),
+                                        //                     Padding(
+                                        //                       padding: const EdgeInsets.only(left: 10, top: 5),
+                                        //                       child: Text(
+                                        //                         post.HostelName,
+                                        //                         style: const TextStyle(
+                                        //                           fontSize: 15,
+                                        //                           fontWeight: FontWeight.w700,
+                                        //                           color: Colors.black,
+                                        //                         ),
+                                        //                       ),
+                                        //                     ),
+                                        //                     const SizedBox(
+                                        //                       height: 2,
+                                        //                     ),
+                                        //                     Padding(
+                                        //                       padding: const EdgeInsets.only(
+                                        //                         left: 10,
+                                        //                       ),
+                                        //                       child: Text(
+                                        //                         address,
+                                        //                         overflow: TextOverflow.ellipsis,
+                                        //                         maxLines: 2,
+                                        //                         style: const TextStyle(
+                                        //                           fontSize: 15,
+                                        //                           fontWeight: FontWeight.w100,
+                                        //                         ),
+                                        //                       ),
+                                        //                     ),
+                                        //                     const SizedBox(
+                                        //                       height: 2,
+                                        //                     ),
+                                        //                     Padding(
+                                        //                       padding: const EdgeInsets.only(left: 10),
+                                        //                       child: Row(
+                                        //                         children: [
+                                        //                           Icon(
+                                        //                             Icons.bed_outlined,
+                                        //                             color: Theme.of(context).colorScheme.primary,
+                                        //                           ),
+                                        //                           Text(rooms),
+                                        //                           SizedBox(
+                                        //                             width: 20,
+                                        //                           ),
+                                        //                           Icon(
+                                        //                             Icons.bathroom,
+                                        //                             color: Theme.of(context).colorScheme.primary,
+                                        //                           ),
+                                        //                           Text(bathroom),
+                                        //                         ],
+                                        //                       ),
+                                        //                     ),
+                                        //                   ],
+                                        //                 ),
+                                        //               ),
+                                        //             ),
+                                        //           ),
+                                        //           // Add another Card widget here with similar content
+                                        //           // to display two cards side by side.
+                                        //         ],
+                                        //       ),
+                                        //     );
+                                        //   },
+                                        // );
+
                                         return ListView.builder(
                                             shrinkWrap: true,
                                             primary: false,
@@ -644,6 +925,7 @@ class _home_pageState extends State<home_page> with SingleTickerProviderStateMix
                                               final String rooms = post.getRooms();
                                               final String bathroom = post.getBathroom();
                                               final String rent = post.getRent();
+                                              final String enquiry_to = post.getAgent();
                                               final List<dynamic> images = post.Images;
 
                                               // Assuming you want to display the first image in the list
@@ -654,7 +936,7 @@ class _home_pageState extends State<home_page> with SingleTickerProviderStateMix
                                                       Navigator.of(context).push(
                                                           FadePageRoute(
                                                               page: HostelDetaisl(
-                                                                  details: hostels[index], image: imageUrl, address:address,rent:rent)));
+                                                                  details: hostels[index], image: imageUrl, address:address,rent:rent,agent: enquiry_to,)));
                                                 },
                                                 child:
                                                 Column(

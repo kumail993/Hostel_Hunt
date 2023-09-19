@@ -4,7 +4,7 @@ import 'package:fluttertoast/fluttertoast.dart';
 import 'package:http/http.dart' as http;
 Future<Map<String, dynamic>> userlogin(String email, String password) async {
   final response = await http.post(
-      Uri.parse('http://192.168.130.203:3000/Hostel-hunt/loginuser'),
+      Uri.parse('${Utils.baseUrl}/Hostel-hunt/loginuser'),
       headers: { 'Content-Type': 'application/json',},
       body: jsonEncode({
         "user_login": email,

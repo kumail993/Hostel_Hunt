@@ -1,3 +1,183 @@
+import 'dart:convert';
+import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
+import '../contants/utils.dart';
+import '../models/Reservations.dart';
+
+class ReservationListScreen extends StatefulWidget {
+  @override
+  _ReservationListScreenState createState() => _ReservationListScreenState();
+}
+
+class _ReservationListScreenState extends State<ReservationListScreen> {
+  List<dynamic> reservations =[]; // Change to a map
+  late int loginId;
+  late int count;
+
+  _loadData() async {
+    try {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      setState(() {
+        loginId = prefs.getInt('userid')!;
+      });
+    } catch (e) {
+      print("Error loading data: $e");
+    }
+  }
+
+  Future<void> fetchReservations(int loginId) async {
+    final response = await http.get(Uri.parse('${Utils.baseUrl}/Hostel-hunt/webreservations/:$loginId'));
+
+    if (response.statusCode == 200) {
+      final List<dynamic> parsedData = jsonDecode(response.body); // Parse as a list
+      setState(() {
+        // Assuming Reservation.fromJson is defined to handle a single JSON object
+        reservations = parsedData.map((jsonData) => Reservation.fromJson(jsonData)).toList(); // Parse each object in the list
+      });
+    } else {
+      throw Exception('Failed to load data');
+    }
+  }
+
+
+
+  ScrollController _scrollController = ScrollController();
+
+  @override
+  void initState() {
+    super.initState();
+    _loadData().then((_) {
+      fetchReservations(loginId);
+      _scrollController.addListener(() {
+        double maxScroll = _scrollController.position.maxScrollExtent;
+        double currentScroll = _scrollController.position.pixels;
+        double threshold = 100.0;
+        if (currentScroll > maxScroll - threshold) {
+          _scrollController.jumpTo(maxScroll);
+        }
+      });
+    });
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Center(
+          child: Text(
+            'Reservation List',
+            style: TextStyle(
+              color: Theme.of(context).colorScheme.secondary,
+            ),
+          ),
+        ),
+      ),
+      body: reservations.isEmpty
+          ? Container(
+        width: double.infinity,
+        height: MediaQuery.of(context).size.height * 0.5,
+        alignment: Alignment.center,
+        child: ClipOval(
+          child: Opacity(
+            opacity: 0.7,
+            child: Image.asset(
+              "Assets/EmptyReservation.gif",
+              fit: BoxFit.cover,
+              width: 200.0,
+              height: 200.0,
+            ),
+          ),
+        ),
+      )
+          : ListView.builder(
+        shrinkWrap: false,
+        itemCount: reservations.length,
+        itemBuilder: (BuildContext context, int index) {
+          final reversedIndex = reservations.length - 1 - index;
+          final reservation = reservations[reversedIndex];
+          count = index; // Convert index to int before using it
+          // Get reservation by index
+          count = index + 1;
+          return Column(
+            children: [
+
+              ListTile(
+                      leading: Text(
+                        '$count',
+                        style: const TextStyle(
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                      subtitle: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          const SizedBox(height: 5,),
+                          Row(
+                            children: [
+                              const Text('Name: ',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w700,
+                                ),
+                              ),
+                              Text(reservation.reservationName),
+                            ],
+                          ),
+                          const SizedBox(height: 5,),
+                          Row(
+                            children: [
+                              const Text('Email: ',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w700,
+                                ),
+                              ),
+                              Text(reservation.reservationEmail),
+                            ],
+                          ),
+                          const SizedBox(height: 5,),
+                          Row(
+                            children: [
+                              const Text('Phone Number: ',
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w700,
+                                ),
+                              ),
+                              Text(reservation.reservationPhone),
+                            ],
+                          ),
+                          ]
+          ),
+          ),
+              Divider(
+                thickness: 2,
+                color: Theme.of(context).colorScheme.primary,
+              ),
+          ]
+          );
+    }
+    )
+    );
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
+
 // import 'dart:convert';
 // import 'package:flutter/material.dart';
 // import 'package:http/http.dart' as http;
@@ -12,6 +192,7 @@
 //
 // class _ReservationListScreenState extends State<ReservationListScreen> {
 //
+//   //Map<String, dynamic> Reservations = {};
 //   List<Reservation> reservations = [];
 //   late int Login_id;
 //   late int count;
@@ -31,22 +212,17 @@
 //   }
 //
 //   Future<void> fetchReservations(int loginId) async {
-//     final response = await http.get(Uri.parse('${Utils.baseUrl}/Hostel-hunt/reservations/:$loginId'));
-//     //print(loginId);
+//     final response = await http.get(Uri.parse('${Utils.baseUrl}/Hostel-hunt/webreservations/:$loginId'));
 //
-//     if (mounted) { // Check if the widget is still mounted before updating state
-//       if (response.statusCode == 200) {
-//         final List<dynamic> jsonData = json.decode(response.body);
-//         //print(jsonData);
-//         setState(() {
-//           reservations = jsonData.map((data) => Reservation.fromJson(data)).toList();
-//
-//
-//         });
-//       } else {
-//         throw Exception('Failed to fetch data');
-//       }
+//     if (response.statusCode == 200) {
+//       final List<dynamic> parsedData = jsonDecode(response.body); // Change the type to Map
+//       setState(() {
+//         reservations = parsedData; // Update Reservations to be a Map
+//       });
+//     } else {
+//       throw Exception('Failed to load data');
 //     }
+//
 //   }
 //   ScrollController _scrollController = ScrollController();
 //
@@ -92,7 +268,7 @@
 //         )),
 //         )),
 //       body:
-//           reservations.isEmpty
+//           Reservations.isEmpty
 //       ? Container(
 //             width: double.infinity,
 //             height: MediaQuery.of(context).size.height * 0.5,
@@ -116,10 +292,10 @@
 //             //physics: NeverScrollableScrollPhysics(),
 //             //controller: _scrollController,
 //             //keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.manual,
-//             itemCount: reservations.length,
+//             itemCount: Reservations.length,
 //             itemBuilder: (BuildContext context, int index) {
-//               final reversedIndex = reservations.length - 1 - index;
-//               final reservation = reservations[reversedIndex];
+//               final reversedIndex = Reservations.length - 1 - index;
+//               final reservation = Reservations[reversedIndex];
 //               count = index;
 //               count++;
 //                 return SingleChildScrollView(
@@ -129,7 +305,7 @@
 //
 //                     children: [
 //                       ListTile(
-//                         title: Text(reservation.hostelName),
+//                         //title: Text(reservation.hostelName),
 //                         leading: Text('$count',
 //                           style: const TextStyle(
 //                             fontWeight: FontWeight.w700,
@@ -148,7 +324,7 @@
 //                                         fontWeight: FontWeight.w700,
 //                                       ),
 //                                     ),
-//                                     Text(reservation.reservationName),
+//                                     Text(reservation['name']),
 //                                   ]
 //                               ),
 //                               const SizedBox(height: 5,),
@@ -159,7 +335,7 @@
 //                                         fontWeight: FontWeight.w700,
 //                                       ),
 //                                     ),
-//                                     Text(reservation.reservationEmail),
+//                                     Text(reservation['email']),
 //                                   ]
 //                               ),
 //                               const SizedBox(height: 5,),
@@ -170,7 +346,7 @@
 //                                         fontWeight: FontWeight.w700,
 //                                       ),
 //                                     ),
-//                                     Text(reservation.reservationPhone),
+//                                     Text(reservation['name']),
 //                                   ]
 //                               ),
 //

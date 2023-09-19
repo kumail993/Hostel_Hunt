@@ -1,5 +1,4 @@
-import 'package:findyournewhome/Bottom_navbar/Home.dart';
-import 'package:findyournewhome/Hostels/hostel_details.dart';
+import 'package:findyournewhome/Hostels/main_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -9,8 +8,9 @@ import '../contants/navigatortransition.dart';
 
 
 class Reservation_Screen extends StatefulWidget {
-  const Reservation_Screen({Key? key,required this.res,}) : super(key: key);
+  const Reservation_Screen({Key? key,required this.res,required this.agent}) : super(key: key);
 final res;
+final agent;
   //final List<Map<String, dynamic>> roomtype;
   @override
   State<Reservation_Screen> createState() => _Reservation_ScreenState();
@@ -47,14 +47,16 @@ class _Reservation_ScreenState extends State<Reservation_Screen> {
 
 
    late int storedId;
+  late String agentid;
   @override
   void initState() {
     super.initState();
     storedId = widget.res.id;
+    agentid = widget.agent;
     _loadData();
   }
   doReserve(String name, String email, String phone, String type,) async {
-    var res = await widget.res.Reservation(storedId,name,email,phone,type,Login_id);
+    var res = await widget.res.Reservation(storedId,name,email,phone,type,agentid,Login_id);
 
     if (res["success"]){
        showAlertDialog( context);
@@ -180,10 +182,8 @@ class _Reservation_ScreenState extends State<Reservation_Screen> {
             maxLength: 11,
             spaceBetweenSelectorAndTextField: 0,
             onInputChanged: (PhoneNumber number) {
-              //print(number.phoneNumber);
             },
             onInputValidated: (bool value) {
-              //print(value);
             },
             selectorConfig: SelectorConfig(
               selectorType: PhoneInputSelectorType.BOTTOM_SHEET,
@@ -206,22 +206,6 @@ class _Reservation_ScreenState extends State<Reservation_Screen> {
               print('On Saved: $number');
             },
           ),
-          // child: TextFormField(
-          //   controller: phone,
-          //   maxLength: 11,
-          //   keyboardType: TextInputType.number,
-          //   inputFormatters: <TextInputFormatter>[
-          //     FilteringTextInputFormatter.digitsOnly
-          //   ],
-          //   decoration:  InputDecoration(
-          //     hintText: '03*********',
-          //     enabledBorder: OutlineInputBorder(
-          //       borderSide: BorderSide(
-          //         width: 1, color: Theme.of(context).colorScheme.surface,),
-          //
-          //     ),
-          //   ),
-          // ),
         ),
           const SizedBox(
             height: 10,
@@ -338,7 +322,7 @@ showAlertDialog(BuildContext context) async {
       ),
       child: const Text("OK"),
       onPressed: () {
-        Navigator.of(context).push(FadePageRoute(page: const MyHomePage()));
+        Navigator.of(context).push(FadePageRoute(page: const home_page()));
       },
     ),
   );

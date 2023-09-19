@@ -3,26 +3,29 @@ class Reservation {
   final String reservationName;
   final String reservationEmail;
   final String reservationPhone;
+  final String reservationMsg;
   //final String reservationType;
-  final String hostelName;
+  //final String hostelName;
 
   Reservation({
     required this.reservationId,
     required this.reservationName,
     required this.reservationEmail,
     required this.reservationPhone,
+    required this.reservationMsg
     //required this.reservationType,
-    required this.hostelName,
+    //required this.hostelName,
   });
 
   factory Reservation.fromJson(Map<String, dynamic> json) {
     return Reservation(
-      reservationId: json['reservation_id'],
+      reservationId: json['listing_id'],
       reservationName: json['name'],
       reservationEmail: json['email'],
-      reservationPhone: json['ph_no'],
+      reservationPhone: json['phone'],
+      reservationMsg: json['message'],
       //reservationType: json['type'.toString()],
-      hostelName: json['hostel_name'],
+      //hostelName: json['hostel_name'],
     );
   }
 }
