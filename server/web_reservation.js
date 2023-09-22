@@ -11,11 +11,15 @@ router.route('/webreservation').post((req, res) => {
     const reservation_name = req.body.reservation_name;
     const reservation_email = req.body.reservation_email;
     const reservation_phone = req.body.reservation_phone;
+    //const currentTimestamp = Date.now();
     const type = req.body.type + ' Seater';
     const acticity_type = "lead";
     const user_type = "agent_info"
-    const message = "hello i am using whatsapp"
+    const message = "Hello, I am Looking For Reservation"
     const source_link = "https://hostel-hunt.com/property/zostel-inn-hostel/"
+    const currentDate = new Date();
+    //console.log(currentDate.toLocaleString('en-US', { timeZone: 'Asia/Karachi' }));
+
 
     //const serializedData = `a:7:{s:4:"type";s:4:"${type}";s:4:"name";s:${reservation_name.length}:"${reservation_name}";s:5:"email";s:${reservation_email.length}:"${reservation_email}";s:5:"phone";s:${reservation_phone.length}:"${reservation_phone}";s:9:"user_type";s:${type.length}:"${type}";s:10:"listing_id";i:${Hostel_id};}`;
     const serializedData = `a:7:{s:4:"type";s:4:"${acticity_type}";s:4:"name";s:${reservation_name.length}:"${reservation_name}";s:5:"email";s:${reservation_email.length}:"${reservation_email}";s:5:"phone";s:${reservation_phone.length}:"${reservation_phone}";s:9:"user_type";s:${type.length}:"${type}";s:7:"message";s:${message.length}:"${message}";s:10:"listing_id";i:${Hostel_id};}`;
@@ -52,8 +56,9 @@ router.route('/webreservation').post((req, res) => {
                             res.send(JSON.stringify({ success: false, message: insertEnquiryError }));
                         } else {
                             // Registration and insertion successful
-                            const activityInsertQuery = 'INSERT INTO wp_houzez_crm_activities (user_id, meta,time,login_id) VALUES (?, ?,NOW(),?)';
-                            const activityValues = [user_id, serializedData,login_id];
+                            
+                            const activityInsertQuery = 'INSERT INTO wp_houzez_crm_activities (user_id, meta,time,login_id) VALUES (?, ?,?,?)';
+                            const activityValues = [user_id, serializedData,currentDate,login_id];
         
                             db.query(activityInsertQuery, activityValues, (activityInsertError, activityInsertResult) => {
                                 if (activityInsertError) {
@@ -61,27 +66,99 @@ router.route('/webreservation').post((req, res) => {
                                 } else {
                                     // Registration and insertion successful
         
-                                    const transporter = nodemailer.createTransport({
-                                        service: "Gmail", // Use your email service here (e.g., "Gmail", "Outlook")
-                                        auth: {
-                                            user: "khaider308@gmail.com",
-                                            pass: "epjudfftrtdmaukc",
-                                        },
-                                    });
                                     
                             res.send(JSON.stringify({ success: true, message: 'Reservation Done Successful' }));
+
+                            const transporter = nodemailer.createTransport({
+                                service: "Gmail", // Use your email service here (e.g., "Gmail", "Outlook")
+                                auth: {
+                                user: "khaider308@gmail.com",
+                                pass: "epjudfftrtdmaukc",
+                                },
+                            });
+                
+                            const mailOptions = {
+                                from: "Khaider308@gmail.com",
+                                to: reservation_email, // Recipient's email
+                                subject: "Your Hostel-hunt Reservation Has Been Done",
+                                html: `<html>
+                                <head>
+                                <style>
+                                  body {
+                                    font-family: Arial, sans-serif;
+                                    background-color: white;
+                                    margin: 0;
+                                    padding: 0;
+                                  }
+                                  .container {
+                                    max-width: 600px;
+                                    margin: 0 auto;
+                                    padding: 20px;
+                                    border: 1px solid #ddd;
+                                  }
+                                  .header {
+                                    color: #0d47a1; /* Dark Blue */
+                                    font-size: 24px;
+                                    margin-bottom: 10px;
+                                    text-align: center;
+                                  }
+                                  .info {
+                                    font-size: 18px;
+                                    margin-bottom: 20px;
+                                    text-align: left;
+                                    color: #333; /* Dark Gray */
+                                  }
+                                  .otp {
+                                    font-weight: bold;
+                                    font-size: 28px;
+                                    color: #0d47a1; /* Dark Blue */
+                                    text-align: center;
+                                    margin: 20px 0;
+                                  }
+                                  .footer {
+                                    font-size: 14px;
+                                    margin-top: 20px;
+                                    color: white;
+                                    background-color: #0d47a1; /* Dark Blue */
+                                    padding: 10px;
+                                    text-align: center;
+                                  }
+                                </style>
+                              </head>
+                              <body>
+                                <div class="container">
+                                  <div class="header">Reservation Email</div>
+                                  <div class="info">
+                                    Hello, ${reservation_name}!<br>
+                                    We are thrilled to inform you that your reservation has been successfully confirmed. We appreciate your choice to book with us and look forward to providing you with an exceptional experience..
+                                  </div>
+                                  <div class="info">
+                                     Name: ${reservation_name}<br>
+                                     Email: ${reservation_email}<br>
+                                     Phone No: ${reservation_phone}<br>
+                                     Room type: ${type}
+                                    
+                                  </div>
+                                  <div class="footer">
+                                    Best regards,<br>
+                                    The Hostel-hunt Team
+                                  </div>
+                                </div>
+                              </body>
+                                </html>`
+                            };
+                            transporter.sendMail(mailOptions, (error, info) => {
+                                if (error) {
+                                console.log("Error sending OTP:", error);
+                                } else {
+                                console.log("OTP email sent:", info.response);
+                                }
+                            });
+                
                                 }
                             });
 
-                            // const transporter = nodemailer.createTransport({
-                            //     service: "Gmail", // Use your email service here (e.g., "Gmail", "Outlook")
-                            //     auth: {
-                            //         user: "khaider308@gmail.com",
-                            //         pass: "epjudfftrtdmaukc",
-                            //     },
-                            // });
-
-                            // Rest of your email sending code goes here...
+                            
 
                         }
                     });

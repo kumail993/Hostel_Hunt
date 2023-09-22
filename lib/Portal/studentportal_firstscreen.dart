@@ -1,7 +1,6 @@
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:findyournewhome/Portal/student_portal.dart';
 import 'package:flutter/material.dart';
-
 import '../contants/navigatortransition.dart';
 class studentportal_first extends StatefulWidget {
   const studentportal_first({Key? key}) : super(key: key);
@@ -53,7 +52,7 @@ class _studentportal_firstState extends State<studentportal_first> {
                             .primary,
                       ),
                     ),
-                    RotateAnimatedText('Hostel Management\n System',
+                    RotateAnimatedText('Hostel Automation\n System',
                       textStyle: TextStyle(
                         fontSize: 30,
                         color: Theme

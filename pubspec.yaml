@@ -54,6 +54,10 @@ dependencies:
   intl_phone_number_input: ^0.7.3+1
   shrink_sidemenu: ^2.0.0+2-null-safety
   html: ^0.15.0
+  flutter_profile_picture: ^2.0.0
+  dropdown_button2: ^2.3.9
+  connectivity: ^3.0.6
+  url_launcher: ^6.1.14
 
 dev_dependencies:
   flutter_test:

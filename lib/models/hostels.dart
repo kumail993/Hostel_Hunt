@@ -32,7 +32,25 @@ class Hostel {
     );
 
   }
-  int compareTo(Hostel other) => HostelName.compareTo(other.HostelName,);
+  int compareTo(Hostel other) {
+    // Compare by HostelName first
+    int nameComparison = HostelName.compareTo(other.HostelName);
+
+    // If the names are the same, compare by rent
+    if (nameComparison == 0) {
+      String rent1 = getRent(); // Get the rent for this hostel
+      String rent2 = other.getRent(); // Get the rent for the other hostel
+
+      // Convert the rent values to integers for comparison
+      int rentComparison = int.tryParse(rent1) ?? 0;
+      int otherRentComparison = int.tryParse(rent2) ?? 0;
+
+      // Compare the rent values
+      return rentComparison.compareTo(otherRentComparison);
+    }
+
+    return nameComparison;
+  }
   String getAddress() {
     for (final meta in postmeta) {
       final String metaKey = meta['meta_key'];

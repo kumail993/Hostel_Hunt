@@ -70,15 +70,14 @@ class _ReservationListScreenState extends State<ReservationListScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Center(
-          child: Text(
+        centerTitle: true,
+        title:  Text(
             'Reservation List',
             style: TextStyle(
               color: Theme.of(context).colorScheme.secondary,
             ),
           ),
         ),
-      ),
       body: reservations.isEmpty
           ? Container(
         width: double.infinity,
@@ -109,6 +108,10 @@ class _ReservationListScreenState extends State<ReservationListScreen> {
             children: [
 
               ListTile(
+                shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10.0),
+                      ),
+                      contentPadding: EdgeInsets.all(16.0),
                       leading: Text(
                         '$count',
                         style: const TextStyle(
@@ -152,6 +155,16 @@ class _ReservationListScreenState extends State<ReservationListScreen> {
                               Text(reservation.reservationPhone),
                             ],
                           ),
+                          // Row(
+                          //   children: [
+                          //     const Text('Room Type: ',
+                          //       style: TextStyle(
+                          //         fontWeight: FontWeight.w700,
+                          //       ),
+                          //     ),
+                          //     Text(reservation.reservationType),
+                          //   ],
+                          // ),
                           ]
           ),
           ),

@@ -1,12 +1,17 @@
 import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dots_indicator/dots_indicator.dart';
+import 'package:findyournewhome/About%20Us/AboutUs_Screen.dart';
+import 'package:findyournewhome/About%20Us/contact_us.dart';
+import 'package:findyournewhome/Portal/studentportal_firstscreen.dart';
 import 'package:findyournewhome/UserAuthentication/Screens/Login_page.dart';
 import 'package:findyournewhome/Hostels/hostel_details.dart';
 //import 'package:findyournewhome/User%20profile/myreservations.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_profile_picture/flutter_profile_picture.dart';
 import 'package:search_page/search_page.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:shrink_sidemenu/shrink_sidemenu.dart';
 import 'package:super_banners/super_banners.dart';
 import '../contants/navigatortransition.dart';
 import '../models/hostels.dart';
@@ -24,8 +29,6 @@ class home_page extends StatefulWidget {
 class _home_pageState extends State<home_page> with SingleTickerProviderStateMixin {
   int _currentIndex = 0;
 
-  // late Future<List<hostels>> PremiumhostelData;
-  // late Future<List<hostels>> RatedhostelData;
   late Future<List<Hostel>> AllhostelData;
 
 
@@ -44,11 +47,33 @@ class _home_pageState extends State<home_page> with SingleTickerProviderStateMix
     }
   }
 
+  bool isOpened = false;
+
+  final GlobalKey<SideMenuState> _sideMenuKey = GlobalKey<SideMenuState>();
+  final GlobalKey<SideMenuState> _endSideMenuKey = GlobalKey<SideMenuState>();
+
+  toggleMenu([bool end = false]) {
+    if (end) {
+      final _state = _endSideMenuKey.currentState!;
+      if (_state.isOpened) {
+        _state.closeSideMenu();
+      } else {
+        _state.openSideMenu();
+      }
+    } else {
+      final _state = _sideMenuKey.currentState!;
+      if (_state.isOpened) {
+        _state.closeSideMenu();
+      } else {
+        _state.openSideMenu();
+      }
+    }
+  }
+
+
   @override
   void initState() {
     super.initState();
-    // PremiumhostelData = fetchPremiumHostel();
-    // RatedhostelData = fetchRatedHostel();
      AllhostelData = fetchPostData();
     _loadData();
   }
@@ -57,38 +82,59 @@ class _home_pageState extends State<home_page> with SingleTickerProviderStateMix
   @override
   Widget build(BuildContext context) {
     return
-      Scaffold(
-          backgroundColor: Theme
-              .of(context)
-              .colorScheme
-              .secondary,
-          appBar: AppBar(
-            title: Center(child: AnimatedTextKit(
-                repeatForever: true,
-                pause: Duration(seconds: 3),
-                stopPauseOnTap: true,
+      SideMenu(
+        key: _endSideMenuKey,
+        inverse: true, // end side menu
+        background: Colors.green[700],
+        type: SideMenuType.slideNRotate,
+        menu: Padding(
+        padding: const EdgeInsets.only(left: 25.0),
+    child: buildMenu(),
+    ),
+    onChange: (_isOpened) {
+    setState(() => isOpened = _isOpened);
+    },
+    child: SideMenu(
+    key: _sideMenuKey,
+    menu: buildMenu(),
+    background: Theme.of(context).colorScheme.primary,
+    type: SideMenuType.slideNRotate,
+    onChange: (_isOpened) {
+    setState(() => isOpened = _isOpened);
+    },
+    child: IgnorePointer(
+    ignoring: isOpened,
+    child: Scaffold(
+    appBar: AppBar(
+          title: Center(child: AnimatedTextKit(
+      repeatForever: true,
+      pause: Duration(seconds: 3),
+      stopPauseOnTap: true,
 
-                animatedTexts: [
-                  RotateAnimatedText('Hostel Hunt',
-                    textStyle: TextStyle(
-                      color: Theme
-                          .of(context)
-                          .colorScheme
-                          .onPrimary,
-                    ),
-                    duration:const Duration(seconds: 5),
-                  ),
-                  RotateAnimatedText('Find Your Hostel',
-                    textStyle: TextStyle(
-                      color: Theme
-                          .of(context)
-                          .colorScheme
-                          .secondary,
-                    ),
-                    duration:const Duration(seconds: 5),
-                  ),
-                ])
-            ),
+      animatedTexts: [
+      RotateAnimatedText('Hostel Hunt',
+      textStyle: TextStyle(
+      color: Theme
+          .of(context)
+          .colorScheme
+          .onPrimary,
+      ),
+      ),
+      RotateAnimatedText('Find Your Hostel',
+      textStyle: TextStyle(
+      color: Theme
+          .of(context)
+          .colorScheme
+          .secondary,
+      ),
+      ),
+      ]),
+    ),
+    centerTitle: true,
+    leading: IconButton(
+    icon: const Icon(Icons.menu),
+    onPressed: () => toggleMenu(),
+    ),
             actions: [
               Padding(padding: const EdgeInsets.only(right: 10),
                 child:
@@ -155,6 +201,7 @@ class _home_pageState extends State<home_page> with SingleTickerProviderStateMix
                                     [
                                       //hostels.getAddress(),
                                       hostels.HostelName,
+                                      hostels.getRent(),
                                       //hostels.roomTypeData,
                                       //person.surname,
                                       //hostels.rent.toString(),
@@ -167,6 +214,7 @@ class _home_pageState extends State<home_page> with SingleTickerProviderStateMix
                                           : '';
                                       final String address = hostels.getAddress();
                                       final String rent = hostels.getRent();
+                                      final String rooms = hostels.getRooms();
                                       final String enquiry_to = hostels.getAgent();
                                       return GestureDetector(
                                         onTap:
@@ -175,7 +223,7 @@ class _home_pageState extends State<home_page> with SingleTickerProviderStateMix
                                               .push(MaterialPageRoute(
                                               builder: (context) {
                                                 return HostelDetaisl(
-                                                    details: hostels, image: imageUrl ,address:address,rent:rent,agent:enquiry_to ,);
+                                                    details: hostels, image: imageUrl ,address:address,rent:rent,agent:enquiry_to ,rooms: rooms,);
                                               }));
                                         },
                                         child:
@@ -261,206 +309,6 @@ class _home_pageState extends State<home_page> with SingleTickerProviderStateMix
                 ),
               )
             ],
-          ),
-          drawer:
-          //color: Theme.of(context).colorScheme.onPrimary,
-          Drawer(
-            backgroundColor: Theme
-                .of(context)
-                .colorScheme
-                .secondary,
-
-            child:
-            ListView(
-              physics: const NeverScrollableScrollPhysics(),
-
-              children: <Widget>[
-                const SizedBox(
-                  height: 30,
-                ),
-
-                const Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-
-                      Padding(padding: EdgeInsets.only(left: 30,),
-                        child:
-                        Column(
-                            children: [
-                              CircleAvatar(
-                                minRadius: 50,
-                                foregroundColor: Colors.white,
-                                backgroundColor: Colors.white,
-                                backgroundImage: AssetImage("Assets/logo4.0.png",
-                                ),
-                              ),
-
-                            ]
-                        ),
-                      ),
-
-                    ]
-                ),
-
-                Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Padding(padding: const EdgeInsets.only(left: 30),
-                        child:
-                        Text(email_id,
-                          style: const TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.w700,
-
-                          ),
-                        ),
-                      ),
-                      const SizedBox(
-                        height: 5,
-                      ),
-                    ]
-                ),
-
-
-                const Divider(
-                  thickness: 1,
-                ),
-                const SizedBox(
-                  height: 20,
-                ),
-                Padding(padding: const EdgeInsets.only(left: 5,),
-                  child:
-                  ListTile(
-
-                    //leading: Icon(Icons.article),
-                    title: const Text("My Reservations",
-                      style: TextStyle(
-                        fontWeight: FontWeight.w700,
-                        fontSize: 15,
-                      ),
-                    ),
-                    leading:  Icon(Icons.person,
-                    color: Theme.of(context).colorScheme.primary,
-                    ),
-                    trailing:  Icon(Icons.arrow_forward_ios_outlined,
-                      color: Theme.of(context).colorScheme.primary,
-                    ),
-                    onTap: () {
-                      Navigator.pushReplacement(context,
-                        MaterialPageRoute(
-                          builder: (context) => ReservationListScreen(),
-
-                        ),
-                      );
-                    },
-                  ),
-                ),
-                const SizedBox(
-                  height: 30,
-                ),
-                Padding(padding: const EdgeInsets.only(left: 5,),
-                  child:
-                  ListTile(
-
-                    leading:  Icon(Icons.app_registration_outlined,
-                      color: Theme.of(context).colorScheme.primary,
-                    ),
-                    trailing:  Icon(Icons.arrow_forward_ios_outlined,
-                      color: Theme.of(context).colorScheme.primary,
-                    ),
-                    title: const Text("Login/Register",
-                      style: TextStyle(
-                        fontWeight: FontWeight.w700,
-                        fontSize: 15,
-
-
-                      ),
-                    ),
-                    onTap: () {
-                      Navigator.pushReplacement(context,
-                        MaterialPageRoute(builder: (context) => const LoginPage(),
-
-                        ),
-                      );
-                    },
-                  ),
-                ),
-                const SizedBox(
-                  height: 30,
-                ),
-                 Padding(padding: EdgeInsets.only(left: 5,),
-                  child:
-                  ListTile(
-
-                    leading: Icon(Icons.portrait,
-                      color: Theme.of(context).colorScheme.primary,
-                    ),
-                    trailing: Icon(Icons.arrow_forward_ios_outlined,
-                      color: Theme.of(context).colorScheme.primary,
-                    ),
-                    title: Text("Portal",
-                      style: TextStyle(
-                        fontWeight: FontWeight.w700,
-                        fontSize: 15,
-                      ),
-                    ),
-                  ),
-                ),
-
-                const SizedBox(
-                  height: 30,
-                ),
-                Padding(padding: const EdgeInsets.only(left: 5,),
-                  child:
-                  ListTile(
-
-                    leading:  Icon(Icons.cleaning_services_sharp,
-                      color: Theme.of(context).colorScheme.primary,
-                    ),
-                    trailing:  Icon(Icons.arrow_forward_ios_outlined,
-                      color: Theme.of(context).colorScheme.primary,
-                    ),
-                    title: const Text("Services",
-                      style: TextStyle(
-                        fontWeight: FontWeight.w700,
-                        fontSize: 15,
-                      ),
-                    ),
-                    onTap: () {
-
-                    },
-                  ),
-                ),
-
-                const SizedBox(
-                  height: 30,
-                ),
-                ListTile(
-                  leading:  Icon(Icons.logout,
-                    color: Theme.of(context).colorScheme.primary,
-                  ),
-                  trailing:  Icon(Icons.arrow_forward_ios_outlined,
-                    color: Theme.of(context).colorScheme.primary,
-                  ),
-                  title: const Text("Log Out",
-                    style: TextStyle(
-                      fontWeight: FontWeight.w700,
-                      fontSize: 15,
-                    ),
-                  ),
-                  onTap: () async {
-                    SharedPreferences prefs = await SharedPreferences.getInstance();
-                    prefs.clear();
-                    Navigator.pushReplacement(context,
-                      MaterialPageRoute(builder: (context) => const LoginPage(),
-
-                      ),
-                    );
-                  },
-                ),
-              ],
-            ),
           ),
           body: Container(
             height: double.maxFinite,
@@ -630,288 +478,9 @@ class _home_pageState extends State<home_page> with SingleTickerProviderStateMix
                                         return const Center(
                                             child: CircularProgressIndicator());
                                       } else if (snapshot.hasError) {
-                                        return Text('Error: ${snapshot.error}');
+                                        return Text('Hostels Not Found');
                                       } else {
                                         final hostels = snapshot.data!;
-                                        // return
-                                        //  Row(
-                                        //     children: <Widget>[
-                                        //       GridView.builder(
-                                        //         shrinkWrap: true,
-                                        //         primary: false,
-                                        //         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                                        //           crossAxisCount: 2, // Number of cards per row
-                                        //           crossAxisSpacing: 10.0, // Spacing between cards horizontally
-                                        //           mainAxisSpacing: 10.0, // Spacing between cards vertically
-                                        //         ),
-                                        //         itemCount: hostels.length,
-                                        //         itemBuilder: (BuildContext context, int index) {
-                                        //           final post = hostels[index];
-                                        //           final String address = post.getAddress();
-                                        //           final String rooms = post.getRooms();
-                                        //           final String bathroom = post.getBathroom();
-                                        //           final String rent = post.getRent();
-                                        //           final String enquiry_to = post.getAgent();
-                                        //           final List<dynamic> images = post.Images;
-                                        //
-                                        //           // Assuming you want to display the first image in the list
-                                        //           final imageUrl = images.isNotEmpty ? images[0] : '';
-                                        //
-                                        //           return GestureDetector(
-                                        //             onTap: () {
-                                        //               Navigator.of(context).push(
-                                        //                 FadePageRoute(
-                                        //                   page: HostelDetaisl(
-                                        //                     details: hostels[index],
-                                        //                     image: imageUrl,
-                                        //                     address: address,
-                                        //                     rent: rent,
-                                        //                     agent: enquiry_to,
-                                        //                   ),
-                                        //                 ),
-                                        //               );
-                                        //             },
-                                        //             child: Container(
-                                        //               width: 190, // Adjust the width of each card as needed
-                                        //               child: Card(
-                                        //                 shape: RoundedRectangleBorder(
-                                        //                   borderRadius: BorderRadius.circular(10.0),
-                                        //                 ),
-                                        //                 elevation: 10,
-                                        //                 child: Column(
-                                        //                   crossAxisAlignment: CrossAxisAlignment.start,
-                                        //                   children: [
-                                        //                     Stack(
-                                        //                       children: [
-                                        //                         Container(
-                                        //                           width: double.infinity,
-                                        //                           height: 180,
-                                        //                           decoration: BoxDecoration(
-                                        //                             borderRadius: BorderRadius.circular(10),
-                                        //                             shape: BoxShape.rectangle,
-                                        //                             image: DecorationImage(
-                                        //                               fit: BoxFit.cover,
-                                        //                               image: NetworkImage(imageUrl),
-                                        //                             ),
-                                        //                           ),
-                                        //                         ),
-                                        //                         CornerBanner(
-                                        //                           bannerPosition: CornerBannerPosition.topLeft,
-                                        //                           bannerColor: Theme.of(context).colorScheme.onSecondary,
-                                        //                           child: Text(
-                                        //                             "Premium",
-                                        //                             style: TextStyle(
-                                        //                               color: Theme.of(context).colorScheme.primary,
-                                        //                               fontWeight: FontWeight.w700,
-                                        //                             ),
-                                        //                           ),
-                                        //                         ),
-                                        //                       ],
-                                        //                     ),
-                                        //                     Padding(
-                                        //                       padding: const EdgeInsets.only(left: 10, top: 5),
-                                        //                       child: Text(
-                                        //                         post.HostelName,
-                                        //                         style: const TextStyle(
-                                        //                           fontSize: 15,
-                                        //                           fontWeight: FontWeight.w700,
-                                        //                           color: Colors.black,
-                                        //                         ),
-                                        //                       ),
-                                        //                     ),
-                                        //                     const SizedBox(
-                                        //                       height: 2,
-                                        //                     ),
-                                        //                     Padding(
-                                        //                       padding: const EdgeInsets.only(left: 10),
-                                        //                       child: Text(
-                                        //                         address,
-                                        //                         overflow: TextOverflow.ellipsis,
-                                        //                         maxLines: 2,
-                                        //                         style: const TextStyle(
-                                        //                           fontSize: 15,
-                                        //                           fontWeight: FontWeight.w100,
-                                        //                         ),
-                                        //                       ),
-                                        //                     ),
-                                        //                     const SizedBox(
-                                        //                       height: 2,
-                                        //                     ),
-                                        //                     Padding(
-                                        //                       padding: const EdgeInsets.only(left: 10),
-                                        //                       child: Row(
-                                        //                         children: [
-                                        //                           Icon(
-                                        //                             Icons.bed_outlined,
-                                        //                             color: Theme.of(context).colorScheme.primary,
-                                        //                           ),
-                                        //                           Text(rooms),
-                                        //                           SizedBox(width: 20),
-                                        //                           Icon(
-                                        //                             Icons.bathroom,
-                                        //                             color: Theme.of(context).colorScheme.primary,
-                                        //                           ),
-                                        //                           Text(bathroom),
-                                        //                         ],
-                                        //                       ),
-                                        //                     ),
-                                        //                   ],
-                                        //                 ),
-                                        //               ),
-                                        //             ),
-                                        //           );
-                                        //         },
-                                        //       ),
-                                        //     ],
-                                        //   );
-
-                                        // return ListView.builder(
-                                        //   shrinkWrap: true,
-                                        //   primary: false,
-                                        //   scrollDirection: Axis.vertical,
-                                        //   itemCount: hostels.length,
-                                        //   itemBuilder: (BuildContext context, int index) {
-                                        //     final post = hostels[index];
-                                        //     final String address = post.getAddress();
-                                        //     final String rooms = post.getRooms();
-                                        //     final String bathroom = post.getBathroom();
-                                        //     final String rent = post.getRent();
-                                        //     final String enquiry_to = post.getAgent();
-                                        //     final List<dynamic> images = post.Images;
-                                        //
-                                        //     // Assuming you want to display the first image in the list
-                                        //     final imageUrl = images.isNotEmpty ? images[0] : '';
-                                        //
-                                        //     return GestureDetector(
-                                        //       onTap: () {
-                                        //         Navigator.of(context).push(
-                                        //           FadePageRoute(
-                                        //             page: HostelDetaisl(
-                                        //               details: hostels[index],
-                                        //               image: imageUrl,
-                                        //               address: address,
-                                        //               rent: rent,
-                                        //               agent: enquiry_to,
-                                        //             ),
-                                        //           ),
-                                        //         );
-                                        //       },
-                                        //       child: Row(
-                                        //         children: [
-                                        //           Padding(
-                                        //             padding: const EdgeInsets.only(left: 2),
-                                        //             child: Container(
-                                        //               width: 190,
-                                        //               margin: const EdgeInsets.only(left: 0),
-                                        //               decoration: BoxDecoration(
-                                        //                 borderRadius: BorderRadius.circular(10),
-                                        //               ),
-                                        //               child: Card(
-                                        //                 shape: RoundedRectangleBorder(
-                                        //                   borderRadius: BorderRadius.circular(10.0),
-                                        //                 ),
-                                        //                 elevation: 10,
-                                        //                 child: Column(
-                                        //                   crossAxisAlignment: CrossAxisAlignment.start,
-                                        //                   children: [
-                                        //                     Stack(
-                                        //                       children: [
-                                        //                         Padding(
-                                        //                           padding: const EdgeInsets.only(
-                                        //                             top: 5,
-                                        //                             left: 5,
-                                        //                             right: 5,
-                                        //                           ),
-                                        //                           child: Container(
-                                        //                             width: double.infinity,
-                                        //                             height: 180,
-                                        //                             decoration: BoxDecoration(
-                                        //                               borderRadius: BorderRadius.circular(10),
-                                        //                               shape: BoxShape.rectangle,
-                                        //                               image: DecorationImage(
-                                        //                                 fit: BoxFit.cover,
-                                        //                                 image: NetworkImage(imageUrl),
-                                        //                               ),
-                                        //                             ),
-                                        //                           ),
-                                        //                         ),
-                                        //                         CornerBanner(
-                                        //                           bannerPosition: CornerBannerPosition.topLeft,
-                                        //                           bannerColor:
-                                        //                           Theme.of(context).colorScheme.onSecondary,
-                                        //                           child: Text(
-                                        //                             "Premium",
-                                        //                             style: TextStyle(
-                                        //                               color: Theme.of(context).colorScheme.primary,
-                                        //                               fontWeight: FontWeight.w700,
-                                        //                             ),
-                                        //                           ),
-                                        //                         ),
-                                        //                       ],
-                                        //                     ),
-                                        //                     Padding(
-                                        //                       padding: const EdgeInsets.only(left: 10, top: 5),
-                                        //                       child: Text(
-                                        //                         post.HostelName,
-                                        //                         style: const TextStyle(
-                                        //                           fontSize: 15,
-                                        //                           fontWeight: FontWeight.w700,
-                                        //                           color: Colors.black,
-                                        //                         ),
-                                        //                       ),
-                                        //                     ),
-                                        //                     const SizedBox(
-                                        //                       height: 2,
-                                        //                     ),
-                                        //                     Padding(
-                                        //                       padding: const EdgeInsets.only(
-                                        //                         left: 10,
-                                        //                       ),
-                                        //                       child: Text(
-                                        //                         address,
-                                        //                         overflow: TextOverflow.ellipsis,
-                                        //                         maxLines: 2,
-                                        //                         style: const TextStyle(
-                                        //                           fontSize: 15,
-                                        //                           fontWeight: FontWeight.w100,
-                                        //                         ),
-                                        //                       ),
-                                        //                     ),
-                                        //                     const SizedBox(
-                                        //                       height: 2,
-                                        //                     ),
-                                        //                     Padding(
-                                        //                       padding: const EdgeInsets.only(left: 10),
-                                        //                       child: Row(
-                                        //                         children: [
-                                        //                           Icon(
-                                        //                             Icons.bed_outlined,
-                                        //                             color: Theme.of(context).colorScheme.primary,
-                                        //                           ),
-                                        //                           Text(rooms),
-                                        //                           SizedBox(
-                                        //                             width: 20,
-                                        //                           ),
-                                        //                           Icon(
-                                        //                             Icons.bathroom,
-                                        //                             color: Theme.of(context).colorScheme.primary,
-                                        //                           ),
-                                        //                           Text(bathroom),
-                                        //                         ],
-                                        //                       ),
-                                        //                     ),
-                                        //                   ],
-                                        //                 ),
-                                        //               ),
-                                        //             ),
-                                        //           ),
-                                        //           // Add another Card widget here with similar content
-                                        //           // to display two cards side by side.
-                                        //         ],
-                                        //       ),
-                                        //     );
-                                        //   },
-                                        // );
 
                                         return ListView.builder(
                                             shrinkWrap: true,
@@ -936,7 +505,7 @@ class _home_pageState extends State<home_page> with SingleTickerProviderStateMix
                                                       Navigator.of(context).push(
                                                           FadePageRoute(
                                                               page: HostelDetaisl(
-                                                                  details: hostels[index], image: imageUrl, address:address,rent:rent,agent: enquiry_to,)));
+                                                                  details: hostels[index], image: imageUrl, address:address,rent:rent,agent: enquiry_to,rooms: rooms,)));
                                                 },
                                                 child:
                                                 Column(
@@ -1011,7 +580,7 @@ class _home_pageState extends State<home_page> with SingleTickerProviderStateMix
                                                                           .colorScheme
                                                                           .onSecondary,
                                                                       child: Text(
-                                                                        "Premium",
+                                                                        "",
                                                                         style: TextStyle(
                                                                           color: Theme
                                                                               .of(
@@ -1119,259 +688,106 @@ class _home_pageState extends State<home_page> with SingleTickerProviderStateMix
                       const SizedBox(
                         height: 5,
                       ),
-
-
-                      //---------------------Rated Portion--------------------------------------------------------//
-
-
-                      SizedBox(
-                        height: 350,
-                        width: double.maxFinite,
-                        //color: Colors.grey,
-                        child: Column(
-                            mainAxisSize: MainAxisSize.min,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-
-                            children: [
-                              const Padding(padding: EdgeInsets.only(left: 10,),
-                                child:
-                                Row(
-                                    children: [
-
-                                      Text('Rated',
-                                        style: TextStyle(
-                                          fontSize: 20,
-                                          fontWeight: FontWeight.w700,
-                                        ),
-                                      ),
-                                      Padding(padding: EdgeInsets.only(
-                                          left: 5, right: 10),
-                                          child:
-                                          Icon(Icons.star_rate_outlined,)
-                                      ),
-                                    ]
-                                ),
-                              ),
-                              const SizedBox(
-                                height: 10,
-                              ),
-                              // Expanded(
-                              //     child:
-                              //     FutureBuilder<List<Hostel>>(
-                              //       future: AllhostelData,
-                              //       builder: (context, snapshot) {
-                              //         if (snapshot.connectionState ==
-                              //             ConnectionState.waiting) {
-                              //           return const Center(
-                              //               child: CircularProgressIndicator());
-                              //         } else if (snapshot.hasError) {
-                              //           return Text('Error: ${snapshot.error}');
-                              //         } else {
-                              //           final hostels = snapshot.data!;
-                              //           return ListView.builder(
-                              //               shrinkWrap: true,
-                              //               primary: false,
-                              //               scrollDirection: Axis.horizontal,
-                              //               itemCount: hostels.length,
-                              //               itemBuilder: (BuildContext context,
-                              //                   int index) {
-                              //                 //hostels popuu = hostels[index];
-                              //                 final post = hostels[index];
-                              //                 return GestureDetector(
-                              //                   onTap:
-                              //                       () {
-                              //                     // Navigator.of(context).push(
-                              //                     //     FadePageRoute(
-                              //                     //         page: HostelDetaisl(
-                              //                     //             details: hostels[index])));
-                              //                   },
-                              //                   child:
-                              //                   Column(
-                              //                     children: [
-                              //                       Padding(
-                              //                         padding: const EdgeInsets
-                              //                             .only(
-                              //                           left: 2,),
-                              //                         child:
-                              //                         Container(
-                              //                           height: 316,
-                              //                           width: 190,
-                              //                           margin: const EdgeInsets
-                              //                               .only(
-                              //                               left: 0),
-                              //
-                              //                           decoration: BoxDecoration(
-                              //                             borderRadius: BorderRadius
-                              //                                 .circular(30),
-                              //                             //color: const Color(0xff0fc1fa).withOpacity(0.1),
-                              //                             // gradient: LinearGradient(
-                              //                             //   begin: Alignment.topCenter,
-                              //                             //   end: Alignment.bottomCenter,
-                              //                             //   colors: <Color>[
-                              //                             //     Colors.black.withAlpha(0),
-                              //                             //     Colors.orangeAccent,
-                              //                             //     Colors.white
-                              //                             //   ],
-                              //                             // ),
-                              //                           ),
-                              //                           child:
-                              //
-                              //                           Card(
-                              //                             shape: RoundedRectangleBorder(
-                              //                               // side: BorderSide(
-                              //                               //   color: Colors.greenAccent,
-                              //                               // ),
-                              //                               borderRadius: BorderRadius
-                              //                                   .circular(
-                              //                                   10.0), //<-- SEE HERE
-                              //                             ),
-                              //                             elevation: 10,
-                              //                             child:
-                              //                             Column(
-                              //                                 crossAxisAlignment: CrossAxisAlignment
-                              //                                     .start,
-                              //                                 children: [
-                              //
-                              //                                   Stack(
-                              //                                     children: [
-                              //                                       Padding(
-                              //                                         padding: const EdgeInsets
-                              //                                             .only(
-                              //                                             top: 5,
-                              //                                             left: 5,
-                              //                                             right: 5),
-                              //                                         child:
-                              //                                         Container(
-                              //                                           width: double
-                              //                                               .infinity,
-                              //                                           height: 180,
-                              //                                           decoration: BoxDecoration(
-                              //                                               borderRadius: BorderRadius
-                              //                                                   .circular(
-                              //                                                   10),
-                              //                                               shape: BoxShape
-                              //                                                   .rectangle,
-                              //                                               image: DecorationImage(
-                              //                                                 fit: BoxFit
-                              //                                                     .cover,
-                              //                                                 image: AssetImage(
-                              //                                                     "Assets/2.jpg"),
-                              //                                               )
-                              //                                           ),
-                              //                                         ),
-                              //                                       ),
-                              //                                       CornerBanner(
-                              //                                         bannerPosition: CornerBannerPosition
-                              //                                             .topLeft,
-                              //                                         bannerColor: Theme
-                              //                                             .of(
-                              //                                             context)
-                              //                                             .colorScheme
-                              //                                             .primary,
-                              //                                         child: Text(
-                              //                                           "Rated",
-                              //                                           style: TextStyle(
-                              //                                             color: Theme
-                              //                                                 .of(
-                              //                                                 context)
-                              //                                                 .colorScheme
-                              //                                                 .onPrimary,
-                              //                                             fontWeight: FontWeight
-                              //                                                 .w700,
-                              //                                           ),
-                              //                                         ),
-                              //                                       ),
-                              //
-                              //                                     ],
-                              //                                   ),
-                              //                                   Padding(
-                              //                                     padding: const EdgeInsets
-                              //                                         .only(
-                              //                                         left: 10,
-                              //                                         top: 5),
-                              //                                     child:
-                              //                                     Text(
-                              //                                       post.HostelName,
-                              //                                       style: const TextStyle(
-                              //                                         fontSize: 15,
-                              //                                         fontWeight: FontWeight
-                              //                                             .w700,
-                              //                                         color: Colors
-                              //                                             .black,
-                              //                                       ),
-                              //                                     ),
-                              //                                   ),
-                              //                                   const SizedBox(
-                              //                                     height: 2,
-                              //                                   ),
-                              //                                   Padding(
-                              //                                     padding: const EdgeInsets
-                              //                                         .only(
-                              //                                       left: 10,),
-                              //                                     child:
-                              //                                     Text(
-                              //                                       post.postmeta[2]['meta_value'],
-                              //                                       overflow: TextOverflow.ellipsis,
-                              //                                       maxLines: 2,
-                              //                                       style: const TextStyle(
-                              //                                         fontSize: 15,
-                              //                                         fontWeight: FontWeight
-                              //                                             .w100,
-                              //                                       ),
-                              //                                     ),
-                              //                                   ),
-                              //                                   const SizedBox(
-                              //                                     height: 2,
-                              //                                   ),
-                              //                                   Padding(
-                              //                                       padding: const EdgeInsets
-                              //                                           .only(
-                              //                                           left: 10),
-                              //                                       child:
-                              //                                       Row(
-                              //                                         children: [
-                              //                                           Icon(Icons.bed_outlined,
-                              //                                             color: Theme
-                              //                                                 .of(
-                              //                                                 context)
-                              //                                                 .colorScheme
-                              //                                                 .primary,
-                              //                                           ),
-                              //                                           Text(post.postmeta[1]['meta_value'],),
-                              //                                           SizedBox(width: 20,),
-                              //                                           Icon(Icons.bathroom,
-                              //                                             color: Theme
-                              //                                                 .of(
-                              //                                                 context)
-                              //                                                 .colorScheme
-                              //                                                 .primary,
-                              //                                           ),
-                              //                                            Text(post.postmeta[0]['meta_value'],),
-                              //
-                              //                                         ],
-                              //                                       )
-                              //                                   ),
-                              //                                 ]
-                              //                             ),
-                              //                           ),
-                              //                         ),
-                              //                       ),
-                              //                     ],
-                              //                   ),
-                              //                 );
-                              //               }
-                              //           );
-                              //         }
-                              //       },
-                              //     )),
                             ]
                         ),
                       ),
-                    ]
                 ),
               ),
-            ),
-          )
+                      ),
+                      )
+    ),
       );
   }
+
+  Widget buildMenu() {
+    return SingleChildScrollView(
+      padding:  EdgeInsets.symmetric(vertical: 50.0),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+           Padding(
+            padding: EdgeInsets.only(left: 16.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+               ProfilePicture(name: email_id, radius: 25, fontsize: 20,random: true,),
+                SizedBox(height: 16.0),
+                Text(email_id,
+                  style: const TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.w700,
+                    color: Colors.white,
+
+                  ),
+                ),
+                SizedBox(height: 20.0),
+              ],
+            ),
+          ),
+          ListTile(
+            onTap: () {
+              Navigator.of(context).push(FadePageRoute(page: ReservationListScreen()));
+            },
+            leading: const Icon(Icons.notes, size: 20.0, color: Colors.white),
+            title: const Text("Reservations"),
+            textColor: Colors.white,
+            dense: true,
+          ),
+          ListTile(
+            onTap: () {
+              Navigator.of(context).push(FadePageRoute(page: studentportal_first()));
+            },
+            leading: const Icon(Icons.desktop_windows,
+                size: 20.0, color: Colors.white),
+            title: const Text("Portal"),
+            textColor: Colors.white,
+            dense: true,
+
+            // padding: EdgeInsets.zero,
+          ),
+
+          ListTile(
+            onTap: () {
+              Navigator.of(context).push(FadePageRoute(page: AboutUsScreen()));
+            },
+            leading:
+            const Icon(Icons.home_filled, size: 20.0, color: Colors.white),
+            title: const Text("About us"),
+            textColor: Colors.white,
+            dense: true,
+
+
+            // padding: EdgeInsets.zero,
+          ),
+          ListTile(
+            onTap: () {
+               Navigator.of(context).push(FadePageRoute(page: ContactUs()));
+            },
+            leading:
+            const Icon(Icons.phone, size: 20.0, color: Colors.white),
+            title: const Text("Contact Us"),
+            textColor: Colors.white,
+            dense: true,
+
+
+            // padding: EdgeInsets.zero,
+          ),
+          ListTile(
+            onTap: () {
+              Navigator.of(context).push(FadePageRoute(page: LoginPage()));
+            },
+            leading:
+            const Icon(Icons.logout_outlined, size: 20.0, color: Colors.white),
+            title: const Text("Logout"),
+            textColor: Colors.white,
+            dense: true,
+
+            // padding: EdgeInsets.zero,
+          ),
+        ],
+      ),
+    );
+  }
 }
+

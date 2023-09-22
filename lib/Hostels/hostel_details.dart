@@ -6,12 +6,13 @@ import 'package:flutter/material.dart';
 import '../contants/navigatortransition.dart';
 
 class HostelDetaisl extends StatefulWidget {
-  const HostelDetaisl({Key? key, required this.details,required this.image,required this.address,required this.rent,required this.agent}) : super(key: key);
+  const HostelDetaisl({Key? key, required this.details,required this.image,required this.address,required this.rent,required this.agent,required this.rooms}) : super(key: key);
   final Hostel details;
   final image;
   final address;
   final rent;
   final agent;
+  final rooms;
   @override
   State<HostelDetaisl> createState() => _HostelDetaislState();
 }
@@ -20,6 +21,7 @@ class _HostelDetaislState extends State<HostelDetaisl> {
 
   late int storedId;
   late String agentid;
+  late String rooms;
   //List<Map<String, dynamic>> roomTypeData = [];
 
   String removeNumbersSpecialCharsAndTags(String input) {
@@ -37,6 +39,7 @@ class _HostelDetaislState extends State<HostelDetaisl> {
     super.initState();
     storedId = widget.details.id;
     agentid = widget.agent;
+    rooms = widget.rooms;
     //fetchRent(storedId);
     //fetchRoomTypes(storedId);
   }
@@ -328,48 +331,6 @@ class _HostelDetaislState extends State<HostelDetaisl> {
     const SizedBox(
       height: 20,
     ),
-    // const Center(
-    // child: Text(
-    // 'Rooms Prices Plan',
-    // style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold),
-    // )),
-    // FittedBox(
-    // child:
-    // DataTable(
-    // columns: const [
-    // DataColumn(label: Text(
-    // 'Accommodation',
-    // style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)
-    // )),
-    // DataColumn(label: Text(
-    // 'OverView',
-    // style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)
-    // )),
-    // DataColumn(label: Text(
-    // 'Prices-PKR',
-    // style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold)
-    // )),
-    //   ],
-    //   rows: roomTypeData.map<DataRow>((entry) {
-    //     final roomType = entry['room_type'];
-    //     final totalRent = entry['total_rent'];
-    //     return DataRow(
-    //       color: MaterialStateColor.resolveWith((states) {
-    //         // Change the background color of the DataRow based on a specific condition
-    //         if (states.contains(MaterialState.selected)) {
-    //           return Colors.green;
-    //         }
-    //         return  Theme.of(context).colorScheme.primary.withOpacity(0.3);
-    //       }),
-    //       cells: [
-    //         DataCell(Text(roomType)),
-    //         const DataCell(Text('Inc Mess')), // Replace with appropriate data
-    //         DataCell(Text('$totalRent')), // Display total rent here
-    //       ],
-    //     );
-    //   }).toList(),
-    // ),
-    // ),
 
             Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -401,7 +362,7 @@ class _HostelDetaislState extends State<HostelDetaisl> {
                             ),
                             onPressed: () {
 
-                              Navigator.of(context).push(FadePageRoute(page: Reservation_Screen(res:widget.details,agent: agentid,)));
+                              Navigator.of(context).push(FadePageRoute(page: Reservation_Screen(res:widget.details,agent: agentid,rooms: rooms,)));
                               // Navigator.pushReplacement(context,
                               //   MaterialPageRoute(builder: (context) =>Reservation(res: widget.details)
                               //

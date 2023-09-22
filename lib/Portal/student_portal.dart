@@ -1,4 +1,4 @@
-import 'package:findyournewhome/Bottom_navbar/Home.dart';
+import 'package:findyournewhome/Hostels/main_page.dart';
 import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
@@ -15,11 +15,12 @@ class _student_portalState extends State<student_portal> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Center(child: Text('Student Portal'),),
+        centerTitle: true,
+        title:  Text('Student Portal'),
         leading: InkWell(
           onTap: () {
             Navigator.pushReplacement(context,
-              MaterialPageRoute(builder: (context) =>MyHomePage(),
+              MaterialPageRoute(builder: (context) =>home_page(),
 
               ),
             );

@@ -39,7 +39,7 @@ ColorScheme defaultColorScheme = const ColorScheme(
   onSecondary: Color(0xffe8de2d),
   onSurface: Color(0xff0e0000),
   onError: Color(0xff070000),
-  onBackground: Color(0xfff7ece6),
+  onBackground: Color(0xff77c1da),
 
   brightness: Brightness.light,
 );

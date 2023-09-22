@@ -1,6 +1,7 @@
 import 'package:findyournewhome/Bottom_navbar/Home.dart';
 import 'package:findyournewhome/Hostels/main_page.dart';
 import 'package:findyournewhome/UserAuthentication/Screens/Sign_up.dart';
+import 'package:findyournewhome/UserAuthentication/Screens/forgot_password.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -269,8 +270,18 @@ class _LoginPageState extends State<LoginPage> {
                 height: 10,
               ),
 
-              const Center(
-                child: Text('Forgot Password?'),
+               Center(
+                child: TextButton(
+                    onPressed: () {
+                      Navigator.pushReplacement(context,
+                        MaterialPageRoute(builder: (
+                            context) => ForgotPasswordScreen(),
+
+                        ),
+                      );
+                    },
+
+                    child: Text('Forgot Password?'))
               ),
               const Spacer(),
 
